@@ -59,10 +59,12 @@ Mirrors r2_run/blind_driver_r2.py at 4a42a7c; no runner, grader or sandbox file 
   tightloop-v5, tightloop-v5b]; cap 600 s; one session at a time; no rerun except an isolation void.
 - Pins: v5/v5b SKILL.md must equal the A2 shas (runner table); KEY.json sha256 must equal 43f5a85c... (read by sha256, and by
   json.load in the driver process only to place each build in its label folder; never printed or logged).
-- Blinding of logs: logs, build_log_v5.tsv and results_v5.tsv name a build by its Latin-square position (app-runN-pK), never by
-  label; the label appears only in the rows file (blind_rows_v5.jsonl, task dir, never shown to the judge) and the raw output
-  folder name. Since the Latin square is public, position = arm: these logs are arm-labelled results, and the label<->arm map
-  stays only in the key and the rows file.
+- Blinding (Naman m:d8220836 pt 3, the label->arm mapping lives only in the sealed key): logs, the rows file, build_log_v5.tsv and
+  results_v5.tsv name a build by its Latin-square position (app-runN-pK), never by label. Each build is staged under
+  OUT/.stage/<tag>; when all 5 builds of a page exist they are moved, in label order A-E, into OUT/<app>/run<N>/<label> with a
+  fixed mtime, so no file, log or timestamp pairs a position with a label. The driver reads the key in its own process only to
+  do that move and writes the mapping nowhere. (The Latin square is public, so position = arm: these logs are arm-labelled
+  results, which is fine; the label is what stays sealed.)
 - Per build, as it finishes (Naman m:98bbae98 pt 1): start, end, in+out, in+out+cache_read, cost-weighted, thinking
   (DESIGN 4.8 field, cross-checked), wall, checks, timed-out. Warm-ups go to warmups_v5.jsonl (counted in total cost only).
 - After the last build: leakgrep_r2.py over the raw output tree is logged (raw, before strip/pack). The v5 blind pack and viewer
@@ -70,7 +72,7 @@ Mirrors r2_run/blind_driver_r2.py at 4a42a7c; no runner, grader or sandbox file 
 
 | file | sha256 |
 |---|---|
-| benchmark/blind/v5_run/blind_driver_v5.py | d130cd1c1d1abdeba1a6576fea822b93ee06141885f76d6848c11ef540ddc927 |
+| benchmark/blind/v5_run/blind_driver_v5.py | f711fccad36b6cd9584004bc6a2bf6c949fb9c99b086bdd4bcf0118000d35591 |
 | benchmark/blind/v5_run/argv_v5.py | 8b804c3f2f11aebb5912e20241548260d2e459b4577885e2167904f7ffdb6097 |
 | benchmark/blind/v5_run/argv_test_v5.py | 4d774c9a9853d1be35ebb7da325e7d228851494ef5fa2b240d776ab64ee5df6d |
 | benchmark/blind/v5_run/snap_v5.sh | cff4b589d27240aebd90bc00f28c577effe3199e6bf9ee89db764336d60803a1 |

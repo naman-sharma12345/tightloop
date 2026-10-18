@@ -9,8 +9,11 @@
 # Session cap 600 s. A failed or bad scored build is never rerun or replaced.
 # Runs ONLY from the snapshot SNAP of a commit that contains the v5 CHECKER commit, ONLY when START_OK exists (ROOT creates it),
 # ONLY while the hold file is ours ("v5 builds by"), and ONLY when no other worker runs.
-# Blinding: logs, build_log.tsv and results.tsv name a build by its Latin-square position (app-runN-pK), never by label; the label
-# (resolved from the sealed key in this process) appears only in the rows file and the raw output folder name.
+# Blinding (Naman m:d8220836 pt 3: the label->arm mapping lives only in the sealed key): logs, rows, build_log_v5.tsv and
+# results_v5.tsv name a build by its Latin-square position (app-runN-pK), never by label. Each build is staged under
+# OUT/.stage/<tag>; only when all 5 builds of a page exist are they moved, in label order A-E, into OUT/<app>/run<N>/<label>
+# with a fixed mtime, so no file, log or timestamp pairs a position with a label. The mapping is read from the key in this
+# process only to do that move; it is never written anywhere.
 import json, os, re, sys, time, shutil, subprocess, tempfile, atexit, hashlib
 TD = "/home/user/tab/tasks/c63a4d14-d00f-4e02-81d2-7cb6da909f27"
 SNAP = "/home/user/tab/work/tl_blind_v5"            # git-archive snapshot (snap_v5.sh writes SNAP/.snap_commit)
@@ -216,7 +219,7 @@ for bi, (app, run) in enumerate(BLOCKS):
         log("warm-up", tag, "in", w["input"], "out", w["output"], "cache_read", w["cache_read"])
     for k, arm in enumerate(order, 1):
         if (page, arm) in done: continue
-        tag = f"{app}-run{run}-p{k}"; lab = LABEL[(page, arm)]
+        tag = f"{app}-run{run}-p{k}"
         waited = wait_clear(tag); d0 = df(); voided = []
         for attempt in range(1, 4):
             wt, inst, iso, raw, m, t0, t1 = session(tag, arm, prompt, CAP_S)
@@ -233,7 +236,7 @@ for bi, (app, run) in enumerate(BLOCKS):
         else:
             report(f"VOID STOP at v5 build {tag}: 3 attempts in a row hit checker/key/repo terms in the transcript; stopped")
             release_hold("run-ending VOID STOP"); sys.exit(6)
-        dst = f"{OUT}/{app}/run{run}/{lab}"
+        dst = f"{OUT}/.stage/{tag}"
         if os.path.exists(dst): shutil.rmtree(dst)
         shutil.copytree(wt, dst, ignore=shutil.ignore_patterns(".git", "node_modules", "target"))
         shutil.rmtree(wt, ignore_errors=True)
@@ -244,7 +247,7 @@ for bi, (app, run) in enumerate(BLOCKS):
         try: chk = json.load(open(cj))
         except Exception: chk = {"passed": 0, "total": None, "error": (cr.stdout + cr.stderr)[-400:]}
         th = thinking(f"{LOGS}/{tag}.agent.stdout")
-        row = {"page": page, "app": app, "run": run, "block": bi, "position": k, "arm": arm, "label": lab, "skill_files": inst,
+        row = {"page": page, "app": app, "run": run, "block": bi, "position": k, "arm": arm, "skill_files": inst,
                "prompt_sha": R.sha256_bytes(prompt.encode()),
                "input": m.get("input"), "output": m.get("output"), "cache_read": m.get("cache_read"), "cache_creation": m.get("cache_creation"),
                "in_out": num(m, "input") + num(m, "output"), "in_out_cache_read": num(m, "input") + num(m, "output") + num(m, "cache_read"),
@@ -263,6 +266,17 @@ for bi, (app, run) in enumerate(BLOCKS):
             f"{tag}\t{ts(t0)}\t{ts(t1)}\t{row['in_out']}\t{row['in_out_cache_read']}\t{row['cost_weighted']}\t{th.get('thinking')}\t{row['wall_seconds']}\t{row['checks_passed']}/{row['checks_total']}\t{row['timed_out']}")
         log("row", tag, "in+out", row["in_out"], "cw", row["cost_weighted"], "thinking", th.get("thinking"), "wall", row["wall_seconds"],
             "checks", row["checks_passed"], "/", row["checks_total"], "overlap", row["overlap"])
+    # page complete: move its 5 staged builds into label folders in label order, fixed mtime (no position<->label trace)
+    if all((page, a) in done for a in ARMS5) and not os.path.isdir(f"{OUT}/{app}/run{run}/E"):
+        for lab in "ABCDE":
+            k = 1 + order.index([a for a in ARMS5 if LABEL[(page, a)] == lab][0])
+            src = f"{OUT}/.stage/{app}-run{run}-p{k}"; dst = f"{OUT}/{app}/run{run}/{lab}"
+            os.makedirs(os.path.dirname(dst), exist_ok=True); os.rename(src, dst)
+            for dp, dns, fns in os.walk(dst):
+                for n in dns + fns: os.utime(os.path.join(dp, n), (1792324800, 1792324800))
+            os.utime(dst, (1792324800, 1792324800))
+        log("page", page, "moved to label folders")
+shutil.rmtree(f"{OUT}/.stage", ignore_errors=True) if os.path.isdir(f"{OUT}/.stage") and not os.listdir(f"{OUT}/.stage") else None
 lg = subprocess.run(["python3", f"{SNAP}/benchmark/blind/leakgrep_r2.py", OUT], capture_output=True, text=True, timeout=600)
 open(TD + "/leakgrep_v5_raw.txt", "w").write(lg.stdout[-20000:] + lg.stderr[-2000:])
 log("ALL DONE: 45 scored + 9 warm-ups; raw leak grep (before strip/pack):", (lg.stdout.strip().splitlines() or ["?"])[-1])
