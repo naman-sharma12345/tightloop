@@ -1,0 +1,14 @@
+Blind app bake-off, round 2: sealed label key, VERSION 4 (reseal). Committed before any round-2 build (0 builds have ever run).
+sha256(KEY_v4.json) = e765297c4a34e6908638bcc4348b78b76a2eadf05760da4756b82127e8f40d71
+Made at 2026-10-18T19:55:39.490Z by benchmark/blind/make_key_r2.py (sha256 5ebf7d8b823c39b0f74f07397750c68cb82f63d928e5418628ab83d0cb4c85fd, byte-identical
+to the committed method of 9d31916): seed from secrets.randbits(63) (os.urandom), drawn fresh; nothing taken from any earlier key, seed, note or
+transcript. Run outside any sandbox as a host subprocess: argv = the key path and the repo path only; env = PATH and LANG only; the seed never
+in argv or env, never printed. Its whole stdout was the one 64-hex line above; the key was not opened (sha256 only).
+While it ran, the hardened build sandbox ran the process-list probe every 50 ms: 0 visible host or generator processes in 100 samples
+(3 inside the generator's 31.4 ms lifetime). Log: results/blind_r2_key_v4_generation_probe.json.
+The key (label -> version per app, with its seed) is withheld until the reveal, then committed verbatim and must hash to the value above.
+Earlier keys (details in benchmark/blind/r2_INTEGRITY.md):
+  v1 KEY.json    2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433  VOID (seed printed in a session transcript)
+  v2 KEY_v2.json fd1d6896f82f74afb087dddbb69c9716ca2418c5fceba30b47cd5940a742b04c  BURNED (host-visible exposure window, see INTEGRITY)
+  v3 KEY_v3.json 876bf126d232c1e1027e57ef62356dc5a46450ebd281bdaf6afed68c2bee364a  VOID-UNUSED (made before the probe-during-generation rule)
+All three stay on the box untouched; never opened, never used.

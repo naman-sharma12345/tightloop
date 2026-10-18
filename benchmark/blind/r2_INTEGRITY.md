@@ -2,7 +2,48 @@
 
 Written before any round-2 build. Nothing below names which version sits behind which label.
 
-## Sealed key (v2, resealed before any build)
+## KEY IN FORCE: v4 (reseal 3, 2026-10-18T19:58:37Z; Naman m:5eb8c3c4, root 19:35Z)
+- **Key v4** `tl_blind/r2/KEY_v4.json` (box files area, outside the repo and every zip, mode 0600),
+  sha256 `e765297c4a34e6908638bcc4348b78b76a2eadf05760da4756b82127e8f40d71` (results/blind_r2_key_v4_sha256.txt). Made 2026-10-18T19:55:39.490Z by the committed
+  `benchmark/blind/make_key_r2.py` (sha256 `5ebf7d8b823c39b0f74f07397750c68cb82f63d928e5418628ab83d0cb4c85fd`, byte-identical to 9d31916;
+  its `key_version` field therefore still reads 2: the file is identified by its sha256, not by that field). Fresh seed from
+  `secrets.randbits(63)` (os.urandom); nothing derived from any earlier key, seed, note or transcript. Run OUTSIDE any sandbox as a
+  host subprocess: argv = key path + repo path only, env = PATH + LANG only, the seed never in argv or env, never printed; the whole
+  stdout was one 64-hex line; the key was not opened (sha256 only).
+- **Probe during generation** (Naman m:5eb8c3c4 pt 2): while the generator ran, the hardened build sandbox (`r2_run/sandbox_r2.py`
+  `prefix()`, the exact build invocation) ran the probe's process-list loop every 50 ms for 5 s: 100 samples, 3 of them inside the
+  generator's 31.4 ms lifetime; at most 0 processes visible besides the probe itself, the sandbox init and the sandbox's egress
+  forwarder; 0 samples with any host process or the generator visible. Positive control: the same loop in the old (b0130d7) sandbox,
+  with a dummy host process, saw host processes in 89 of 89 samples (up to 157). Log: `results/blind_r2_key_v4_generation_probe.json`.
+  Ran by `r2_run/gen_key_watch_r2.py` sha256 `f8f20d54c974ddef2f7675979f4162a0f816157b6cbd4f64e64741667967d22b` with `sandbox_r2.py` sha256
+  `9a6dcca5e845bd09609de9cc07858243260ede488408e9703c96ace664269d21` and `egress_r2.py` sha256 `fcac2570994138cad0e1cd6fec766d5d945f665172a8d8dce5923b21c0f6376b`
+  (committed in the CHECKS commit that follows; if a later fix changes them, that commit lists both versions).
+- **Seed grep v4** (argv-free: the value only ever travels as a 0600 pattern FILE to `grep -F -f`, read from KEY_v4.json by a program,
+  never displayed, deleted after; run before this commit): repo all-history patches (`git log --all -p | grep -cF -f`) 0 lines,
+  commit messages 0, bench clone all-history patches 0; `grep -rlF -f` over the commit worktree 0, every task dir under the box's
+  tasks area 0, all agent session transcripts 0, session artifacts 0, state 0, memory 0, raw build area 0, r2 snapshot 0, bench clone 0,
+  egress dir 0; the box's files area 1 file = KEY_v4.json itself. It is re-run after this commit and after the CHECKS commit.
+- **Key v3 is VOID-UNUSED.** `tl_blind/r2/KEY_v3.json`, sha256 `876bf126d232c1e1027e57ef62356dc5a46450ebd281bdaf6afed68c2bee364a`, made
+  2026-10-18T19:40Z by make_key_r2.py, BEFORE Naman's rule (m:5eb8c3c4 pt 2, 19:40Z) to run the hardened process-list probe while the
+  generator runs, so it has no such proof. Never used, left unmodified on the box; sha only. Its sha was never committed before.
+  Disclosure: at 19:59Z the pre-commit secrets check of this commit read the seed field of KEY_v2.json and KEY_v3.json inside its own
+  process (to count matches in the staged diff: 0 each); nothing was displayed, logged or written, and the check no longer reads them.
+- **Key v2 is BURNED** (not just void; Naman m:5eb8c3c4 pt 1). Exposure window: start 2026-10-18T19:06Z, when KEY_v2.json was written
+  to the box's files area (mode 0600, owner uid 1000: readable by any uid-1000 process on the host); from about 19:15Z its seed also
+  sat for a few seconds in the argv of a `git log -S<value>` seed-grep process, i.e. in the host process list. End: this commit,
+  2026-10-18T19:58:37Z, when v4 replaces it. Who could see it: any process of uid 1000 on the box, including the old probe/build sandbox
+  (b0130d7 shape: no pid namespace, host process list visible - 142 processes at 19:34Z, 157 at 19:55Z; the key file itself was under a
+  tmpfs there). No build ever ran in that sandbox (0 builds ever); it ran only probes, self-tests and the network test. Kept on the box, never opened, never deleted; sha `fd1d6896f82f74afb087dddbb69c9716ca2418c5fceba30b47cd5940a742b04c` only.
+- **Old sandbox exposure: ~/.netrc and the agent CLI's 79 earlier session transcripts** (Naman m:5eb8c3c4 pt 3). The b0130d7-shape
+  sandbox left /home/user visible apart from /home/user/tab and ~/.prime, and bound the CLI's shared config dir (79 earlier session
+  transcripts) read-write, so any process in it could read ~/.netrc and those transcripts. netrc: only machine entry is surge.surge.sh (root checked names only, token not read); not the GitHub token.
+  Neither file was opened for this record. One disclosure: at 19:52-19:54Z the first run of the new sandbox self-test ran the FULL
+  probe in the old sandbox as a positive control; its content regex check reads bytes of files on bound mounts, which there included
+  the shared config dir. Nothing was printed (killed by pid before any output); the old-sandbox control is now process-list only.
+  The hardened sandbox removes both: /home/user is an empty tmpfs with only the toolchains read-only, and each build gets a fresh
+  empty CLI config dir that is wiped after the build.
+
+## Key history before v4 (as written at b55917c: v1 VOID; v2 is now BURNED, see above)
 - **Key v1 is VOID.** `tl_blind/r2/KEY.json`, sha256 `2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433`
   (committed at bc4b673), stays on the box untouched and is never used. VOID since 2026-10-18T19:06Z. Reason: seed printed once in an agent session
   transcript at 2026-10-18T18:26:32Z (shuffle code `print(ks, seed, len(b))`); 0 builds existed; resealed. Found by the

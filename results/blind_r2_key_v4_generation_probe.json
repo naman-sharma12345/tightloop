@@ -1,0 +1,31 @@
+{
+ "generator": "benchmark/blind/make_key_r2.py",
+ "generator_sha256": "5ebf7d8b823c39b0f74f07397750c68cb82f63d928e5418628ab83d0cb4c85fd",
+ "loop_interval_s": 0.05,
+ "loop_seconds": 5.0,
+ "generator_rc": 0,
+ "generator_stdout_is_one_64hex_line": true,
+ "generator_stderr_bytes": 0,
+ "key_sha256": "e765297c4a34e6908638bcc4348b78b76a2eadf05760da4756b82127e8f40d71",
+ "key_sha256_recomputed": "e765297c4a34e6908638bcc4348b78b76a2eadf05760da4756b82127e8f40d71",
+ "key_mode": "0o600",
+ "generator_start_utc": "19:55:39.490Z",
+ "generator_ms": 31.4,
+ "hardened": {
+  "samples": 100,
+  "samples_during_generator": 3,
+  "max_visible_processes": 0,
+  "samples_with_host_or_generator_process_visible": 0,
+  "first_sample_utc": "19:55:38Z",
+  "last_sample_utc": "19:55:43Z"
+ },
+ "positive_control_old_sandbox": {
+  "samples": 89,
+  "samples_with_host_or_dummy_visible": 89,
+  "max_visible_processes": 157
+ },
+ "ok": true,
+ "ran_by": "benchmark/blind/r2_run/gen_key_watch_r2.py (sha256 f8f20d54c974ddef2f7675979f4162a0f816157b6cbd4f64e64741667967d22b) with sandbox_r2.py (sha256 9a6dcca5e845bd09609de9cc07858243260ede488408e9703c96ace664269d21) and egress_r2.py (sha256 fcac2570994138cad0e1cd6fec766d5d945f665172a8d8dce5923b21c0f6376b); those files are committed in the CHECKS commit that follows",
+ "command": "python3 benchmark/blind/r2_run/gen_key_watch_r2.py /home/user/tab/files/tl_blind/r2/KEY_v4.json /tmp/tlb_push 5ebf7d8b823c39b0f74f07397750c68cb82f63d928e5418628ab83d0cb4c85fd",
+ "note_positive_control": "the count is samples in which ANY host process (host markers or the dummy) was visible; it shows the old sandbox exposes the host process list"
+}
