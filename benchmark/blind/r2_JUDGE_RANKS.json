@@ -1,0 +1,978 @@
+{
+ "round": "r2",
+ "written_utc": "2026-10-18T21:21:30Z",
+ "rubric_commit": "b8d4711d4cffa1f01e1e77e62b50ef1a6cef950f",
+ "zip_sha256": "6d033cc74dad2f3b4610663ddbc0add214ad472faa18399a6307bb56b9b96764",
+ "failed_to_load": [],
+ "apps": {
+  "bookmarks": {
+   "scores": {
+    "A": {
+     "function": 40,
+     "design": 35,
+     "quality": 24,
+     "total": 99
+    },
+    "B": {
+     "function": 40,
+     "design": 34,
+     "quality": 23,
+     "total": 97
+    },
+    "C": {
+     "function": 40,
+     "design": 33,
+     "quality": 23,
+     "total": 96
+    },
+    "D": {
+     "function": 40,
+     "design": 31,
+     "quality": 25,
+     "total": 96
+    }
+   },
+   "rank": {
+    "A": 1,
+    "B": 2,
+    "C": 3,
+    "D": 4
+   },
+   "order": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "rank_reasons": {
+    "A": "rank 1 = A: every feature worked in the click-through, and it has the most polished design (icons, brand mark, hinted empty states everywhere), 99.",
+    "B": "rank 2 = B: every feature worked; clean but plainer visuals and dense CSS, 97.",
+    "C": "rank 3 = C: every feature worked; no folder-list empty state, and creating a folder silently switches the view; wins the tie with D on design, 96.",
+    "D": "rank 4 = D: every feature worked, but a literal \"null\" shows in the empty state and the folder list has no empty state, 96 (loses the design tie-break)."
+   },
+   "lines": {
+    "A": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "3 bad URLs (notaurl, ftp, javascript:) rejected with an inline message; add via spec ids works"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "edit prefills the form and saves; delete: confirm dismissed keeps the card, accepted removes it"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "folders create, inline rename and delete (confirm; bookmarks move to Unsorted); search by title, URL and tag; tag chip filter + Clear all; counter; export JSON in the spec shape; import merges 1 and skips 1 duplicate, with a message"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "bookmarks and folders survive two reloads"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "240 px sidebar, top bar, 3-column card grid at 1280"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec hexes (#f6f7f9 bg, #4f46e5 accent), system font, 24 px/600 title, tabular numbers"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, 1 px border, soft shadow, controls 36-38 px"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover styles, focus ring; empty states with hints for the grid, the folder list and no-results"
+     },
+     "D5": {
+      "points": 5,
+      "max": 5,
+      "reason": "the most finished of the four: brand mark, SVG icons, clear hierarchy"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no horizontal scroll, panels stack, folder actions reachable"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "labelled inputs, aria labels on the icon buttons (33 aria attributes)"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "readable but the largest build (~45 KB)"
+     }
+    },
+    "B": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "3 bad URLs rejected inline; add works"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "edit prefills and saves; confirm dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "folder create, rename (prompt) and delete (confirm, moves to Unsorted); search title/URL/tag; tag chip + Clear all; counter; export shape OK; import 1 added, 1 skipped, message"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reloads"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "sidebar, top bar, 3-column grid"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and type"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 36-38 px controls"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover and focus outline; empty states with hints, including the folder list"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "clean but plainer than A (text glyph icons, emoji folder tags)"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no overflow, stacked"
+     },
+     "Q2": {
+      "points": 7,
+      "max": 8,
+      "reason": "labels present; fewer aria hints (12)"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "compact (~29 KB) but the CSS is dense one-line rules"
+     }
+    },
+    "C": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "3 bad URLs rejected inline; add works"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "edit prefills and saves; confirm dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "folder create, rename (prompt) and delete (confirm, moves to Unsorted); search; tag chip + Clear all; counter; export shape OK; import 1 added, 1 skipped, message"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reloads"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "sidebar, top bar, 3-column grid"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and type"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 36-38 px controls"
+     },
+     "D4": {
+      "points": 4,
+      "max": 5,
+      "reason": "hover and focus OK; no empty-state message for the folder list"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "plain; creating a folder silently switches the view into that folder, so bookmarks added elsewhere seem to vanish (\"2 of 3 shown\")"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no overflow, stacked"
+     },
+     "Q2": {
+      "points": 7,
+      "max": 8,
+      "reason": "labels present; few aria hints (12)"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "smallest (~23 KB) but the CSS is dense one-line rules"
+     }
+    },
+    "D": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "3 bad URLs rejected inline; add works"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "edit prefills and saves; confirm dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "folder create, rename (prompt) and delete (confirm, moves to Unsorted); search; tag chip + Clear all; counter; export shape OK; import merges 1, skips 1, reports \"Imported 1 bookmark\""
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reloads"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "sidebar, top bar, 3-column grid"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and type"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 36-38 px controls"
+     },
+     "D4": {
+      "points": 3,
+      "max": 5,
+      "reason": "no folder-list empty state, and the bookmark empty state prints a literal \"null\" line"
+     },
+     "D5": {
+      "points": 3,
+      "max": 5,
+      "reason": "the visible \"null\" in the empty state (replaceChildren with a null action) is a visible bug on first load"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no overflow; folder actions shown on touch via hover:none"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "labels plus aria (27); reduced-motion support"
+     },
+     "Q3": {
+      "points": 7,
+      "max": 7,
+      "reason": "readable, reasonable size (~39 KB)"
+     }
+    }
+   }
+  },
+  "expenses": {
+   "scores": {
+    "A": {
+     "function": 40,
+     "design": 35,
+     "quality": 25,
+     "total": 100
+    },
+    "B": {
+     "function": 40,
+     "design": 34,
+     "quality": 22,
+     "total": 96
+    },
+    "C": {
+     "function": 10,
+     "design": 28,
+     "quality": 18,
+     "total": 56
+    },
+    "D": {
+     "function": 40,
+     "design": 34,
+     "quality": 25,
+     "total": 99
+    }
+   },
+   "rank": {
+    "A": 1,
+    "D": 2,
+    "B": 3,
+    "C": 4
+   },
+   "order": [
+    "A",
+    "D",
+    "B",
+    "C"
+   ],
+   "rank_reasons": {
+    "A": "rank 1 = A: every feature worked (validation, dialog edit, confirm delete, month and category, charts, CSV, reload); the most polished, with a chart plus a table for 6 months, 100.",
+    "D": "rank 2 = D: every feature worked, with per-field errors; slightly plainer list than A, 99.",
+    "B": "rank 3 = B: every feature worked; a large blank gap at 375 px and denser code, 96.",
+    "C": "rank 4 = C: broken. A render error on every expense means the list never shows, edit and delete are unreachable and the charts don't update (9 page errors), 56."
+   },
+   "lines": {
+    "A": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "empty desc, 0, -5 and \"abc\" each rejected with an inline message, nothing added"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "dialog edit prefilled, #save-edit updates the total (1,220.50 -> 1,228.00), an invalid edit is blocked; delete: dismiss keeps, accept removes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "month defaults to 2026-10, picker shows Sep alone (15.00); category filter; #total holds only the number; count and largest-category cards right; chart redraws; 6-month chart plus table; CSV header exact"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "list and total survive a reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "header, 3 cards, 60/40 columns"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette, category colours, system font, tabular numbers"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 36-38 px controls"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "focus ring, empty states with hints for the list and the chart"
+     },
+     "D5": {
+      "points": 5,
+      "max": 5,
+      "reason": "polished: category dots, icon buttons, the 6-month chart plus a table"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no overflow, clean stack"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "labels for every field, dialog semantics, aria"
+     },
+     "Q3": {
+      "points": 7,
+      "max": 7,
+      "reason": "readable, reasonable size (~36 KB)"
+     }
+    },
+    "B": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "all 4 invalid cases rejected inline"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "dialog edit saves (1,228.00), invalid edit blocked; delete: dismiss keeps, accept removes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "month default and picker, category filter, cards, chart redraws (checked by outerHTML diff), 6-month chart, CSV header exact; #total is \"$1,220.50\""
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "header, 3 cards, 60/40 columns"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and type"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 38 px controls"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "focus outline, empty states with hints"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "clean, plainer list rows (text Edit/Delete)"
+     },
+     "Q1": {
+      "points": 9,
+      "max": 10,
+      "reason": "375 px: no overflow, but a large blank gap between the list and the charts"
+     },
+     "Q2": {
+      "points": 7,
+      "max": 8,
+      "reason": "labels present; fewer aria hints"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "compact; CSS denser"
+     }
+    },
+    "C": {
+     "F1": {
+      "points": 4,
+      "max": 8,
+      "reason": "validation messages work, but an added expense never appears in the list"
+     },
+     "F2": {
+      "points": 0,
+      "max": 8,
+      "reason": "no rows are ever rendered, so there is nothing to edit or delete"
+     },
+     "F3": {
+      "points": 3,
+      "max": 12,
+      "reason": "CSV export works with the exact header; month picker and filter act on an always-empty list; cards and chart stop updating mid-render (total stuck at a stale value, chart blank)"
+     },
+     "F4": {
+      "points": 3,
+      "max": 6,
+      "reason": "data is written to localStorage (total and count after reload) but the list still renders empty"
+     },
+     "F5": {
+      "points": 0,
+      "max": 6,
+      "reason": "9 page errors: \"Cannot set property dataset of HTMLElement\" on every render with an expense"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "header, 3 cards, 60/40 columns"
+     },
+     "D2": {
+      "points": 9,
+      "max": 10,
+      "reason": "spec palette; total shown as \"1220.50\" without separator after reload"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 38 px controls"
+     },
+     "D4": {
+      "points": 3,
+      "max": 5,
+      "reason": "shows the empty state permanently, even when expenses exist"
+     },
+     "D5": {
+      "points": 1,
+      "max": 5,
+      "reason": "looks broken: count 4 and a non-zero total beside an empty list and blank charts"
+     },
+     "Q1": {
+      "points": 9,
+      "max": 10,
+      "reason": "375 px: no overflow (but the content is broken)"
+     },
+     "Q2": {
+      "points": 6,
+      "max": 8,
+      "reason": "labels present, few aria hints"
+     },
+     "Q3": {
+      "points": 3,
+      "max": 7,
+      "reason": "small, but the el() helper does Object.assign(li, {dataset:...}), which throws: shipped untested"
+     }
+    },
+    "D": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "all 4 invalid cases rejected with per-field messages"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "dialog edit saves (1,228.00), invalid edit blocked; delete: dismiss keeps, accept removes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "month default and picker (adding an expense dated in another month jumps the view to that month), filter, cards (largest + share %), chart redraws, 6-month chart, CSV header exact"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "header, 3 cards, 60/40 columns"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and type"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow, 38 px controls"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "focus ring, empty states with hints"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "polished, a notch below A (text buttons, no table)"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: no overflow, clean stack"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "labels, per-field error elements, roles"
+     },
+     "Q3": {
+      "points": 7,
+      "max": 7,
+      "reason": "readable, smallest working build (~29 KB)"
+     }
+    }
+   }
+  },
+  "kanban": {
+   "scores": {
+    "A": {
+     "function": 40,
+     "design": 35,
+     "quality": 25,
+     "total": 100
+    },
+    "B": {
+     "function": 40,
+     "design": 34,
+     "quality": 25,
+     "total": 99
+    },
+    "C": {
+     "function": 40,
+     "design": 33,
+     "quality": 23,
+     "total": 96
+    },
+    "D": {
+     "function": 40,
+     "design": 34,
+     "quality": 23,
+     "total": 97
+    }
+   },
+   "rank": {
+    "A": 1,
+    "B": 2,
+    "D": 3,
+    "C": 4
+   },
+   "order": [
+    "A",
+    "B",
+    "D",
+    "C"
+   ],
+   "rank_reasons": {
+    "A": "rank 1 = A: every feature worked (drag with indicator, modal with 3 ways to close, confirm delete, labels, overdue, filter, columns, reload); the most polished, 100.",
+    "B": "rank 2 = B: every feature worked; overdue is shown by colour only, 99.",
+    "D": "rank 3 = D: every feature worked; emoji header icons and dense CSS, 97.",
+    "C": "rank 4 = C: every feature worked; 28 px icon controls, emoji icons, prompt() for columns, fewest labels, dense CSS, 96."
+   },
+   "lines": {
+    "A": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "Enter and the Add button both add; whitespace and empty titles ignored"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "modal edits title, description, due date and labels and they persist; #card-delete: dismiss keeps, accept deletes and closes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "mouse drag between columns and within a column, with a drop indicator; add and rename column (inline); modal closes by button, Escape and backdrop; labels shown, overdue in red with the word \"overdue\"; counts update; label filter"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "cards, columns, labels and dates survive a reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "slim top bar, 300 px columns, centred 560 px modal over a dimmed backdrop"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette, label colours, system font"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow on cards and columns"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover, focus ring, empty column states with hints"
+     },
+     "D5": {
+      "points": 5,
+      "max": 5,
+      "reason": "most polished: SVG icons, clear card meta"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: columns stack, no page overflow"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "cards are role=button with tabindex 0; Enter opens the modal and focuses the title; sr-only labels; aria-pressed toggles"
+     },
+     "Q3": {
+      "points": 7,
+      "max": 7,
+      "reason": "readable, reasonable size (~34 KB)"
+     }
+    },
+    "B": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "Enter and Add both add; blank titles ignored"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "modal edits persist; delete: dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "drag between and within columns, with a drop indicator; inline add-column form and inline rename; Close, Escape and backdrop all close; overdue date in red; counts; filter"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "top bar, 300 px columns, 560 px modal"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and label colours"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover, focus, empty states with hints"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "polished; overdue is shown by colour only (no word)"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: stacks, no overflow"
+     },
+     "Q2": {
+      "points": 8,
+      "max": 8,
+      "reason": "keyboard-openable cards, labelled fields, the most aria hints (24)"
+     },
+     "Q3": {
+      "points": 7,
+      "max": 7,
+      "reason": "readable, reasonable size (~33 KB)"
+     }
+    },
+    "C": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "Enter and Add both add; blank titles ignored"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "modal edits persist; delete: dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "drag between and within columns, with a drop indicator; add and rename column (prompt); Close, Escape and backdrop close; \"Overdue\" in red; counts; filter"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "top bar, 300 px columns, 560 px modal"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and label colours"
+     },
+     "D3": {
+      "points": 4,
+      "max": 5,
+      "reason": "column icon buttons 28 px tall, under the spec controls; empty boxes 8 px radius"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover, focus, empty states with hints"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "emoji icons (pencil, wastebasket) always visible on every column header"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: stacks, no overflow"
+     },
+     "Q2": {
+      "points": 7,
+      "max": 8,
+      "reason": "keyboard-openable cards; fewer labels (4), prompt() dialogs"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "smallest (~18 KB) but the CSS is dense one-line rules"
+     }
+    },
+    "D": {
+     "F1": {
+      "points": 8,
+      "max": 8,
+      "reason": "Enter and Add both add; blank titles ignored"
+     },
+     "F2": {
+      "points": 8,
+      "max": 8,
+      "reason": "modal edits persist; delete: dismiss keeps, accept deletes"
+     },
+     "F3": {
+      "points": 12,
+      "max": 12,
+      "reason": "drag between and within columns, with a drop indicator; add and rename column; Close, Escape and backdrop close; \"Overdue\" in red; counts; filter"
+     },
+     "F4": {
+      "points": 6,
+      "max": 6,
+      "reason": "survives reload"
+     },
+     "F5": {
+      "points": 6,
+      "max": 6,
+      "reason": "0 console errors, 0 page errors, 0 external requests"
+     },
+     "D1": {
+      "points": 10,
+      "max": 10,
+      "reason": "top bar, 300 px columns, 560 px modal"
+     },
+     "D2": {
+      "points": 10,
+      "max": 10,
+      "reason": "spec palette and label colours"
+     },
+     "D3": {
+      "points": 5,
+      "max": 5,
+      "reason": "12 px radius, border, shadow"
+     },
+     "D4": {
+      "points": 5,
+      "max": 5,
+      "reason": "hover, focus, empty states with hints"
+     },
+     "D5": {
+      "points": 4,
+      "max": 5,
+      "reason": "emoji icons on column headers; otherwise tidy"
+     },
+     "Q1": {
+      "points": 10,
+      "max": 10,
+      "reason": "375 px: stacks, no overflow"
+     },
+     "Q2": {
+      "points": 7,
+      "max": 8,
+      "reason": "keyboard-openable cards; fewer labels and aria hints (12)"
+     },
+     "Q3": {
+      "points": 6,
+      "max": 7,
+      "reason": "reasonable size, but the CSS is dense one-line rules"
+     }
+    }
+   }
+  }
+ },
+ "overall": {
+  "order": [
+   "A",
+   "B",
+   "D",
+   "C"
+  ],
+  "mean_rank": {
+   "A": 1.0,
+   "B": 2.3333333333333335,
+   "C": 3.6666666666666665,
+   "D": 3.0
+  },
+  "mean_total": {
+   "A": 99.66666666666667,
+   "B": 97.33333333333333,
+   "C": 82.66666666666667,
+   "D": 97.33333333333333
+  }
+ },
+ "tie_break": "function, then design"
+}
