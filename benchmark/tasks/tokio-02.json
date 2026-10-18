@@ -1,0 +1,18 @@
+{
+  "name": "tokio-02",
+  "kind": "bugfix",
+  "source": "https://github.com/tokio-rs/tokio",
+  "license": "MIT",
+  "license_commit": "02b779e315c5c5f0dbbc8b56fc711cc8e665ee1e",
+  "license_note": "re-read at fix commit 02b779e31: LICENSE=MIT",
+  "commit": "02b779e315c5c5f0dbbc8b56fc711cc8e665ee1e",
+  "start_commit": "48345d6e4822b4c0ea00d5c1c075a6b5ac663acf",
+  "instruction": "sync: add `watch::Receiver::mark_unchanged` (#6252)",
+  "hidden_tests": [
+    "rx_mark_unchanged"
+  ],
+  "hidden_patch": "patches/tokio-02.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p tokio --test sync_watch rx_mark_unchanged"
+}
