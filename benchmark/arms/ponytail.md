@@ -12,7 +12,9 @@ Third-party baseline: https://github.com/DietrichGebert/ponytail
   commit into the agent's skill path (equivalent to the plugin install in
   the repo's INSTALL.md; plugins also add lifecycle hooks which the
   benchmark does not need).
-- Popularity note: 166,540 stars via the GitHub API on 2026-10-18.
+
+No popularity or performance claims about ponytail appear anywhere in
+this repository until a baseline run exists.
 
 If the pinned commit's LICENSE ever differs from MIT, the ponytail arm is
 dropped from published tables and the README says so.
