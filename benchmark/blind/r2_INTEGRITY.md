@@ -132,6 +132,25 @@ below; 0 builds ever ran in the old one.
 - **Old egress proxy**: an uncommitted proxy left by 14334bcb (pid 3149448, allowed host in its argv) was killed at 19:57Z; the
   committed sandbox starts its own proxy per process.
 
+## Run record (12 builds) and observer exposure
+- 12 builds ran back to back from the CHECKS snapshot (4a42a7c) under key v4: 2026-10-18T20:08:23Z (first start) to 20:58:26Z (last
+  row). 0 isolation stops, 0 infra stops, 0 voided attempts, no reruns. Every build passed the full hardened probe right before its
+  launch, and every transcript audit had 0 hits. Per-build start, end and free disk: results/blind_r2_build_log.tsv (labels only).
+  The driver removed the hold file at 20:58:26Z ("after build 12"). START_OK was created by root at 20:07Z, after his own probe run.
+- Observer exposure (root 20:10Z, option A): the box's process census on host lanes shows each build CLI's argv, which carries the
+  skill text, so the label->version pairs are visible to worker 73adc3ad and root transcripts. The build agents can't see it (own pid
+  ns, verified by probe). The blind judge is a separate worker spawned after build 12, with no build overlapping its turns, that never
+  reads those transcripts. The pairs are quoted nowhere: no milestone, file or commit.
+- From 20:15Z (Naman m:d8220836) root and worker stopped reading process listings/launch commands for the rest of r2.
+  (The box's census facts still arrived unrequested in this worker's tool results until build 12 ended; they were not used and are not
+  quoted. After 20:15Z the worker tracked the run only from build_log.tsv, BUILD_RESULTS.tsv, the driver's own log and the driver's
+  own pid.)
+- As with every earlier version of the round-2 driver, its own log (workspace file list per build) and its rows file (version field)
+  record which version built each label. Both stay in the worker task area, outside the repo and every zip, until the reveal.
+- Viewer: files area `tl_blind/r2/viewer.zip`, sha256 `6d033cc74dad2f3b4610663ddbc0add214ad472faa18399a6307bb56b9b96764`, 40 entries,
+  fixed timestamps, no .git. Leak grep: 0 hits over the 12 build dirs, the zip listing + entries, and the unzipped tree.
+  verify_viewer.py: all_ok (12 builds, each on its own origin, 0 viewer errors, 0 name hits, 0 key/mapping/cost entries).
+
 ## Key history before v4 (as written at b55917c: v1 VOID; v2 is now BURNED, see above)
 - **Key v1 is VOID.** `tl_blind/r2/KEY.json`, sha256 `2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433`
   (committed at bc4b673), stays on the box untouched and is never used. VOID since 2026-10-18T19:06Z. Reason: seed printed once in an agent session
