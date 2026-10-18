@@ -1,0 +1,21 @@
+{
+ "seed": 1412807045,
+ "rng": "python random.Random(seed); per app in order todo, notes, units: rng.sample(ARMS, 3) -> A, B, C",
+ "apps": {
+  "todo": {
+   "A": "ponytail",
+   "B": "no-skill",
+   "C": "tightloop-v4"
+  },
+  "notes": {
+   "A": "no-skill",
+   "B": "tightloop-v4",
+   "C": "ponytail"
+  },
+  "units": {
+   "A": "ponytail",
+   "B": "no-skill",
+   "C": "tightloop-v4"
+  }
+ }
+}
