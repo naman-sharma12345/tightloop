@@ -76,3 +76,14 @@ one/two/C.Foo2). No fd-02 rows exist.
 | tightloop | PASS | 10 | 2420 | 188563 | 34.34 | overlapped | yes: TestPanicWithAbortHandler | yes: recovery_test.go +21/-0 |
 
 On all 3 arms the agent again added its own TestPanicWithAbortHandler to recovery_test.go; the rename fired, the first apply still failed on context, and the fallback restored recovery_test.go before the hidden patch went in. The grader ran on all 3.
+
+## Notes (Naman, 2026-10-18 ~14:24Z)
+
+The grader scores the fix only, so agent-written tests in files the hidden patch touches are dropped and test-writing quality is not measured in these rows.
+
+gin-01 (redo) and gin-02 are 3/3 PASS on every arm, so no arm separates on pass rate so far. Tokens and time are n=1 per arm and overlapped: data points only, no claim.
+
+## fd-03 grader triple (holdout) - STOP
+
+See grader_sanity/fd-03_triple_STOP.txt: real fix PASS, empty FAIL, half fix PASS (expected FAIL).
+fd-03 arms not run; waiting for Naman's decision.
