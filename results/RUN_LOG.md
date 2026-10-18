@@ -87,3 +87,11 @@ gin-01 (redo) and gin-02 are 3/3 PASS on every arm, so no arm separates on pass 
 
 See grader_sanity/fd-03_triple_STOP.txt: real fix PASS, empty FAIL, half fix PASS (expected FAIL).
 fd-03 arms not run; waiting for Naman's decision.
+
+## fd-03 excluded (Naman, 2026-10-18 ~14:27Z, option b)
+
+fd-03 excluded: hidden test cannot tell the half fix from the real fix when threads > 1 (src/exec/job.rs buffer_output = threads > 1); grader check: real fix PASS 43 s, empty FAIL 44 s, half fix PASS 37 s; fallback did not fire. Evidence: 0c09c75 (results/grader_sanity/fd-03_*).
+
+Note: a grader variant that also runs the test with --threads 1 is an idea for a LATER pass only; it is not applied now. No fd-03 arm session was run and no grader or harness edit was made for fd-03.
+
+No further task is in this pass's queue (benchmark/FREEZE.md: first pass = fd-01, fd-02, fd-03, gin-01, gin-02).

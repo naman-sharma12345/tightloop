@@ -5,17 +5,11 @@
   "cli": "claude",
   "cli_version": "2.1.302",
   "git": "git version 2.39.5",
-  "harness_commit": "21e14a97ae16d4b168b9e1e57f064628f5972c2d (+uncommitted changes)",
   "tools": {
     "go": "go version go1.27.2 linux/amd64",
     "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
     "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
     "node": "v22.23.2"
-  },
-  "task_start_commits": {
-    "fd-01": "a8a77d21621a11dbe499f1732331448c48ce9b76",
-    "gin-01": "c358d5656d0feb8b310d4ec379bccde46ccc8cc7",
-    "gin-02": "df2753778e7bc5c2dd559361cf0c97b2b313e9bb"
   },
   "arms": {
     "no-skill": "no skill",
@@ -36,7 +30,19 @@
   "grading_rename_rule": "after the session and before the hidden patch: a test function the agent ADDED (Rust `fn NAME(`, Go `func NAME(`) whose name equals a hidden test name is renamed NAME_agent; same rule on every arm; the raw diff is saved to diffs/ before the rename",
   "overlap_rule": "row overlap=overlapped if at any sample (start, about every 30 s, end) the lock was held by another process or a process outside the session had its cwd under /tmp/eyes and 'chrome' in its command line; else clean. lock wait scope: session. Compare wall time only within the same overlap tag.",
   "shared_machine": "wall times measured on a shared machine; another job holds /tmp/kimo_perf.lock while it runs. Each session starts only once that lock is free (waited up to 0s, not held); per row: loadavg_start, loadavg_end, lock_busy_during (sampled about every 30 s), lock_wait_seconds",
-  "models_reported_modelUsage": [
-    "claude-opus-5-5"
-  ]
+  "task_start_commits": {
+    "fd-01": "a8a77d21621a11dbe499f1732331448c48ce9b76",
+    "gin-01": "c358d5656d0feb8b310d4ec379bccde46ccc8cc7",
+    "gin-02": "df2753778e7bc5c2dd559361cf0c97b2b313e9bb"
+  },
+  "harness_commit_of_counted_rows": {
+    "fd-01": "21e14a97ae16d4b168b9e1e57f064628f5972c2d",
+    "gin-01": "2c7a6fd7210f12c0597d75b4a5e153d454b683e5 (hidden-patch fallback, d302485)",
+    "gin-02": "21e14a97ae16d4b168b9e1e57f064628f5972c2d"
+  },
+  "harness_commit_note": "rows written at 21e14a9 carry '(+uncommitted changes)'; that tag came only from untracked benchmark/__pycache__ and results/ (fixed in d302485: untracked files no longer count)",
+  "dropped_tasks": {
+    "fd-02": "upstream fix ed47664 fails its own hidden test here (fd smart case also matches one/two/C.Foo2); grader_sanity/fd-02_status.txt",
+    "fd-03": "holdout; hidden test cannot tell a half fix from the real fix when threads > 1; grader_sanity/fd-03_triple_STOP.txt"
+  }
 }
