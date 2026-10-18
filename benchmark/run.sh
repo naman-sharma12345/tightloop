@@ -63,7 +63,7 @@ run_arm() { # task_json arm
   export DIR
   git clone -q "$SRC" "$WORK" || { echo clone-failed; return; }
   git -C "$WORK" checkout -q "$START" || { echo checkout-failed; return; }
-  "$SCRIPT_DIR/arms/$ARM.sh" "$REPO_ROOT" "$WORK" || { echo arm-setup-failed; return; }
+  bash "$SCRIPT_DIR/arms/$ARM.sh" "$REPO_ROOT" "$WORK" || { echo arm-setup-failed; return; }
 
   local INSTRUCTION_FILE="$DIR/instruction.md" AGENT_LOG="$DIR/agent.log"
   printf '%s\n' "$INSTR" > "$INSTRUCTION_FILE"
