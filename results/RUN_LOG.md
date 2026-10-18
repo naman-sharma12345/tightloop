@@ -66,3 +66,13 @@ applied directly on all 3 (rows predate the hidden_patch_fallback field).
 Dropped from this pass: grader_sanity/fd-02_status.txt (upstream commit
 ed47664 itself fails its hidden test here: fd smart case also matches
 one/two/C.Foo2). No fd-02 rows exist.
+
+## gin-01 redo (harness d302485, 3 arms back to back, 14:18-14:21Z)
+
+| arm | result | input | output | cache | wall s | overlap | rename fired | hidden-patch fallback (agent lines dropped) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| no-skill | PASS | 8 | 1869 | 129112 | 21.92 | overlapped | yes: TestPanicWithAbortHandler | yes: recovery_test.go +25/-0 |
+| ponytail | PASS | 10 | 1828 | 168088 | 21.11 | overlapped | yes: TestPanicWithAbortHandler | yes: recovery_test.go +18/-0 |
+| tightloop | PASS | 10 | 2420 | 188563 | 34.34 | overlapped | yes: TestPanicWithAbortHandler | yes: recovery_test.go +21/-0 |
+
+On all 3 arms the agent again added its own TestPanicWithAbortHandler to recovery_test.go; the rename fired, the first apply still failed on context, and the fallback restored recovery_test.go before the hidden patch went in. The grader ran on all 3.
