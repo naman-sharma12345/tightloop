@@ -1,0 +1,18 @@
+{
+  "name": "zod-01",
+  "kind": "bugfix",
+  "source": "https://github.com/colinhacks/zod",
+  "license": "MIT",
+  "license_commit": "973b1b44e182ad2eeba50fb57e926c69df67cdb2",
+  "license_note": "LICENSE re-read at the fix commit before vendoring",
+  "commit": "973b1b44e182ad2eeba50fb57e926c69df67cdb2",
+  "start_commit": "5e608851fbc7659855e096239e36b9147af8a187",
+  "instruction": "fix(v4): strip output-typed catch values from the input JSON Schema (#6409)",
+  "hidden_patch": "patches/zod-01.patch",
+  "hidden_tests": [
+    "catch on a transforming schema"
+  ],
+  "check_command": "npx vitest run -t 'catch on a transforming schema'",
+  "holdout": false,
+  "status": "UNPROVEN"
+}
