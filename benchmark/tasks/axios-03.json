@@ -1,0 +1,19 @@
+{
+  "name": "axios-03",
+  "kind": "bugfix",
+  "source": "https://github.com/axios/axios",
+  "license": "MIT",
+  "license_commit": "2a51828213128691d2e37502b5eb2cf4965a737d",
+  "license_note": "re-read at fix commit 2a5182821: LICENSE=MIT",
+  "commit": "2a51828213128691d2e37502b5eb2cf4965a737d",
+  "start_commit": "0e8b6bbb542131bae9940618d84d5286255d4db1",
+  "instruction": "fix(http): decode URL basic auth credentials (#10825)",
+  "hidden_tests": [
+    "should decode basic auth credentials from the request URL",
+    "keeps malformed URL credentials percent-encoding and does not throw"
+  ],
+  "hidden_patch": "patches/axios-03.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "npx mocha tests/unit/adapters/http.test.js --grep 'should decode basic auth credentials from the request URL|keeps malformed URL credentials percent-encoding and does not throw'"
+}
