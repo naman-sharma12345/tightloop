@@ -42,3 +42,32 @@ Viewer (verify_viewer.py): A = 3 round-2 apps x 4 reference builds; B = negative
 {"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-596888e0/index.html": 404}, "forbidden_files": [], "bad": []}
 
 Cost file (cost_table.py) tested on the round-1 rows plus a synthetic v4c row: v4c appears on the line after v4 with v4c - v4 and v4c / v4 per app.
+
+## How to read the lines above (added for Naman m:ad61cc34)
+NEGATIVE CONTROLS, which are expected to FAIL; a pass there would be a checker bug:
+- kanban_nodnd 8/10: no drag at all; both paths tried (real mouse, then synthetic HTML5).
+- kanban_nodnd[html5-only path] 8/10: same build, synthetic HTML5 path only.
+- kanban_pointer[html5-only path] 8/10: a mouse-only build driven ONLY by synthetic HTML5 events. It shows that the HTML5
+  fallback alone cannot move a pointer build, which is why the checker tries real mouse events first.
+- expenses_noconfirm 23/25 and bookmarks_noconfirm 18/20: delete without confirm().
+- expenses_overflow 24/25: a 600 px strip, so 608 > 375.
+- expenses_ignoredate 23/25: always saves today, ignoring #date.
+- todo_err 8/9, todo_deadbtn 8/9, units_dead 9/13: the round-1 controls.
+- Viewer B: a planted version name, a COST.json in the folder and a KEY.json in the zip, all caught.
+In each control, the failing checks are exactly the ones the control targets. The "board survives reload" fail in the kanban
+controls follows from the failed move (the reload check expects the moved card in Done).
+
+REAL builds that must PASS:
+- kanban (HTML5-only build) 10/10 on the real-mouse path. The page received native dragstart/drop from the real mouse drag.
+  It also passes 10/10 with the synthetic HTML5 path forced.
+- kanban_pointer (mouse-only build) 10/10 on its own path, with no HTML5 events.
+- expenses 25/25 and bookmarks 20/20.
+- Round-1 references: todo 9/9, notes 7/7, units 13/13.
+- The old 9 round-1 builds, each on its own port with its zip: todo 10/10 x3, notes 8/8 x3, units 14/14 x3.
+- Viewers A, C and A-from-zip pass all_ok, with 0 name hits and 0 key/mapping entries in the zip listing.
+
+Re-run of A and B after the zip-listing check was added (Naman m:ad61cc34 pt 4):
+== A (r2 refs, 4 panels per app) + zip listing
+{"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-596888e0/index.html": 404}, "forbidden_files": [], "zip_listing": {"entries": 16, "key_mapping_cost_hits": []}, "bad": []}
+== B (negative: planted version name + COST.json in folder + KEY.json in zip)
+{"all_ok": false, "n": 2, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 5, "hits": [[8702, "index.html", "();\n</script>\n<!-- built with ponytail -->\n"]], "n_hits": 1}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/bookmarks-A-20daef0d/index.html": 404}, "forbidden_files": ["COST.json", "vB/KEY.json"], "zip_listing": {"entries": 7, "key_mapping_cost_hits": ["vB/KEY.json"]}, "bad": []}

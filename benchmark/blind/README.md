@@ -54,3 +54,4 @@ Versions: no-skill, ponytail, tightloop-v4, tightloop-v4c; labels A-D shuffled p
   tool calls, turns, wall time, with v4c on the line after v4 plus v4c-v4 and v4c/v4. It is kept outside the viewer folder and
   the viewer never reads it.
 - Self-test output: results/blind_r2_selftest.txt.
+- Integrity and build isolation: r2_INTEGRITY.md.

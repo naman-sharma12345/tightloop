@@ -60,6 +60,12 @@ try:
     res["name_grep"] = {"files_fetched": fetched, "hits": hits[:50], "n_hits": len(hits)}
     res["viewer_port_blocked"] = blocked
     bad_names = [f for dp, _, fs in os.walk(vd) for f in fs if re.search(r"KEY|COST|METRIC|check|\.png$", f, re.I)]
+    zp = vd.rstrip("/") + ".zip"   # the zip build_viewer.py wrote beside the folder: its listing must hold no key/mapping/cost file
+    if os.path.exists(zp):
+        import zipfile
+        names = zipfile.ZipFile(zp).namelist()
+        res["zip_listing"] = {"entries": len(names), "key_mapping_cost_hits": [n_ for n_ in names if re.search(r"KEY|mapping|COST|METRIC|check|\.png$", n_.split("/")[-1], re.I)]}
+        bad_names += res["zip_listing"]["key_mapping_cost_hits"]
     res["forbidden_files_in_viewer_dir"] = bad_names
 finally:
     srv.terminate(); srv.wait()
@@ -69,5 +75,5 @@ res["all_ok"] = (all(x["ok"] for x in res["builds"]) and res["distinct_origins"]
                  and res["name_grep"]["n_hits"] == 0 and all(v == 404 for v in res["viewer_port_blocked"].values()) and not res["forbidden_files_in_viewer_dir"])
 json.dump(res, open(outp, "w"), indent=1)
 print(json.dumps({"all_ok": res["all_ok"], "n": len(res["builds"]), "distinct_origins": res["distinct_origins"], "viewer_errors": res["viewer_errors"],
-                  "name_grep": res["name_grep"], "viewer_port_blocked": res["viewer_port_blocked"], "forbidden_files": res["forbidden_files_in_viewer_dir"],
+                  "name_grep": res["name_grep"], "viewer_port_blocked": res["viewer_port_blocked"], "forbidden_files": res["forbidden_files_in_viewer_dir"], "zip_listing": res.get("zip_listing"),
                   "bad": [(x["app"], x["label"], x["mismatched"], x["loaded"]) for x in res["builds"] if not x["ok"]]}))
