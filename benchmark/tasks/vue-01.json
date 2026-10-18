@@ -1,0 +1,19 @@
+{
+  "name": "vue-01",
+  "kind": "bugfix",
+  "source": "https://github.com/vuejs/core",
+  "license": "MIT",
+  "license_commit": "38577161c0cfcd4e1013eec0030b781a32fc3744",
+  "license_note": "re-read at fix commit 38577161c: LICENSE=MIT",
+  "commit": "38577161c0cfcd4e1013eec0030b781a32fc3744",
+  "start_commit": "31da934fcbe73ab8ed187bf820c80b24ced474be",
+  "instruction": "fix(compiler-core): handle invalid static arg in same-name v-bind shorthand (#15347)",
+  "hidden_tests": [
+    "error on invalid static argument for same-name shorthand",
+    "error on invalid static argument in browser build"
+  ],
+  "hidden_patch": "patches/vue-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "npx vitest run packages/compiler-core/__tests__/transforms/vBind.spec.ts -t 'error on invalid static argument for same-name shorthand|error on invalid static argument in browser build'"
+}
