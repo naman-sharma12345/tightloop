@@ -1,0 +1,18 @@
+{
+  "name": "clap-01",
+  "kind": "bugfix",
+  "source": "https://github.com/clap-rs/clap",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "ca4439a93afd1c7c6732449d4985bf7a02a20b0e",
+  "license_note": "re-read at fix commit ca4439a93: LICENSE-MIT=MIT,LICENSE-APACHE=Apache-2.0",
+  "commit": "ca4439a93afd1c7c6732449d4985bf7a02a20b0e",
+  "start_commit": "f4892848da6513d990364ac534f4d51ef4efce64",
+  "instruction": "fix(complete): Make short flags additive",
+  "hidden_tests": [
+    "suggest_additional_short_flags"
+  ],
+  "hidden_patch": "patches/clap-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p clap_complete --test dynamic suggest_additional_short_flags"
+}
