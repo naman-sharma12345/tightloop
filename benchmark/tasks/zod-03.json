@@ -1,0 +1,18 @@
+{
+  "name": "zod-03",
+  "kind": "bugfix",
+  "source": "https://github.com/colinhacks/zod",
+  "license": "MIT",
+  "license_commit": "dfd8766bf44943eb0dc136bb87b53f6bde008995",
+  "license_note": "LICENSE re-read at the fix commit before vendoring",
+  "commit": "dfd8766bf44943eb0dc136bb87b53f6bde008995",
+  "start_commit": "fbe8ad1b709460fc45d88fdcb5eca591198de60d",
+  "instruction": "fix(v4): break circular import between classic schemas and iso (#5275) (#5926)",
+  "hidden_patch": "patches/zod-03.patch",
+  "hidden_tests": [
+    "v4/classic has no circular imports (regression: #5275)"
+  ],
+  "check_command": "npx vitest run -t 'v4/classic has no circular imports (regression: #5275)'",
+  "holdout": true,
+  "status": "UNPROVEN"
+}
