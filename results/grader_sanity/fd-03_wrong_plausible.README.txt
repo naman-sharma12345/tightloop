@@ -1,0 +1,1 @@
+fd-03 half fix: the upstream non-test change (ee5332d) with ONE line reverted: OutputBuffer::write keeps its early return when no output was buffered (`if self.outputs.is_empty() {` instead of `... && !self.null_separator {`), so the \0 separator is written only when output was buffered. Expected: FAIL.

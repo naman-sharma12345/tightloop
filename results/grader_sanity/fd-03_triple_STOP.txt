@@ -1,0 +1,13 @@
+fd-03 grader triple (no agent; harness 2c7a6fd; check_command `cargo test --test tests test_exec_nulls`), 14:21-14:23Z:
+- real fix (ee5332d minus tests/): PASS, "test result: ok. 1 passed; 0 failed", 42.9 s
+- empty change: FAIL, "test result: FAILED. 0 passed; 1 failed", 44.0 s
+- half fix (fd-03_wrong_plausible.patch): PASS (expected FAIL), "test result: ok. 1 passed; 0 failed", 37.3 s
+STOP per rule (half-fix PASS on fd-03). Nothing changed; no fd-03 arm session run.
+
+Why the half fix passes: it is the real fix with one line reverted, so OutputBuffer::write
+returns early when nothing was buffered and then skips the \0. fd buffers --exec output only
+when config.threads > 1 (src/exec/job.rs: `let buffer_output: bool = config.threads > 1;`).
+On this 4-CPU machine the test runs with several threads, output is buffered, the buffer is
+never empty, and the \0 is written; the half fix is only wrong with one thread (--threads 1 or
+a 1-CPU machine), a path test_exec_nulls never runs. So the hidden test does not tell this
+half fix from the real fix here, and its result for that patch depends on the CPU count.

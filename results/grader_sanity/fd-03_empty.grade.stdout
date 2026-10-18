@@ -1,0 +1,27 @@
+
+running 1 test
+test test_exec_nulls ... FAILED
+
+failures:
+
+---- test_exec_nulls stdout ----
+
+thread 'test_exec_nulls' (2428528) panicked at tests/testenv/mod.rs:284:13:
+`fd foo --print0 --exec printf p=%s` did not produce the expected output.
+Showing diff between expected and actual:
+-p=./a.fooNULL
+-p=./one/b.fooNULL
+-p=./one/two/C.Foo2NULL
+-p=./one/two/c.fooNULL
+-p=./one/two/three/d.fooNULL
+-p=./one/two/three/directory_fooNULL
++p=./one/two/C.Foo2p=./a.foop=./one/two/c.foop=./one/b.foop=./one/two/three/d.foop=./one/two/three/directory_foo
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    test_exec_nulls
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.02s
+

@@ -1,0 +1,204 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index d38415a..18e3f04 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -5,6 +5,9 @@
+ 
+ ## Bugfixes
+ 
++- `--print0` combined with `--exec` will now print a `\0` between the output of each entry. Note that if there are multiple instances
++  of `--exec`, the `\0` will be between each _set_ of commands, _not_ between each individual command run. Fixes #1797.
++
+ 
+ ## Changes
+ 
+diff --git a/doc/fd.1 b/doc/fd.1
+index 4a6aa0e..7387481 100644
+--- a/doc/fd.1
++++ b/doc/fd.1
+@@ -449,6 +449,9 @@ option.
+ 
+ If no placeholder is present, an implicit "{}" at the end is assumed.
+ 
++If --print0 is also given, then a null character (\\0) will be printed between the output for each found entry.
++This allows another program to easily distinguish the output for each file if the command(s) produce multiple lines.
++
+ Examples:
+ 
+   - find all *.zip files and unzip them:
+@@ -462,6 +465,10 @@ Examples:
+   - Convert all *.jpg files to *.png files:
+ 
+         fd -e jpg -x convert {} {.}.png
++
++  - Run stat for each *.txt file, separated by null characters
++
++        fd -0 -e txt -x stat
+ .RE
+ .TP
+ .BI "\-X, \-\-exec-batch " command
+diff --git a/src/exec/command.rs b/src/exec/command.rs
+index 0692166..89522b0 100644
+--- a/src/exec/command.rs
++++ b/src/exec/command.rs
+@@ -1,6 +1,5 @@
+ use std::io;
+ use std::io::Write;
+-use std::sync::Mutex;
+ 
+ use argmax::Command;
+ 
+@@ -11,15 +10,15 @@ struct Outputs {
+     stdout: Vec<u8>,
+     stderr: Vec<u8>,
+ }
+-struct OutputBuffer<'a> {
+-    output_permission: &'a Mutex<()>,
++pub struct OutputBuffer {
++    null_separator: bool,
+     outputs: Vec<Outputs>,
+ }
+ 
+-impl<'a> OutputBuffer<'a> {
+-    fn new(output_permission: &'a Mutex<()>) -> Self {
++impl OutputBuffer {
++    pub fn new(null_separator: bool) -> Self {
+         Self {
+-            output_permission,
++            null_separator,
+             outputs: Vec::new(),
+         }
+     }
+@@ -29,17 +28,19 @@ impl<'a> OutputBuffer<'a> {
+     }
+ 
+     fn write(self) {
+-        // avoid taking the lock if there is nothing to do
+-        if self.outputs.is_empty() {
++        // Avoid taking the lock if there is nothing to do.
++        // If null_separator is true, then we still need to write the
++        // null separator, because the output may have been written directly
++        // to stdout
++        if self.outputs.is_empty() {
+             return;
+         }
+-        // While this lock is active, this thread will be the only thread allowed
+-        // to write its outputs.
+-        let _lock = self.output_permission.lock().unwrap();
+ 
+         let stdout = io::stdout();
+         let stderr = io::stderr();
+ 
++        // While we hold these locks, only this thread will be able
++        // to write its outputs.
+         let mut stdout = stdout.lock();
+         let mut stderr = stderr.lock();
+ 
+@@ -47,16 +48,20 @@ impl<'a> OutputBuffer<'a> {
+             let _ = stdout.write_all(&output.stdout);
+             let _ = stderr.write_all(&output.stderr);
+         }
++        if self.null_separator {
++            // If null_separator is enabled, then we should write a \0 at the end
++            // of the output for this entry
++            let _ = stdout.write_all(b"\0");
++        }
+     }
+ }
+ 
+ /// Executes a command.
+ pub fn execute_commands<I: Iterator<Item = io::Result<Command>>>(
+     cmds: I,
+-    out_perm: &Mutex<()>,
++    mut output_buffer: OutputBuffer,
+     enable_output_buffering: bool,
+ ) -> ExitCode {
+-    let mut output_buffer = OutputBuffer::new(out_perm);
+     for result in cmds {
+         let mut cmd = match result {
+             Ok(cmd) => cmd,
+diff --git a/src/exec/job.rs b/src/exec/job.rs
+index 4864d6d..d4702c4 100644
+--- a/src/exec/job.rs
++++ b/src/exec/job.rs
+@@ -1,5 +1,3 @@
+-use std::sync::Mutex;
+-
+ use crate::config::Config;
+ use crate::error::print_error;
+ use crate::exit_codes::{merge_exitcodes, ExitCode};
+@@ -13,7 +11,6 @@ use super::CommandSet;
+ pub fn job(
+     results: impl IntoIterator<Item = WorkerResult>,
+     cmd: &CommandSet,
+-    out_perm: &Mutex<()>,
+     config: &Config,
+ ) -> ExitCode {
+     // Output should be buffered when only running a single thread
+@@ -37,7 +34,7 @@ pub fn job(
+         let code = cmd.execute(
+             dir_entry.stripped_path(config),
+             config.path_separator.as_deref(),
+-            out_perm,
++            config.null_separator,
+             buffer_output,
+         );
+         ret = merge_exitcodes([ret, code]);
+diff --git a/src/exec/mod.rs b/src/exec/mod.rs
+index c964e6e..c500077 100644
+--- a/src/exec/mod.rs
++++ b/src/exec/mod.rs
+@@ -6,11 +6,11 @@ use std::io;
+ use std::iter;
+ use std::path::{Path, PathBuf};
+ use std::process::Stdio;
+-use std::sync::Mutex;
+ 
+ use anyhow::{bail, Result};
+ use argmax::Command;
+ 
++use crate::exec::command::OutputBuffer;
+ use crate::exit_codes::{merge_exitcodes, ExitCode};
+ use crate::fmt::{FormatTemplate, Token};
+ 
+@@ -80,14 +80,14 @@ impl CommandSet {
+         &self,
+         input: &Path,
+         path_separator: Option<&str>,
+-        out_perm: &Mutex<()>,
++        null_separator: bool,
+         buffer_output: bool,
+     ) -> ExitCode {
+         let commands = self
+             .commands
+             .iter()
+             .map(|c| c.generate(input, path_separator));
+-        execute_commands(commands, out_perm, buffer_output)
++        execute_commands(commands, OutputBuffer::new(null_separator), buffer_output)
+     }
+ 
+     pub fn execute_batch<I>(&self, paths: I, limit: usize, path_separator: Option<&str>) -> ExitCode
+diff --git a/src/walk.rs b/src/walk.rs
+index 0991e1c..a9a34c4 100644
+--- a/src/walk.rs
++++ b/src/walk.rs
+@@ -413,8 +413,6 @@ impl WorkerState {
+             if cmd.in_batch_mode() {
+                 exec::batch(rx.into_iter().flatten(), cmd, config)
+             } else {
+-                let out_perm = Mutex::new(());
+-
+                 thread::scope(|scope| {
+                     // Each spawned job will store its thread handle in here.
+                     let threads = config.threads;
+@@ -423,8 +421,8 @@ impl WorkerState {
+                         let rx = rx.clone();
+ 
+                         // Spawn a job thread that will listen for and execute inputs.
+-                        let handle = scope
+-                            .spawn(|| exec::job(rx.into_iter().flatten(), cmd, &out_perm, config));
++                        let handle =
++                            scope.spawn(|| exec::job(rx.into_iter().flatten(), cmd, config));
+ 
+                         // Push the handle of the spawned thread into the vector for later joining.
+                         handles.push(handle);
