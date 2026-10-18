@@ -1,0 +1,51 @@
+diff --git a/response_writer.go b/response_writer.go
+index ab2f5fe..eb18b01 100644
+--- a/response_writer.go
++++ b/response_writer.go
+@@ -108,8 +108,11 @@ func (w *responseWriter) Written() bool {
+ }
+ 
+ // Hijack implements the http.Hijacker interface.
++// Hijacking is allowed before anything is written or after only the headers
++// are written (e.g. websocket libraries send 101 first), but not once body
++// bytes have been written.
+ func (w *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+-	if w.Written() {
++	if w.size > 0 {
+ 		return nil, nil, errHijackAlreadyWritten
+ 	}
+ 	if w.size < 0 {
+diff --git a/response_writer_test.go b/response_writer_test.go
+index ef19841..7bbe814 100644
+--- a/response_writer_test.go
++++ b/response_writer_test.go
+@@ -154,6 +154,18 @@ func TestResponseWriterHijackAfterWrite(t *testing.T) {
+ 			expectWrittenAfterHijack:  true, // Hijack itself marks the writer as written
+ 			expectError:               nil,
+ 		},
++		{
++			name: "hijack after header write should succeed",
++			action: func(w ResponseWriter) error {
++				w.WriteHeader(http.StatusSwitchingProtocols)
++				w.WriteHeaderNow()
++				return nil
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       true,
++			expectWrittenAfterHijack:  true,
++			expectError:               nil,
++		},
+ 		{
+ 			name: "hijack after write should fail",
+ 			action: func(w ResponseWriter) error {
+diff --git a/.tightloop/contract.md b/.tightloop/contract.md
+new file mode 100644
+index 0000000..581e3e8
+--- /dev/null
++++ b/.tightloop/contract.md
+@@ -0,0 +1,5 @@
++Goal: Hijack() succeeds after headers are flushed (size==0) but fails once body bytes are written (size>0); websocket libs (e.g. coder/websocket) flush 101 headers before hijacking.
++Acceptance: go test -run TestResponseWriterHijack ./ passes incl. new "after WriteHeaderNow" case, which fails on current code.
++Must not change: hijack-before-write succeeds, hijack-after-Write returns errHijackAlreadyWritten; go test ./... green.
++Non-goals: CloseNotify/Flush, other writers.
++Budget: <30 lines, 2 files.

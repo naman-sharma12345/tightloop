@@ -1,0 +1,51 @@
+diff --git a/response_writer.go b/response_writer.go
+index ab2f5fe..2c542aa 100644
+--- a/response_writer.go
++++ b/response_writer.go
+@@ -108,8 +108,12 @@ func (w *responseWriter) Written() bool {
+ }
+ 
+ // Hijack implements the http.Hijacker interface.
++// Hijacking is allowed before anything is written (size == -1) or after only the
++// headers have been written (size == 0), but not once body data has been written
++// (size > 0). This keeps compatibility with websocket libraries
++// (e.g. github.com/coder/websocket) that write headers before hijacking.
+ func (w *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+-	if w.Written() {
++	if w.size > 0 {
+ 		return nil, nil, errHijackAlreadyWritten
+ 	}
+ 	if w.size < 0 {
+diff --git a/response_writer_test.go b/response_writer_test.go
+index ef19841..25a9e3e 100644
+--- a/response_writer_test.go
++++ b/response_writer_test.go
+@@ -154,6 +154,28 @@ func TestResponseWriterHijackAfterWrite(t *testing.T) {
+ 			expectWrittenAfterHijack:  true, // Hijack itself marks the writer as written
+ 			expectError:               nil,
+ 		},
++		{
++			name: "hijack after header write should succeed",
++			action: func(w ResponseWriter) error {
++				w.WriteHeaderNow()
++				return nil
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       true,
++			expectWrittenAfterHijack:  true,
++			expectError:               nil,
++		},
++		{
++			name: "hijack after flush should succeed",
++			action: func(w ResponseWriter) error {
++				w.Flush()
++				return nil
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       true,
++			expectWrittenAfterHijack:  true,
++			expectError:               nil,
++		},
+ 		{
+ 			name: "hijack after write should fail",
+ 			action: func(w ResponseWriter) error {

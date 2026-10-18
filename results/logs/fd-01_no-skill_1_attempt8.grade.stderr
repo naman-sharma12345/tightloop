@@ -1,0 +1,4 @@
+   Compiling fd-find v10.4.2 (/tmp/tlw-lfbm5sbt)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.65s
+     Running tests/tests.rs (target/debug/deps/tests-fdaf39c235332aa2)
+error: test failed, to rerun pass `--test tests`

@@ -1,0 +1,43 @@
+diff --git a/tests/tests.rs b/tests/tests.rs
+index 2a87f75..7873439 100644
+--- a/tests/tests.rs
++++ b/tests/tests.rs
+@@ -396,6 +396,38 @@ fn test_pattern_with_forward_slash_is_rejected() {
+     );
+ }
+ 
++/// Patterns given via --and are matched against the file name just like the
++/// primary pattern, so they must receive the same path-separator diagnostic.
++#[test]
++fn test_and_pattern_with_forward_slash_is_rejected() {
++    let te = TestEnv::new(DEFAULT_DIRS, DEFAULT_FILES);
++
++    te.assert_failure_with_error(
++        &["foo", "--and", "one/two"],
++        "[fd error]: The search pattern 'one/two' contains a path-separation character and will not lead to any search results.",
++    );
++
++    te.assert_failure_with_error(
++        &["foo", "--and", "c", "--and", "nonexistent/path"],
++        "[fd error]: The search pattern 'nonexistent/path' contains a path-separation character and will not lead to any search results.",
++    );
++}
++
++/// With --full-path, '/' in an --and pattern is expected and must not error.
++#[test]
++#[cfg(not(windows))]
++fn test_and_pattern_with_forward_slash_allowed_with_full_path() {
++    let te = TestEnv::new(DEFAULT_DIRS, DEFAULT_FILES);
++
++    te.assert_output(
++        &["--full-path", "foo", "--and", "one/two"],
++        "one/two/c.foo
++        one/two/C.Foo2
++        one/two/three/d.foo
++        one/two/three/directory_foo/",
++    );
++}
++
+ /// --full-path is the user's explicit opt-in to regex-over-full-path matching,
+ /// so a path-separation character in the pattern is expected and must not
+ /// trigger the diagnostic.

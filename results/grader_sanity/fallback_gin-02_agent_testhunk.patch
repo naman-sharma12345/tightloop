@@ -1,0 +1,52 @@
+diff --git a/response_writer_test.go b/response_writer_test.go
+index ef19841..168995e 100644
+--- a/response_writer_test.go
++++ b/response_writer_test.go
+@@ -154,6 +154,29 @@ func TestResponseWriterHijackAfterWrite(t *testing.T) {
+ 			expectWrittenAfterHijack:  true, // Hijack itself marks the writer as written
+ 			expectError:               nil,
+ 		},
++		{
++			name: "hijack after header write should succeed",
++			action: func(w ResponseWriter) error {
++				w.WriteHeader(http.StatusSwitchingProtocols)
++				w.WriteHeaderNow()
++				return nil
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       true,
++			expectWrittenAfterHijack:  true,
++			expectError:               nil,
++		},
++		{
++			name: "hijack after flush should succeed",
++			action: func(w ResponseWriter) error {
++				w.Flush()
++				return nil
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       true,
++			expectWrittenAfterHijack:  true,
++			expectError:               nil,
++		},
+ 		{
+ 			name: "hijack after write should fail",
+ 			action: func(w ResponseWriter) error {
+@@ -165,6 +188,17 @@ func TestResponseWriterHijackAfterWrite(t *testing.T) {
+ 			expectWrittenAfterHijack:  true,
+ 			expectError:               errHijackAlreadyWritten,
+ 		},
++		{
++			name: "hijack after write string should fail",
++			action: func(w ResponseWriter) error {
++				_, err := w.WriteString("test")
++				return err
++			},
++			expectWrittenBeforeHijack: true,
++			expectHijackSuccess:       false,
++			expectWrittenAfterHijack:  true,
++			expectError:               errHijackAlreadyWritten,
++		},
+ 	}
+ 
+ 	for _, tc := range tests {

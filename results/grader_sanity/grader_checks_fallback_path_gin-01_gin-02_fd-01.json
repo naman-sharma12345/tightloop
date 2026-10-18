@@ -1,0 +1,294 @@
+[
+  {
+    "task": "gin-01",
+    "input": "empty",
+    "agent_test_hunk": "diffs/gin-01_no-skill_1_attempt4.diff::recovery_test.go",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [
+      "TestPanicWithAbortHandler_agent"
+    ],
+    "hidden_patch_fallback": "yes",
+    "reset_files": [
+      {
+        "file": "recovery_test.go",
+        "agent_lines_added": 24,
+        "agent_lines_deleted": 0
+      }
+    ],
+    "changed_before_grade": [
+      "recovery_test.go"
+    ],
+    "changed_at_grade": [
+      "recovery_test.go"
+    ],
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "--- FAIL: TestPanicWithAbortHandler (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.010s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.008s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.006s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.003s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.006s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.007s [no tests to run]"
+    ],
+    "seconds": 18.3,
+    "at": "2026-10-18T19:36:52Z"
+  },
+  {
+    "task": "gin-01",
+    "input": "upstream_fix_nontest",
+    "agent_test_hunk": "diffs/gin-01_no-skill_1_attempt4.diff::recovery_test.go",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "renamed": [
+      "TestPanicWithAbortHandler_agent"
+    ],
+    "hidden_patch_fallback": "yes",
+    "reset_files": [
+      {
+        "file": "recovery_test.go",
+        "agent_lines_added": 24,
+        "agent_lines_deleted": 0
+      }
+    ],
+    "changed_before_grade": [
+      "recovery.go",
+      "recovery_test.go"
+    ],
+    "changed_at_grade": [
+      "recovery.go",
+      "recovery_test.go"
+    ],
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "ok  \tgithub.com/gin-gonic/gin\t0.011s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.006s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.004s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.006s [no tests to run]"
+    ],
+    "seconds": 3.7,
+    "at": "2026-10-18T19:36:56Z"
+  },
+  {
+    "task": "gin-01",
+    "input": "wrong_plausible",
+    "agent_test_hunk": "diffs/gin-01_no-skill_1_attempt4.diff::recovery_test.go",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [
+      "TestPanicWithAbortHandler_agent"
+    ],
+    "hidden_patch_fallback": "yes",
+    "reset_files": [
+      {
+        "file": "recovery_test.go",
+        "agent_lines_added": 24,
+        "agent_lines_deleted": 0
+      }
+    ],
+    "changed_before_grade": [
+      "recovery.go",
+      "recovery_test.go"
+    ],
+    "changed_at_grade": [
+      "recovery.go",
+      "recovery_test.go"
+    ],
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "--- FAIL: TestPanicWithAbortHandler (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.008s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.010s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.003s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.005s [no tests to run]"
+    ],
+    "seconds": 3.3,
+    "at": "2026-10-18T19:37:00Z"
+  },
+  {
+    "task": "gin-02",
+    "input": "empty",
+    "agent_test_hunk": "diffs/gin-02_no-skill_1_attempt4.diff::response_writer_test.go",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "response_writer_test.go"
+    ],
+    "changed_at_grade": [
+      "response_writer_test.go"
+    ],
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)",
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_only_should_succeed_(websocket_pattern) (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.008s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.002s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.008s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.008s [no tests to run]"
+    ],
+    "seconds": 3.0,
+    "at": "2026-10-18T19:37:03Z"
+  },
+  {
+    "task": "gin-02",
+    "input": "upstream_fix_nontest",
+    "agent_test_hunk": "diffs/gin-02_no-skill_1_attempt4.diff::response_writer_test.go",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "response_writer.go",
+      "response_writer_test.go"
+    ],
+    "changed_at_grade": [
+      "response_writer.go",
+      "response_writer_test.go"
+    ],
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "ok  \tgithub.com/gin-gonic/gin\t0.007s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.008s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.004s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.010s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.009s [no tests to run]"
+    ],
+    "seconds": 3.4,
+    "at": "2026-10-18T19:37:07Z"
+  },
+  {
+    "task": "gin-02",
+    "input": "wrong_plausible",
+    "agent_test_hunk": "diffs/gin-02_no-skill_1_attempt4.diff::response_writer_test.go",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "response_writer.go",
+      "response_writer_test.go"
+    ],
+    "changed_at_grade": [
+      "response_writer.go",
+      "response_writer_test.go"
+    ],
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)",
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_+_Write_should_fail (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.008s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.002s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.004s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.006s [no tests to run]"
+    ],
+    "seconds": 3.0,
+    "at": "2026-10-18T19:37:10Z"
+  },
+  {
+    "task": "fd-01",
+    "input": "empty",
+    "agent_test_hunk": "diffs/fd-01_no-skill_1_attempt6.diff::tests/tests.rs",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [
+      "test_and_pattern_with_forward_slash_is_rejected_agent"
+    ],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "tests/tests.rs"
+    ],
+    "changed_at_grade": [
+      "tests/tests.rs"
+    ],
+    "check_command": "cargo test --test tests test_and_pattern_with_forward_slash_is_rejected",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.01s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "seconds": 60.0,
+    "at": "2026-10-18T19:38:10Z"
+  },
+  {
+    "task": "fd-01",
+    "input": "upstream_fix_nontest",
+    "agent_test_hunk": "diffs/fd-01_no-skill_1_attempt6.diff::tests/tests.rs",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "renamed": [
+      "test_and_pattern_with_forward_slash_is_rejected_agent"
+    ],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "CHANGELOG.md",
+      "src/main.rs",
+      "tests/tests.rs"
+    ],
+    "changed_at_grade": [
+      "CHANGELOG.md",
+      "src/main.rs",
+      "tests/tests.rs"
+    ],
+    "check_command": "cargo test --test tests test_and_pattern_with_forward_slash_is_rejected",
+    "result_lines": [
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.02s"
+    ],
+    "seconds": 57.4,
+    "at": "2026-10-18T19:39:08Z"
+  },
+  {
+    "task": "fd-01",
+    "input": "wrong_plausible",
+    "agent_test_hunk": "diffs/fd-01_no-skill_1_attempt6.diff::tests/tests.rs",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "renamed": [
+      "test_and_pattern_with_forward_slash_is_rejected_agent"
+    ],
+    "hidden_patch_fallback": "no",
+    "reset_files": [],
+    "changed_before_grade": [
+      "CHANGELOG.md",
+      "src/main.rs",
+      "tests/tests.rs"
+    ],
+    "changed_at_grade": [
+      "CHANGELOG.md",
+      "src/main.rs",
+      "tests/tests.rs"
+    ],
+    "check_command": "cargo test --test tests test_and_pattern_with_forward_slash_is_rejected",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.02s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "seconds": 55.5,
+    "at": "2026-10-18T19:40:04Z"
+  }
+]

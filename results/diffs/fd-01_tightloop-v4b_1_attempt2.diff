@@ -1,0 +1,87 @@
+diff --git a/src/main.rs b/src/main.rs
+index 42868ba..1c9abd9 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -85,16 +85,16 @@ fn run() -> Result<ExitCode> {
+         bail!("No valid search paths given.");
+     }
+ 
+-    ensure_search_pattern_is_not_a_path(&opts)?;
+     let pattern = &opts.pattern;
+     let exprs = &opts.exprs;
+     let empty = Vec::new();
+ 
+-    let pattern_regexps = exprs
+-        .as_ref()
+-        .unwrap_or(&empty)
+-        .iter()
+-        .chain([pattern])
++    let patterns = || exprs.as_ref().unwrap_or(&empty).iter().chain([pattern]);
++    for pat in patterns() {
++        ensure_search_pattern_is_not_a_path(pat, &opts)?;
++    }
++
++    let pattern_regexps = patterns()
+         .map(|pat| build_pattern_regex(pat, &opts))
+         .collect::<Result<Vec<String>>>()?;
+ 
+@@ -163,7 +163,7 @@ fn set_working_dir(opts: &Opts) -> Result<()> {
+ ///    literally typed a directory path.
+ ///
+ /// See https://github.com/sharkdp/fd/issues/1873.
+-fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
++fn ensure_search_pattern_is_not_a_path(pattern: &str, opts: &Opts) -> Result<()> {
+     if opts.full_path {
+         return Ok(());
+     }
+@@ -172,7 +172,7 @@ fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
+     // Windows, and has no regex meaning, so flagging it is safe and catches the
+     // Linux/macOS mistake of pasting a full path as the pattern.
+     #[cfg_attr(not(windows), allow(unused_mut))]
+-    let mut should_warn = opts.pattern.contains('/');
++    let mut should_warn = pattern.contains('/');
+ 
+     // On Windows we additionally accept the native `\` separator, but only when
+     // the pattern actually resolves to an existing directory - `\` is also the
+@@ -182,8 +182,7 @@ fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
+     #[cfg(windows)]
+     {
+         should_warn = should_warn
+-            || (opts.pattern.contains(std::path::MAIN_SEPARATOR)
+-                && Path::new(&opts.pattern).is_dir());
++            || (pattern.contains(std::path::MAIN_SEPARATOR) && Path::new(pattern).is_dir());
+     }
+ 
+     if should_warn {
+@@ -194,7 +193,6 @@ fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
+              fd . '{pattern}'\n\n\
+              Instead, if you want your pattern to match the full file path, use:\n\n  \
+              fd --full-path '{pattern}'",
+-            pattern = &opts.pattern,
+         ))
+     } else {
+         Ok(())
+diff --git a/tests/tests.rs b/tests/tests.rs
+index 2a87f75..084aed7 100644
+--- a/tests/tests.rs
++++ b/tests/tests.rs
+@@ -143,6 +143,19 @@ fn test_and_bad_pattern() {
+     te.assert_failure(&["[", "--and", "2", "--and", "C", "--and", "Foo"]);
+ }
+ 
++#[test]
++fn test_and_pattern_with_path_separator() {
++    let te = TestEnv::new(DEFAULT_DIRS, AND_EXTRA_FILES);
++    te.assert_failure_with_error(
++        &["Foo", "--and", "one/two"],
++        "[fd error]: The search pattern 'one/two' contains a path-separation character and will not lead to any search results.",
++    );
++    te.assert_output(
++        &["Foo", "--and", "one/two", "--full-path"],
++        "one/two/C.Foo2",
++    );
++}
++
+ #[test]
+ fn test_and_pattern_starts_with_dash() {
+     let te = TestEnv::new(DEFAULT_DIRS, AND_EXTRA_FILES);

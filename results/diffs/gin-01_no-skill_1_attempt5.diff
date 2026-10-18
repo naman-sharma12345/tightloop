@@ -1,0 +1,50 @@
+diff --git a/recovery.go b/recovery.go
+index fdd463f..1e06838 100644
+--- a/recovery.go
++++ b/recovery.go
+@@ -68,6 +68,11 @@ func CustomRecoveryWithWriter(out io.Writer, handle RecoveryFunc) HandlerFunc {
+ 						}
+ 					}
+ 				}
++				// http.ErrAbortHandler is a sentinel panic used to abort a handler;
++				// net/http suppresses its stack trace, so do the same here.
++				if e, ok := err.(error); ok && errors.Is(e, http.ErrAbortHandler) {
++					brokenPipe = true
++				}
+ 				if logger != nil {
+ 					const stackSkip = 3
+ 					if brokenPipe {
+diff --git a/recovery_test.go b/recovery_test.go
+index 8a9e347..b6e63ca 100644
+--- a/recovery_test.go
++++ b/recovery_test.go
+@@ -142,6 +142,29 @@ func TestPanicWithBrokenPipe(t *testing.T) {
+ 	}
+ }
+ 
++func TestPanicWithAbortHandler(t *testing.T) {
++	const expectCode = 204
++
++	var buf strings.Builder
++	router := New()
++	router.Use(RecoveryWithWriter(&buf))
++	router.GET("/recovery", func(c *Context) {
++		// Start writing response
++		c.Header("X-Test", "Value")
++		c.Status(expectCode)
++
++		// Abort the handler without logging a stack trace
++		panic(http.ErrAbortHandler)
++	})
++	// RUN
++	w := PerformRequest(router, http.MethodGet, "/recovery")
++	// TEST
++	assert.Equal(t, expectCode, w.Code)
++	out := buf.String()
++	assert.Contains(t, out, http.ErrAbortHandler.Error())
++	assert.NotContains(t, out, "panic recovered")
++}
++
+ func TestCustomRecoveryWithWriter(t *testing.T) {
+ 	errBuffer := new(strings.Builder)
+ 	buffer := new(strings.Builder)

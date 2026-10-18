@@ -1,0 +1,3 @@
+   Compiling fd-find v10.4.2 (/tmp/tlw-zigdkcq4)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.79s
+     Running tests/tests.rs (target/debug/deps/tests-fdaf39c235332aa2)

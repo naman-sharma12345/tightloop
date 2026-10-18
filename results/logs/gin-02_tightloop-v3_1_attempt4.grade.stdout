@@ -1,0 +1,7 @@
+ok  	github.com/gin-gonic/gin	0.009s
+ok  	github.com/gin-gonic/gin/binding	0.022s [no tests to run]
+?   	github.com/gin-gonic/gin/codec/json	[no test files]
+?   	github.com/gin-gonic/gin/ginS	[no test files]
+ok  	github.com/gin-gonic/gin/internal/bytesconv	0.016s [no tests to run]
+ok  	github.com/gin-gonic/gin/internal/fs	0.021s [no tests to run]
+ok  	github.com/gin-gonic/gin/render	0.009s [no tests to run]

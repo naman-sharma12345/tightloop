@@ -1,0 +1,26 @@
+
+running 2 tests
+test test_and_pattern_with_forward_slash_is_rejected ... FAILED
+test test_and_pattern_with_forward_slash_is_rejected_agent ... ok
+
+failures:
+
+---- test_and_pattern_with_forward_slash_is_rejected stdout ----
+
+thread 'test_and_pattern_with_forward_slash_is_rejected' (3123555) panicked at tests/testenv/mod.rs:335:17:
+`fd foo --and nonexistent/path` did not produce the expected output.
+Showing diff between expected and actual:
+-[fd error]: The search pattern 'nonexistent/path' contains a path-separation character and will not lead to any search results.
++[fd error]: The '--and' pattern 'nonexistent/path' contains a path-separation character and will not lead to any search results.
++
++If you want your patterns to match the full file path, use '--full-path'.
+ 
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    test_and_pattern_with_forward_slash_is_rejected
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 111 filtered out; finished in 0.01s
+

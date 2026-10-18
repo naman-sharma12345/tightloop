@@ -1,0 +1,17 @@
+--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)
+    --- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_only_should_succeed_(websocket_pattern) (0.00s)
+        response_writer_test.go:279: 
+            	Error Trace:	/tmp/tlw-f42zgpjf/response_writer_test.go:279
+            	Error:      	Received unexpected error:
+            	            	gin: response already written
+            	Test:       	TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_only_should_succeed_(websocket_pattern)
+            	Messages:   	expected hijack to succeed
+FAIL
+FAIL	github.com/gin-gonic/gin	0.008s
+ok  	github.com/gin-gonic/gin/binding	0.007s [no tests to run]
+?   	github.com/gin-gonic/gin/codec/json	[no test files]
+?   	github.com/gin-gonic/gin/ginS	[no test files]
+ok  	github.com/gin-gonic/gin/internal/bytesconv	0.002s [no tests to run]
+ok  	github.com/gin-gonic/gin/internal/fs	0.008s [no tests to run]
+ok  	github.com/gin-gonic/gin/render	0.008s [no tests to run]
+FAIL
