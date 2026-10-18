@@ -72,7 +72,7 @@ def table(rows, label):
             print(f"{arm} token ratio vs no-skill: no complete pairs")
 
 
-ARMS = ("no-skill", "ponytail", "tightloop", "tightloop-v3", "tightloop-v4")
+ARMS = ("no-skill", "ponytail", "tightloop", "tightloop-v3", "tightloop-v4", "tightloop-v4a")
 
 
 def load_rows_jsonl(path: Path):

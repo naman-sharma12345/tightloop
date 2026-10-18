@@ -20,6 +20,8 @@ ARMS = {
     # each tightloop arm: (its skill folder in this repo, folder name installed in the checkout)
     "tightloop-v3": os.path.join(ROOT, "arms", "tightloop-v3"),
     "tightloop-v4": os.path.join(ROOT, "..", ".claude", "skills", "tightloop"),
+    # v4a = v4 minus its step-4 skeptic rule (one-rule iteration); gate.sh and phases/ identical to v4
+    "tightloop-v4a": os.path.join(ROOT, "arms", "tightloop-v4a"),
 }
 # the v3 arm refuses to run unless its skill text is byte-identical to v3
 TIGHTLOOP_V3_SHA256 = "f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a"
@@ -550,7 +552,7 @@ def main():
     ap.add_argument("--wait-lock-max", type=int, default=1800,
                     help="max seconds to wait for --wait-lock before starting anyway")
     ap.add_argument("--arms", nargs="+", default=list(ARMS), choices=list(ARMS),
-                    help="arms to run, in the fixed order no-skill, ponytail, tightloop-v3, tightloop-v4")
+                    help="arms to run, in the fixed order no-skill, ponytail, tightloop-v3, tightloop-v4, tightloop-v4a")
     ap.add_argument("--pass-label", type=int, default=None,
                     help="benchmark pass number written to every row as 'pass'")
     ap.add_argument("--lock-wait-scope", choices=["session", "task"], default="session",
@@ -577,7 +579,7 @@ def main():
     skills = {"no-skill": (None, "no skill"),
               "ponytail": (ponytail_text, ponytail_note)}
     versions = {"no-skill": "n/a", "ponytail": "ponytail " + PONYTAIL_PIN[:12]}
-    for arm in ("tightloop-v3", "tightloop-v4"):
+    for arm in ("tightloop-v3", "tightloop-v4", "tightloop-v4a"):
         with open(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"), "rb") as f:
             raw_skill = f.read()
         h = sha256_bytes(raw_skill)
@@ -607,7 +609,8 @@ def main():
                               ".claude/skills/ponytail/SKILL.md; tightloop-v3 -> its folder "
                               "benchmark/arms/tightloop-v3/ at .claude/skills/tightloop/; "
                               "tightloop-v4 -> .claude/skills/tightloop/ (SKILL.md, gate.sh, "
-                              "phases/) at the same path; no-skill -> nothing (no system-prompt "
+                              "phases/) at the same path; tightloop-v4a -> its folder benchmark/arms/tightloop-v4a/ "
+                              "at .claude/skills/tightloop/; no-skill -> nothing (no system-prompt "
                               "text, no files)"),
            "skill_folders": {arm: [{"path": r, "bytes": len(d), "sha256": sha256_bytes(d)}
                                    for r, (d, _) in sorted(f.items())]
