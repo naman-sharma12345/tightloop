@@ -1,6 +1,9 @@
---- excluded, superseded (2 rows; redone, kept for the record) ---
+--- excluded, superseded (5 rows; redone, kept for the record) ---
 fd-01 no-skill run1: result=pass status=superseded (fd-01 redone with all 3 arms back to back under the overlap tag, root/Naman 7:07 PM IST); kept, not counted
 fd-01 ponytail run1: result=pass status=superseded (fd-01 redone with all 3 arms back to back under the overlap tag, root/Naman 7:07 PM IST); kept, not counted
+fd-01 no-skill run1: result=pass status=superseded (pass-2 fd-01 redone with all 4 arms back to back after rustfmt was installed; Pally/Naman option b, 8:26 PM IST)
+fd-01 ponytail run1: result=pass status=superseded (pass-2 fd-01 redone with all 4 arms back to back after rustfmt was installed; Pally/Naman option b, 8:26 PM IST)
+fd-01 tightloop-v3 run1: result=pass status=superseded (pass-2 fd-01 redone with all 4 arms back to back after rustfmt was installed; Pally/Naman option b, 8:26 PM IST)
 --- excluded, invalid-harness (6 rows; not in pass rate or ratios) ---
 fd-01 no-skill run1: result=fail status=invalid-harness (name collision)
 fd-01 ponytail run1: result=fail status=invalid-harness (name collision)
@@ -8,17 +11,17 @@ fd-01 tightloop run1: result=fail status=invalid-harness (name collision)
 gin-01 no-skill run1: result=invalid status=invalid-harness (hidden patch context conflict at recovery_test.go:142; fixed in d302485, gin-01 redone)
 gin-01 ponytail run1: result=invalid status=invalid-harness (hidden patch context conflict at recovery_test.go:142; fixed in d302485, gin-01 redone)
 gin-01 tightloop run1: result=invalid status=invalid-harness (hidden patch context conflict at recovery_test.go:142; fixed in d302485, gin-01 redone)
-rows counted: 9 (from rows.jsonl, 6 invalid-harness and 2 superseded excluded); not pass/fail: 0
---- tuning set (3 tasks) ---
-fd-01 no-skill run1: result=pass in=18 out=3260 cache=245597 total=unmeasured wall=104.03s turns=9 tool_calls=unmeasured
-fd-01 ponytail run1: result=pass in=14 out=2117 cache=192365 total=unmeasured wall=81.7s turns=7 tool_calls=unmeasured
-fd-01 tightloop run1: result=pass in=22 out=3585 cache=359530 total=unmeasured wall=111.24s turns=12 tool_calls=unmeasured
-gin-01 no-skill run1: result=pass in=8 out=1869 cache=129112 total=unmeasured wall=21.92s turns=4 tool_calls=unmeasured
-gin-01 ponytail run1: result=pass in=10 out=1828 cache=168088 total=unmeasured wall=21.11s turns=5 tool_calls=unmeasured
-gin-01 tightloop run1: result=pass in=10 out=2420 cache=188563 total=unmeasured wall=34.34s turns=6 tool_calls=unmeasured
-gin-02 no-skill run1: result=pass in=10 out=2179 cache=132171 total=unmeasured wall=25.99s turns=5 tool_calls=unmeasured
-gin-02 ponytail run1: result=pass in=12 out=1804 cache=162287 total=unmeasured wall=29.16s turns=6 tool_calls=unmeasured
-gin-02 tightloop run1: result=pass in=12 out=2302 cache=181475 total=unmeasured wall=30.23s turns=8 tool_calls=unmeasured
+rows counted: 21 (from rows.jsonl, 6 invalid-harness and 5 superseded excluded); not pass/fail: 0
+--- pass 1, tuning set (3 tasks) ---
+fd-01 no-skill run1: result=pass in=18 out=3260 cache=245597 total=unmeasured wall=104.03s turns=9 tool_calls=unmeasured overlap=overlapped rename=yes fallback=None
+fd-01 ponytail run1: result=pass in=14 out=2117 cache=192365 total=unmeasured wall=81.7s turns=7 tool_calls=unmeasured overlap=overlapped rename=no fallback=None
+fd-01 tightloop run1: result=pass in=22 out=3585 cache=359530 total=unmeasured wall=111.24s turns=12 tool_calls=unmeasured overlap=overlapped rename=yes fallback=None
+gin-01 no-skill run1: result=pass in=8 out=1869 cache=129112 total=unmeasured wall=21.92s turns=4 tool_calls=unmeasured overlap=overlapped rename=yes fallback=yes
+gin-01 ponytail run1: result=pass in=10 out=1828 cache=168088 total=unmeasured wall=21.11s turns=5 tool_calls=unmeasured overlap=overlapped rename=yes fallback=yes
+gin-01 tightloop run1: result=pass in=10 out=2420 cache=188563 total=unmeasured wall=34.34s turns=6 tool_calls=unmeasured overlap=overlapped rename=yes fallback=yes
+gin-02 no-skill run1: result=pass in=10 out=2179 cache=132171 total=unmeasured wall=25.99s turns=5 tool_calls=unmeasured overlap=overlapped rename=no fallback=None
+gin-02 ponytail run1: result=pass in=12 out=1804 cache=162287 total=unmeasured wall=29.16s turns=6 tool_calls=unmeasured overlap=overlapped rename=no fallback=None
+gin-02 tightloop run1: result=pass in=12 out=2302 cache=181475 total=unmeasured wall=30.23s turns=8 tool_calls=unmeasured overlap=overlapped rename=no fallback=None
 ponytail token ratio (input+output) vs no-skill: raw median 0.8296025582457743 over 3 pairs
 tightloop token ratio (input+output) vs no-skill: raw median 1.100366076876144 over 3 pairs
 ponytail token ratio (input+output+cache) vs no-skill: raw median 1.2213679666567432 over 3 pairs
@@ -26,3 +29,29 @@ tightloop token ratio (input+output+cache) vs no-skill: raw median 1.45808426661
 no-skill results: pass=3; pass 3/3 graded
 ponytail results: pass=3; pass 3/3 graded
 tightloop results: pass=3; pass 3/3 graded
+--- pass 2, tuning set (3 tasks) ---
+fd-01 no-skill run1: result=pass in=14 out=3220 cache=237200 (read 199211, creation 37989) total=unmeasured wall=109.84s turns=7 tool_calls=6 overlap=overlapped rename=yes fallback=no diff=+25/-5
+fd-01 ponytail run1: result=pass in=12 out=1970 cache=203889 (read 165936, creation 37953) total=unmeasured wall=87.21s turns=6 tool_calls=5 overlap=overlapped rename=yes fallback=no diff=+43/-29
+fd-01 tightloop-v3 run1: result=pass in=24 out=4222 cache=482752 (read 461396, creation 21356) total=unmeasured wall=121.44s turns=13 tool_calls=12 overlap=overlapped rename=yes fallback=no diff=+43/-29
+fd-01 tightloop-v4 run1: result=pass in=10 out=1960 cache=164956 (read 152861, creation 12095) total=unmeasured wall=83.0s turns=5 tool_calls=4 overlap=overlapped rename=yes fallback=no diff=+21/-4
+gin-01 no-skill run1: result=pass in=8 out=2093 cache=129164 (read 94841, creation 34323) total=unmeasured wall=28.49s turns=4 tool_calls=3 overlap=overlapped rename=yes fallback=yes diff=+26/-3
+gin-01 ponytail run1: result=pass in=8 out=1526 cache=133350 (read 121821, creation 11529) total=unmeasured wall=24.2s turns=4 tool_calls=3 overlap=overlapped rename=yes fallback=yes diff=+22/-1
+gin-01 tightloop-v3 run1: result=pass in=14 out=2935 cache=267074 (read 250057, creation 17017) total=unmeasured wall=48.75s turns=8 tool_calls=7 overlap=overlapped rename=yes fallback=yes diff=+27/-0
+gin-01 tightloop-v4 run1: result=pass in=8 out=1508 cache=131967 (read 120480, creation 11487) total=unmeasured wall=20.39s turns=4 tool_calls=3 overlap=overlapped rename=yes fallback=yes diff=+22/-0
+gin-02 no-skill run1: result=pass in=10 out=2506 cache=166901 (read 154744, creation 12157) total=unmeasured wall=55.62s turns=5 tool_calls=4 overlap=overlapped rename=no fallback=no diff=+29/-2
+gin-02 ponytail run1: result=pass in=10 out=1819 cache=165032 (read 154038, creation 10994) total=unmeasured wall=28.85s turns=5 tool_calls=4 overlap=overlapped rename=no fallback=no diff=+16/-2
+gin-02 tightloop-v3 run1: result=pass in=14 out=2757 cache=262876 (read 246882, creation 15994) total=unmeasured wall=36.56s turns=8 tool_calls=7 overlap=overlapped rename=no fallback=no diff=+16/-2
+gin-02 tightloop-v4 run1: result=pass in=8 out=1957 cache=130183 (read 118546, creation 11637) total=unmeasured wall=26.83s turns=4 tool_calls=3 overlap=overlapped rename=no fallback=no diff=+15/-1
+ponytail token ratio (input+output) vs no-skill: raw median 0.7269475357710652 over 3 pairs
+tightloop-v3 token ratio (input+output) vs no-skill: raw median 1.3129251700680271 over 3 pairs
+tightloop-v4 token ratio (input+output) vs no-skill: raw median 0.7215611613517373 over 3 pairs
+ponytail token ratio (input+output+cache) vs no-skill: raw median 0.9849129662312519 over 3 pairs
+tightloop-v3 token ratio (input+output+cache) vs no-skill: raw median 2.0254955621917032 over 3 pairs
+tightloop-v4 token ratio (input+output+cache) vs no-skill: raw median 0.7800161731113171 over 3 pairs
+ponytail token ratio (input+output+cache_read) vs no-skill: raw median 0.9911420577387765 over 3 pairs
+tightloop-v3 token ratio (input+output+cache_read) vs no-skill: raw median 2.300091382844723 over 3 pairs
+tightloop-v4 token ratio (input+output+cache_read) vs no-skill: raw median 0.7663169273814066 over 3 pairs
+no-skill results: pass=3; pass 3/3 graded
+ponytail results: pass=3; pass 3/3 graded
+tightloop-v3 results: pass=3; pass 3/3 graded
+tightloop-v4 results: pass=3; pass 3/3 graded

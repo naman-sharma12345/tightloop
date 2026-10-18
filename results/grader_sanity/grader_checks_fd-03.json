@@ -1,0 +1,54 @@
+[
+  {
+    "task": "fd-03",
+    "input": "upstream_fix_nontest",
+    "patch": "fd-03_upstream_fix_nontest.patch",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "check_command": "cargo test --test tests test_exec_nulls",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.02s"
+    ],
+    "diffstat": "7 files changed, 49 insertions(+), 24 deletions(-)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 42.9,
+    "at": "2026-10-18T14:21:55Z"
+  },
+  {
+    "task": "fd-03",
+    "input": "empty",
+    "patch": null,
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cargo test --test tests test_exec_nulls",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.02s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "diffstat": "1 file changed, 15 insertions(+)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 44.0,
+    "at": "2026-10-18T14:22:39Z"
+  },
+  {
+    "task": "fd-03",
+    "input": "wrong_plausible",
+    "patch": "fd-03_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "pass",
+    "ok": false,
+    "check_command": "cargo test --test tests test_exec_nulls",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.02s"
+    ],
+    "diffstat": "7 files changed, 48 insertions(+), 23 deletions(-)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 37.3,
+    "at": "2026-10-18T14:23:17Z"
+  }
+]

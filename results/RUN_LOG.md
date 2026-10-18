@@ -120,3 +120,57 @@ Defect score: unmeasured. MEASURE.md describes a reviewer agent, but the harness
 - Environment fact: rustfmt is not installed on this box's Rust toolchain, so on fd tasks v4's gate prints "format unchecked" for .rs files (it never claims a pass). Not installed mid-pass, to keep the environment the same for all arms; a candidate for a later pass.
 - Unit checks: results/harness_checks/pass2_gate_unit.txt (gate cases, the kill -9 case, the runner's restore + invalid-harness flag).
 - Pass-2 fd-01 no-skill, ponytail and tightloop-v3 rows were run under f93099f before this addendum. The addendum changes only the post-session backup check (no effect when no backup exists) and adds counts, so those rows are unaffected; their phase/gate counts are 0 by construction (they cannot run v4's gate).
+
+## Pass 2: fd-01 restart (2026-10-18 ~14:58Z; Pally/Naman option b, 8:26 PM IST)
+
+- rustfmt was not installed when pass-2 fd-01 no-skill, ponytail and tightloop-v3 ran; each of them tried `cargo fmt` and got "cargo-fmt is not installed". Then the disk pause (Kimo G8) stopped the runner before tightloop-v4, breaking fd-01's 4-arms-back-to-back order.
+- Those 3 rows are kept in rows.jsonl, marked status "superseded ..." with superseded_reason and superseded_by; score.py does not count them.
+- rustfmt: `rustup component add rustfmt` reported "component rustfmt is up to date"; `rustfmt --version` and `cargo fmt --version` = rustfmt 1.10.0-stable (b940084d7e 2026-09-28). df before and after: 1916 MiB free.
+- fd-01 is rerun with all 4 arms back to back, then gin-01, then gin-02, one session at a time; each session's checkout (with its build folder) is deleted right after grading. Runner relaunched with --pause-file so it can be held between sessions without stopping it.
+
+## Pass 2: Go build cache clear between fd-01 and gin-01 (2026-10-18)
+- After fd-01 x4 finished (15:16Z), df was 1905M free (< 2400 MiB), so the Go build cache (~/.cache/go-build, 813 MB) was cleared with `go clean -cache` at 15:16:36Z UTC. df before 1905M, after 2723M. Nothing else was deleted.
+- Then one throwaway gin build (not a row, not graded): fresh clone of gin at gin-01's start commit c358d56 in a temp dir, `go test -count=1 -run NONE_THROWAWAY ./...` (compiles every package and test binary, runs no test), 15:17:11-15:17:56Z, RC=0; temp dir removed. Go cache after it: 260 MB; df 2461M.
+- Purpose: no gin arm pays the cold-build cost alone. All 8 gin pass-2 rows run on this same warmed cache. gin timing is therefore not directly comparable to first-pass gin rows (different cache state).
+- fd-01 pass-2 rows (attempt5/v3/v4 tags) ran under runner pid launched 15:07:25Z with `--tasks fd-01`; gin-01 and gin-02 run in a second runner invocation with identical flags (`--tasks gin-01 gin-02`).
+
+## Pass 2 results (fd-01, gin-01, gin-02; 4 arms; harness e786442)
+n=1 per arm, every row overlapped with other work on the box. These are data points, not claims. CLI 2.1.302, modelUsage claude-opus-5-5 on every row. Each task's 4 arms ran back to back in the order no-skill, ponytail, tightloop-v3, tightloop-v4; each /tmp/tlw-* checkout was deleted right after grading. rustfmt 1.10.0 present for every fd-01 row (v4's gate printed its format check as passed). No INVALID row, no grader oddity. Defect score: unmeasured (reviewer not approved).
+
+Rows (tokens in/out/cache_read/cache_creation; wall; turns; tool calls exact from stream-json):
+- fd-01 no-skill: PASS in 14/out 3220/cache_read 199211/cache_creation 37989 (in+out 3234; in+out+cache_read 202445), 109.84 s, turns 7, tools 6, rename yes, fallback no, overlapped, diff +25/-5, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- fd-01 ponytail: PASS in 12/out 1970/cache_read 165936/cache_creation 37953 (in+out 1982; in+out+cache_read 167918), 87.21 s, turns 6, tools 5, rename yes, fallback no, overlapped, diff +43/-29, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- fd-01 tightloop-v3: PASS in 24/out 4222/cache_read 461396/cache_creation 21356 (in+out 4246; in+out+cache_read 465642), 121.44 s, turns 13, tools 12, rename yes, fallback no, overlapped, diff +43/-29, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- fd-01 tightloop-v4: PASS in 10/out 1960/cache_read 152861/cache_creation 12095 (in+out 1970; in+out+cache_read 154831), 83.0 s, turns 5, tools 4, rename yes, fallback no, overlapped, diff +21/-4, gate_runs 2, gate_out 3302 B, fail.md 0 / risky.md 0 reads
+- gin-01 no-skill: PASS in 8/out 2093/cache_read 94841/cache_creation 34323 (in+out 2101; in+out+cache_read 96942), 28.49 s, turns 4, tools 3, rename yes, fallback yes, overlapped, diff +26/-3, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads | fallback dropped: recovery_test.go +20/-0
+- gin-01 ponytail: PASS in 8/out 1526/cache_read 121821/cache_creation 11529 (in+out 1534; in+out+cache_read 123355), 24.2 s, turns 4, tools 3, rename yes, fallback yes, overlapped, diff +22/-1, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads | fallback dropped: recovery_test.go +18/-0
+- gin-01 tightloop-v3: PASS in 14/out 2935/cache_read 250057/cache_creation 17017 (in+out 2949; in+out+cache_read 253006), 48.75 s, turns 8, tools 7, rename yes, fallback yes, overlapped, diff +27/-0, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads | fallback dropped: recovery_test.go +22/-0
+- gin-01 tightloop-v4: PASS in 8/out 1508/cache_read 120480/cache_creation 11487 (in+out 1516; in+out+cache_read 121996), 20.39 s, turns 4, tools 3, rename yes, fallback yes, overlapped, diff +22/-0, gate_runs 1, gate_out 1039 B, fail.md 0 / risky.md 0 reads | fallback dropped: recovery_test.go +19/-0
+- gin-02 no-skill: PASS in 10/out 2506/cache_read 154744/cache_creation 12157 (in+out 2516; in+out+cache_read 157260), 55.62 s, turns 5, tools 4, rename no, fallback no, overlapped, diff +29/-2, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- gin-02 ponytail: PASS in 10/out 1819/cache_read 154038/cache_creation 10994 (in+out 1829; in+out+cache_read 155867), 28.85 s, turns 5, tools 4, rename no, fallback no, overlapped, diff +16/-2, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- gin-02 tightloop-v3: PASS in 14/out 2757/cache_read 246882/cache_creation 15994 (in+out 2771; in+out+cache_read 249653), 36.56 s, turns 8, tools 7, rename no, fallback no, overlapped, diff +16/-2, gate_runs 0, gate_out 0 B, fail.md 0 / risky.md 0 reads
+- gin-02 tightloop-v4: PASS in 8/out 1957/cache_read 118546/cache_creation 11637 (in+out 1965; in+out+cache_read 120511), 26.83 s, turns 4, tools 3, rename no, fallback no, overlapped, diff +15/-1, gate_runs 1, gate_out 1469 B, fail.md 0 / risky.md 0 reads
+
+Per-task token ratios vs no-skill (raw):
+- fd-01 ponytail: in+out 1982/3234 = 0.6129; in+out+cache_read 167918/202445 = 0.8294
+- fd-01 tightloop-v3: in+out 4246/3234 = 1.3129; in+out+cache_read 465642/202445 = 2.3001
+- fd-01 tightloop-v4: in+out 1970/3234 = 0.6092; in+out+cache_read 154831/202445 = 0.7648
+- gin-01 ponytail: in+out 1534/2101 = 0.7301; in+out+cache_read 123355/96942 = 1.2725
+- gin-01 tightloop-v3: in+out 2949/2101 = 1.4036; in+out+cache_read 253006/96942 = 2.6099
+- gin-01 tightloop-v4: in+out 1516/2101 = 0.7216; in+out+cache_read 121996/96942 = 1.2584
+- gin-02 ponytail: in+out 1829/2516 = 0.7269; in+out+cache_read 155867/157260 = 0.9911
+- gin-02 tightloop-v3: in+out 2771/2516 = 1.1014; in+out+cache_read 249653/157260 = 1.5875
+- gin-02 tightloop-v4: in+out 1965/2516 = 0.7810; in+out+cache_read 120511/157260 = 0.7663
+
+score.py medians over 3 pairs (raw; see score_output.txt):
+- input+output: ponytail 0.7269475357710652, tightloop-v3 1.3129251700680271, tightloop-v4 0.7215611613517373
+- input+output+cache_read (MEASURE.md): ponytail 0.9911420577387765, tightloop-v3 2.300091382844723, tightloop-v4 0.7663169273814066
+- input+output+cache (read + creation): ponytail 0.9849129662312519, tightloop-v3 2.0254955621917032, tightloop-v4 0.7800161731113171
+- 40% target (ratio at or below 0.4): not met by any arm, with or without cache reads.
+- Pass rate: 3/3 on every arm; no arm separates on the hidden tests.
+
+v4 against ponytail, per task: input+output fd-01 1970 vs 1982, gin-01 1516 vs 1534, gin-02 1965 vs 1829 (v4 higher on gin-02: a loss); input+output+cache_read fd-01 154831 vs 167918, gin-01 121996 vs 123355, gin-02 120511 vs 155867.
+
+Lazy phase files (v4): phases/fail.md read 0 times and phases/risky.md read 0 times on all 3 tasks (also 0 on every other arm). v4 gate.sh runs: fd-01 2 (3302 bytes output), gin-01 1 (1039 B), gin-02 1 (1469 B); gate runs are inside v4's tool calls and tokens. Whether the split saved anything is not measured: the 1871 bytes of phase text were never loaded, but no arm with them folded into the core was run, so there is no comparison row.
+
+Caveats: no-skill ran first in each task and paid the most cache_creation on fd-01 (37989) and gin-01 (34323), an order effect that is logged, not corrected. gin-01 used the hidden-patch fallback on all 4 arms (recovery_test.go agent lines dropped: no-skill +20, ponytail +18, v3 +22, v4 +19). Agent test renamed before grading on every fd-01 and gin-01 row (hidden-test name collision); none on gin-02.

@@ -1,0 +1,93 @@
+diff --git a/src/main.rs b/src/main.rs
+index 42868ba..dff433f 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -145,7 +145,8 @@ fn set_working_dir(opts: &Opts) -> Result<()> {
+     Ok(())
+ }
+ 
+-/// Detect if the user accidentally supplied a path instead of a search pattern.
++/// Detect if the user accidentally supplied a path instead of a search pattern
++/// (either the primary pattern or one given via `--and`).
+ ///
+ /// Without `--full-path`, fd matches patterns against file names, so any pattern
+ /// containing a path separator can never match. Two cases are worth a friendly
+@@ -168,11 +169,28 @@ fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
+         return Ok(());
+     }
+ 
++    let patterns = std::iter::once(&opts.pattern).chain(opts.exprs.iter().flatten());
++    for pattern in patterns {
++        if pattern_looks_like_path(pattern) {
++            return Err(anyhow!(
++                "The search pattern '{pattern}' contains a path-separation character \
++                 and will not lead to any search results.\n\n\
++                 If you want to search for all files inside the '{pattern}' directory, use a match-all pattern:\n\n  \
++                 fd . '{pattern}'\n\n\
++                 Instead, if you want your pattern to match the full file path, use:\n\n  \
++                 fd --full-path '{pattern}'",
++            ));
++        }
++    }
++    Ok(())
++}
++
++fn pattern_looks_like_path(pattern: &str) -> bool {
+     // Start with the cheap check: '/' is always a path separator, including on
+     // Windows, and has no regex meaning, so flagging it is safe and catches the
+     // Linux/macOS mistake of pasting a full path as the pattern.
+     #[cfg_attr(not(windows), allow(unused_mut))]
+-    let mut should_warn = opts.pattern.contains('/');
++    let mut should_warn = pattern.contains('/');
+ 
+     // On Windows we additionally accept the native `\` separator, but only when
+     // the pattern actually resolves to an existing directory - `\` is also the
+@@ -182,23 +200,10 @@ fn ensure_search_pattern_is_not_a_path(opts: &Opts) -> Result<()> {
+     #[cfg(windows)]
+     {
+         should_warn = should_warn
+-            || (opts.pattern.contains(std::path::MAIN_SEPARATOR)
+-                && Path::new(&opts.pattern).is_dir());
++            || (pattern.contains(std::path::MAIN_SEPARATOR) && Path::new(pattern).is_dir());
+     }
+ 
+-    if should_warn {
+-        Err(anyhow!(
+-            "The search pattern '{pattern}' contains a path-separation character \
+-             and will not lead to any search results.\n\n\
+-             If you want to search for all files inside the '{pattern}' directory, use a match-all pattern:\n\n  \
+-             fd . '{pattern}'\n\n\
+-             Instead, if you want your pattern to match the full file path, use:\n\n  \
+-             fd --full-path '{pattern}'",
+-            pattern = &opts.pattern,
+-        ))
+-    } else {
+-        Ok(())
+-    }
++    should_warn
+ }
+ 
+ fn build_pattern_regex(pattern: &str, opts: &Opts) -> Result<String> {
+diff --git a/tests/tests.rs b/tests/tests.rs
+index 2a87f75..d154575 100644
+--- a/tests/tests.rs
++++ b/tests/tests.rs
+@@ -396,6 +396,18 @@ fn test_pattern_with_forward_slash_is_rejected() {
+     );
+ }
+ 
++/// An `--and` pattern is matched against file names exactly like the primary
++/// pattern, so a path separator in it must trigger the same diagnostic.
++#[test]
++fn test_and_pattern_with_forward_slash_is_rejected() {
++    let te = TestEnv::new(DEFAULT_DIRS, DEFAULT_FILES);
++
++    te.assert_failure_with_error(
++        &["foo", "--and", "one/two"],
++        "[fd error]: The search pattern 'one/two' contains a path-separation character and will not lead to any search results.",
++    );
++}
++
+ /// --full-path is the user's explicit opt-in to regex-over-full-path matching,
+ /// so a path-separation character in the pattern is expected and must not
+ /// trigger the diagnostic.
