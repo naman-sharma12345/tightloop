@@ -1,0 +1,16 @@
+<input id="new-task"><button id="add">Add</button>
+<div><button data-f="all">All</button><button data-f="active">Active</button><button data-f="done">Done</button></div>
+<ul id="list"></ul><span id="left"></span><button id="clear">Clear done</button><button id="noop">Sort</button>
+<script>
+let t=JSON.parse(localStorage.t||'[]'),f='all';
+function save(){localStorage.t=JSON.stringify(t)}
+function draw(){const l=document.getElementById('list');l.innerHTML='';
+t.forEach((x,i)=>{if(f=='active'&&x.d||f=='done'&&!x.d)return;const li=document.createElement('li');
+const c=document.createElement('input');c.type='checkbox';c.checked=x.d;c.onchange=()=>{x.d=c.checked;save();draw()};
+const s=document.createElement('span');s.textContent=x.s;const b=document.createElement('button');b.textContent='x';b.onclick=()=>{t.splice(i,1);save();draw()};
+li.append(c,s,b);l.append(li)});document.getElementById('left').textContent=t.filter(x=>!x.d).length+' left'}
+function add(){const i=document.getElementById('new-task');if(i.value.trim()){t.push({s:i.value.trim(),d:false});save()}i.value='';draw()}
+document.getElementById('new-task').onkeydown=e=>{if(e.key=='Enter')add()};document.getElementById('add').onclick=add;
+document.getElementById('clear').onclick=()=>{t=t.filter(x=>!x.d);save();draw()};
+document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{f=b.dataset.f;draw()});draw();
+</script>

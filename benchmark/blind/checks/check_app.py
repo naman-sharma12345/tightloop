@@ -7,9 +7,13 @@ import json, socket, subprocess, sys, time, re, os
 from playwright.sync_api import sync_playwright
 
 app, d, shot, out = sys.argv[1:5]
-s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
-srv = subprocess.Popen([sys.executable, "-m", "http.server", str(port), "--bind", "127.0.0.1"],
-                       cwd=d, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+ZIP = sys.argv[5] if len(sys.argv) > 5 else None          # the label's zip: served bytes must match it
+PORT = int(sys.argv[6]) if len(sys.argv) > 6 else None    # the label's own port from the run instructions
+if PORT: port = PORT
+else:
+    s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
+SERVE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "serve.py")
+srv = subprocess.Popen([sys.executable, SERVE, d, str(port)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(1.0)
 url = f"http://127.0.0.1:{port}/index.html"
 res = {"app": app, "checks": [], "console_errors": [], "page_errors": [], "external_requests": []}
@@ -29,7 +33,26 @@ try:
         pg.on("request", lambda r: (not r.url.startswith(f"http://127.0.0.1:{port}") and not r.url.startswith("data:"))
               and res["external_requests"].append(r.url[:200]))
         pg.set_default_timeout(4000)
+        pg.on("dialog", lambda dlg: dlg.accept())
+        served = {}
+        def keep(r):
+            try:
+                if r.url.startswith(f"http://127.0.0.1:{port}/") and r.status == 200: served[r.url.split(f":{port}/", 1)[1].split("?")[0] or "index.html"] = r.body()
+            except Exception: pass
+        pg.on("response", keep)
         pg.goto(url); pg.wait_for_timeout(500)
+        if ZIP:
+            import zipfile, urllib.request
+            zf = zipfile.ZipFile(ZIP); entries = {n.split("/", 1)[1]: zf.read(n) for n in zf.namelist() if not n.endswith("/")}
+            def bytes_match():
+                bad = [k for k, v in served.items() if k in entries and entries[k] != v] + [k for k in served if k not in entries]
+                for k, v in entries.items():   # fetch every file fresh, outside the browser cache
+                    try: got = urllib.request.urlopen(f"http://127.0.0.1:{port}/{k}?fresh={time.time()}").read()
+                    except Exception as e: got = None
+                    if got != v: bad.append("fresh:" + k)
+                res["bytes_mismatch"] = bad; res["browser_loaded"] = sorted(served)
+                return not bad and "index.html" in served
+            ck("served bytes match the label's zip (browser + fresh fetch)", bytes_match)
         if app == "todo":
             ck("input #new-task exists", lambda: pg.locator("#new-task").count() == 1)
             def add3():
@@ -130,6 +153,71 @@ try:
             ck("typed value changes result to expected (3 m -> 9.8425 ft)", typed_change)
             conv("Length", "km", "mi", "10", "")
         pg.wait_for_timeout(300)
+        # added after round 1 (Pally m:5a251122): every visible button must change page state when clicked.
+        # Each button is tried from a fresh demo state; a button that changes nothing there gets a second
+        # chance after each other button has changed the state (e.g. "All" after "Active").
+        SNAP = """() => JSON.stringify([document.body.innerHTML, document.documentElement.className, location.hash,
+            [...document.querySelectorAll('input,textarea,select')].map(e => [e.value, e.checked]),
+            Object.keys(localStorage).sort().map(k => [k, localStorage.getItem(k)])])"""
+        BTN = "button:visible, input[type=button]:visible, input[type=submit]:visible, [role=button]:visible"
+        def seed():
+            pg.evaluate("localStorage.clear()"); pg.goto(url); pg.wait_for_timeout(400)
+            if app == "todo":
+                for t in ["Buy milk", "Write report", "Call mom"]:
+                    pg.fill("#new-task", t); pg.press("#new-task", "Enter")
+                pg.locator("#list li").nth(0).locator("input[type=checkbox]").check()
+            elif app == "notes":
+                pg.fill("#editor", "# Groceries\n\n- apples\n"); pg.wait_for_timeout(200)
+            elif app == "units":
+                pg.select_option("#category", label="Length"); pg.select_option("#from", value="km"); pg.select_option("#to", value="mi"); pg.fill("#value", "10")
+            pg.wait_for_timeout(300)
+        def label_of(loc):
+            try: return (loc.inner_text() or loc.get_attribute("aria-label") or loc.get_attribute("title") or loc.get_attribute("value") or "?").strip()[:30]
+            except Exception: return "?"
+        def buttons_all_act():
+            seed(); n = min(pg.locator(BTN).count(), 25); dead = []
+            for i in range(n):
+                seed(); bl = pg.locator(BTN)
+                if i >= bl.count(): continue
+                b = bl.nth(i); name = label_of(b); before = pg.evaluate(SNAP)
+                try: b.click(timeout=2000)
+                except Exception: pass
+                pg.wait_for_timeout(250)
+                if pg.evaluate(SNAP) != before: continue
+                ok = False
+                # second chance 1: buttons that act on typed input (e.g. "Add") get every empty text field filled first
+                seed(); bl = pg.locator(BTN)
+                for k in range(pg.locator("input[type=text]:visible, input:not([type]):visible, textarea:visible").count()):
+                    f = pg.locator("input[type=text]:visible, input:not([type]):visible, textarea:visible").nth(k)
+                    try:
+                        if not f.input_value(): f.fill("Sample item")
+                    except Exception: pass
+                mid = pg.evaluate(SNAP)
+                if i < bl.count():
+                    try: bl.nth(i).click(timeout=2000)
+                    except Exception: pass
+                    pg.wait_for_timeout(250)
+                    if pg.evaluate(SNAP) != mid: continue
+                # second chance 2: after each other button has changed the state
+                for j in range(n):
+                    if j == i: continue
+                    seed(); bl = pg.locator(BTN)
+                    if max(i, j) >= bl.count(): continue
+                    try: bl.nth(j).click(timeout=2000)
+                    except Exception: continue
+                    pg.wait_for_timeout(200); bl = pg.locator(BTN)
+                    if i >= bl.count(): continue
+                    mid = pg.evaluate(SNAP)
+                    try: bl.nth(i).click(timeout=2000)
+                    except Exception: continue
+                    pg.wait_for_timeout(250)
+                    if pg.evaluate(SNAP) != mid: ok = True; break
+                if not ok: dead.append(name)
+            res["buttons_tested"] = n; res["buttons_no_effect"] = dead
+            seed()
+            return not dead
+        ck("every visible button changes page state", buttons_all_act)
+        if app == "units": conv("Length", "km", "mi", "10", "")
         # added after round 1: any console error or uncaught page error fails the build, for every app
         ck("no console errors or uncaught page errors", lambda: not res["console_errors"] and not res["page_errors"])
         pg.screenshot(path=shot)

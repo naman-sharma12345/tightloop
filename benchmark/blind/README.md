@@ -16,3 +16,8 @@ equal. A browser then shows the first build's cached files for the next ones (py
 From round 2: each label gets its own port (e.g. todo A/B/C = 8001/8002/8003, notes 8011-8013, units 8021-8023), file dates are not set equal,
 and the run line tells the judge to open a fresh private window. check_app.py now also fails on any console or page error, and for the
 unit converter it requires a typed value to change the result to the expected number. Reference apps and two negative controls are in checks/reference/.
+
+## Harness v2 (Pally m:5a251122 / m:c920b547), before round 2
+- `serve.py <dir> <port>`: static server with `Cache-Control: no-store` that ignores conditional requests (always 200). One port per label.
+- `checks/check_app.py <app> <dir> <shot> <out.json> [label.zip] [port]` now also checks that (a) the bytes the browser loaded, and a fresh fetch of every file, match the label's zip; (b) every visible button changes page state (each button is tried from a fresh demo state, then with the empty text fields filled, then after each other button has acted); (c) for the converter, a typed value changes the result to the expected number; and (d) there are no console errors or uncaught page errors.
+- Self-test (18:15Z): references todo 10/10, notes 8/8, units 14/14. Negative controls fail as they should: units_dead 10/14 (conversions + typed-change), todo_err 9/10 (errors), todo_deadbtn 9/10 ("Sort" does nothing), and units/A's files checked against units/C's zip fail the bytes check. All 9 round-1 builds pass every check, each on its own port 8001-8009 (todo 10/10 x3, notes 8/8 x3, units 14/14 x3), units/C included. That fits the cache finding: units/C works when it is served on its own port.
