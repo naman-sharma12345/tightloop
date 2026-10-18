@@ -21,9 +21,13 @@ the bare coding agent (no-skill) and ponytail.
 ## Quick start
 
 ```sh
-benchmark/run.sh --arm all --tasks benchmark/tasks/tasks.json
+bash benchmark/run.sh --tasks benchmark/tasks/tasks.json \
+  --agent-cmd '<your coding agent invocation; it must leave usage.json in $DIR>'
 python3 benchmark/score.py benchmark/results/$(ls benchmark/results | tail -1)
 ```
+
+Files pushed through the GitHub web UI carry no executable bit, so the
+runner and arm scripts are invoked with `bash` explicitly.
 
 ## Status
 
