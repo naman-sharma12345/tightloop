@@ -1,0 +1,18 @@
+{
+  "name": "app-01",
+  "kind": "app",
+  "source": "n/a - from-scratch build, no upstream repository",
+  "license": "n/a",
+  "license_commit": "n/a",
+  "license_note": "original spec written for this benchmark; nothing vendored",
+  "commit": "n/a",
+  "start_commit": "n/a",
+  "spec": "apps/app-01/spec.md",
+  "instruction": "Build csvstat (Python, stdlib only) per apps/app-01/spec.md",
+  "hidden_tests": [
+    "pinned test script shipped in apps/app-01/tests/"
+  ],
+  "check_command": "python3 -m pytest test_csvstat.py -q",
+  "holdout": false,
+  "status": "UNPROVEN"
+}
