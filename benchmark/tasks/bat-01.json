@@ -1,0 +1,18 @@
+{
+  "name": "bat-01",
+  "kind": "bugfix",
+  "source": "https://github.com/sharkdp/bat",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "18b71743c8ffc242653960b8fd335f3346b94094",
+  "license_note": "re-read at fix commit 18b71743c: LICENSE-MIT=MIT,LICENSE-APACHE=Apache-2.0",
+  "commit": "18b71743c8ffc242653960b8fd335f3346b94094",
+  "start_commit": "f761ff68240d6cae88ee03266f89590bfae3939c",
+  "instruction": "Fix for multibyte characters in file path",
+  "hidden_tests": [
+    "header_narrow_terminal_with_multibyte_chars"
+  ],
+  "hidden_patch": "patches/bat-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "cargo test --test integration_tests header_narrow_terminal_with_multibyte_chars"
+}
