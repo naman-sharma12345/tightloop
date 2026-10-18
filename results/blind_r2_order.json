@@ -1,0 +1,19 @@
+{
+ "round": 2,
+ "order": [
+  "kanban-C",
+  "bookmarks-B",
+  "bookmarks-D",
+  "kanban-D",
+  "kanban-B",
+  "expenses-C",
+  "bookmarks-A",
+  "expenses-D",
+  "expenses-B",
+  "expenses-A",
+  "kanban-A",
+  "bookmarks-C"
+ ],
+ "rng": "secrets.SystemRandom().shuffle (os.urandom); labels only",
+ "created_utc": "2026-10-18T19:10:31Z"
+}

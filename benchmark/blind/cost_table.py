@@ -10,8 +10,9 @@ ORDER = ["no-skill", "ponytail", "tightloop-v4", "tightloop-v4c"]
 F = ["input", "output", "cache_read", "cache_creation", "in_out", "cost_weighted", "tool_calls", "turns", "wall_seconds"]
 rows = [json.loads(l) for l in open(rows_p) if l.strip()]
 num = lambda v: v if isinstance(v, (int, float)) else None
-res = {"apps": {}, "fields": F, "note": "keyed by version, not by blind label; never read by the viewer"}
-md = ["# Blind round cost file (by version; not shown in the viewer)", ""]
+SOURCE = "token counts = the claude CLI's own JSON result record (usage: input_tokens, output_tokens, cache_read_input_tokens, cache_creation_input_tokens; plus num_turns), parsed by runner.launch from the session's stdout log; tool_calls counted by runner.launch from the same log; wall_seconds = runner.launch's own clock around the process. Never the agent's own report."
+res = {"apps": {}, "fields": F, "source": SOURCE, "note": "keyed by version, not by blind label; never read by the viewer"}
+md = ["# Blind round cost file (by version; not shown in the viewer)", "", "Source: " + SOURCE, ""]
 for app in sorted({r["app"] for r in rows}):
     by = {r["arm"]: r for r in rows if r["app"] == app}
     a = {}

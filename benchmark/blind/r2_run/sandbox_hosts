@@ -1,0 +1,33 @@
+127.0.0.1        localhost
+::1              localhost ip6-localhost ip6-loopback
+fe00::           ip6-localnet
+ff00::           ip6-mcastprefix
+ff02::1          ip6-allnodes
+ff02::2          ip6-allrouters
+127.0.1.1        e2b.local
+192.0.2.1        events.e2b.local
+# blind round 2 build sandbox: GitHub blocked
+0.0.0.0 github.com
+:: github.com
+0.0.0.0 www.github.com
+:: www.github.com
+0.0.0.0 api.github.com
+:: api.github.com
+0.0.0.0 raw.githubusercontent.com
+:: raw.githubusercontent.com
+0.0.0.0 codeload.github.com
+:: codeload.github.com
+0.0.0.0 objects.githubusercontent.com
+:: objects.githubusercontent.com
+0.0.0.0 gist.github.com
+:: gist.github.com
+0.0.0.0 gist.githubusercontent.com
+:: gist.githubusercontent.com
+0.0.0.0 github.githubassets.com
+:: github.githubassets.com
+0.0.0.0 uploads.github.com
+:: uploads.github.com
+0.0.0.0 media.githubusercontent.com
+:: media.githubusercontent.com
+0.0.0.0 avatars.githubusercontent.com
+:: avatars.githubusercontent.com

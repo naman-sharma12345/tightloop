@@ -71,3 +71,89 @@ Re-run of A and B after the zip-listing check was added (Naman m:ad61cc34 pt 4):
 {"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-596888e0/index.html": 404}, "forbidden_files": [], "zip_listing": {"entries": 16, "key_mapping_cost_hits": []}, "bad": []}
 == B (negative: planted version name + COST.json in folder + KEY.json in zip)
 {"all_ok": false, "n": 2, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 5, "hits": [[8702, "index.html", "();\n</script>\n<!-- built with ponytail -->\n"]], "n_hits": 1}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/bookmarks-A-20daef0d/index.html": 404}, "forbidden_files": ["COST.json", "vB/KEY.json"], "zip_listing": {"entries": 7, "key_mapping_cost_hits": ["vB/KEY.json"]}, "bad": []}
+
+
+== Pre-build guards added 2026-10-18 ~19:12Z (round 2, before any build) ==
+-- Network block, run with the driver's sandbox prefix (benchmark/blind/r2_run/nettest_r2.sh) --
+INSIDE  curl github.com -> rc=7 curl: (7) Failed to connect to github.com port 443 after 0 ms: Couldn't connect to server
+INSIDE  curl raw.githubusercontent.com -> rc=7 curl: (7) Failed to connect to raw.githubusercontent.com port 443 after 0 ms: Couldn't con
+INSIDE  curl api.github.com -> rc=7 curl: (7) Failed to connect to api.github.com port 443 after 0 ms: Couldn't connect to ser
+INSIDE  curl codeload.github.com -> rc=7 curl: (7) Failed to connect to codeload.github.com port 443 after 0 ms: Couldn't connect t
+INSIDE  git ls-remote github.com -> fatal: unable to access 'https://github.com/naman-sharma12345/tightloop/': Failed to conne
+INSIDE  getent hosts github.com -> ::              github.com
+OUTSIDE curl github.com -> 200 (control: host network itself works)
+INSIDE  minimal model call (curl, same sandbox) -> HTTP 200 reply: OK
+-- Leak grep negative controls (benchmark/blind/r2_run/leak_negative_controls.sh) --
+LEAK GREP: 0 hits over 1 target(s)
+<tmp>/planted:.claude/: version-material folder
+<tmp>/planted:.claude/: name contains 'claude'
+<tmp>/planted:look_out.txt: version-material file kind
+<tmp>/planted:look_out.txt:1: 'controls clicked' in 'OK 12 controls clicked'
+<tmp>/planted:console.log: version-material file kind
+<tmp>/planted:NOTES.md: version-material file kind
+<tmp>/planted:screenshot.png: version-material file kind
+<tmp>/planted:extra.js:1: 'v4c' in '// v4c'
+<tmp>/planted:.claude/skills/: version-material folder
+<tmp>/planted:.claude/skills/: name contains 'claude'
+<tmp>/planted:.claude/skills/: name contains 'skill'
+<tmp>/planted:.claude/skills/x/: version-material folder
+<tmp>/planted:.claude/skills/x/: name contains 'claude'
+<tmp>/planted:.claude/skills/x/: name contains 'skill'
+<tmp>/planted:.claude/skills/x/SKILL.md: version-material folder
+<tmp>/planted:.claude/skills/x/SKILL.md: version-material file kind
+<tmp>/planted:.claude/skills/x/SKILL.md: name contains 'claude'
+<tmp>/planted:.claude/skills/x/SKILL.md: name contains 'skill'
+<tmp>/planted:.claude/skills/x/SKILL.md: name contains 'SKILL'
+<tmp>/planted:screenshot.png: image no file of the build refers to (screenshot?)
+<tmp>/planted:icon.png: image no file of the build refers to (screenshot?)
+LEAK GREP: 21 hits over 1 target(s)
+planted exit=1
+LEAK GREP: 0 hits over 1 target(s)
+<tmp>/planted.zip:viewer/builds/kanban-B-y/app.js:1: 'ponytail' in '// ponytail'
+LEAK GREP: 1 hits over 1 target(s)
+planted zip exit=1
+-- pack_r2.py dry run on reference builds stored by label (benchmark/blind/r2_run/pack_dryrun.sh; temp paths) --
+=== pack dry-run: clean
+dir bookmarks/C: 0 hits
+dir bookmarks/D: 0 hits
+dir expenses/A: 0 hits
+dir expenses/B: 0 hits
+dir expenses/C: 0 hits
+dir expenses/D: 0 hits
+dir kanban/A: 0 hits
+dir kanban/B: 0 hits
+dir kanban/C: 0 hits
+dir kanban/D: 0 hits
+LEAK GREP build dirs: 0 hits over 12 dirs
+LEAK GREP zip listing+entries: 0 hits over 16 entries (viewer.zip)
+LEAK GREP unzipped tree: 0 hits over 16 files
+zip entries with a non-fixed timestamp: 0; .git entries: 0
+exit=0
+dropped: {}
+=== pack dry-run: planted
+dir bookmarks/C: 0 hits
+dir bookmarks/D: 0 hits
+dir expenses/A: 0 hits
+dir expenses/B: 0 hits
+dir expenses/C: 0 hits
+dir expenses/D: 0 hits
+dir kanban/A: 0 hits
+dir kanban/B: 0 hits
+dir kanban/C: 0 hits
+dir kanban/D: 0 hits
+LEAK GREP build dirs: 0 hits over 12 dirs
+LEAK GREP zip listing+entries: 0 hits over 16 entries (viewer.zip)
+LEAK GREP unzipped tree: 0 hits over 16 files
+zip entries with a non-fixed timestamp: 0; .git entries: 0
+exit=0
+dropped: {'bookmarks/C': ['.claude/'], 'expenses/B': ['look_report.txt', 'console.log'], 'kanban/D': ['screenshot.png']}
+=== pack dry-run: planted2 (word in app code)
+expenses/B dropped 0 hints 0 files 1
+expenses/C dropped 0 hints 0 files 1
+expenses/D dropped 0 hints 0 files 1
+kanban/A dropped 0 hints 1 files 1
+kanban/B dropped 0 hints 0 files 1
+kanban/C dropped 0 hints 0 files 1
+kanban/D dropped 0 hints 0 files 1
+HINT LINES LEFT - review blind_strip_log_r2.json before building the viewer
+exit=3

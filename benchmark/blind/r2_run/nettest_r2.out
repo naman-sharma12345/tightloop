@@ -1,0 +1,8 @@
+INSIDE  curl github.com -> rc=7 curl: (7) Failed to connect to github.com port 443 after 0 ms: Couldn't connect to server
+INSIDE  curl raw.githubusercontent.com -> rc=7 curl: (7) Failed to connect to raw.githubusercontent.com port 443 after 0 ms: Couldn't con
+INSIDE  curl api.github.com -> rc=7 curl: (7) Failed to connect to api.github.com port 443 after 0 ms: Couldn't connect to ser
+INSIDE  curl codeload.github.com -> rc=7 curl: (7) Failed to connect to codeload.github.com port 443 after 0 ms: Couldn't connect t
+INSIDE  git ls-remote github.com -> fatal: unable to access 'https://github.com/naman-sharma12345/tightloop/': Failed to conne
+INSIDE  getent hosts github.com -> ::              github.com
+OUTSIDE curl github.com -> 200 (control: host network itself works)
+INSIDE  minimal model call (curl, same sandbox) -> HTTP 200 reply: OK
