@@ -110,7 +110,11 @@ def grade(task, wt):
     if task.get("kind") == "app":
         tdir = os.path.join(ROOT, "apps", task["name"], "tests")
         for f in os.listdir(tdir):
-            shutil.copy(os.path.join(tdir, f), wt)
+            src = os.path.join(tdir, f)
+            if os.path.isdir(src):
+                shutil.copytree(src, os.path.join(wt, f))
+            else:
+                shutil.copy(src, wt)
     else:
         patch = os.path.join(ROOT, "tasks", task["hidden_patch"])
         r = run(["git", "apply", "--whitespace=nowarn", patch], cwd=wt)
