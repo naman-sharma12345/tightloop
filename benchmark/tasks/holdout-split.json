@@ -3,5 +3,7 @@
   "pinned_before": "any tuning run, any baseline run, any task vendoring",
   "rule": "For every source repository, the vendored task with the highest numeric suffix is holdout. For from-scratch app builds, every even-numbered app is holdout. A repository that yields only one task contributes it as holdout and has no tuning task. Once vendored, concrete holdout task IDs are appended to holdout_task_ids below; the rule above never changes after this pin.",
   "effect": "Holdout tasks are excluded from all skill tuning. score.py reports them in separate tables, always; they are never mixed into headline numbers.",
-  "holdout_task_ids": []
+  "holdout_task_ids": [
+    "fd-03"
+  ]
 }
