@@ -25,8 +25,11 @@ Each task will be one JSON file:
   "license": "MIT",
   "license_commit": "<sha the LICENSE file was read at>",
   "commit": "<pinned sha>",
+  "start_commit": "<parent the agent starts from>",
   "instruction": "what the agent is asked to change or build",
+  "hidden_patch": "patches/<name>.patch",
   "hidden_tests": ["path/to/test::case"],
+  "check_command": "how the hidden tests are run",
   "holdout": false
 }
 ```
