@@ -1,0 +1,18 @@
+{
+  "name": "prettier-01",
+  "kind": "bugfix",
+  "source": "https://github.com/prettier/prettier",
+  "license": "MIT",
+  "license_commit": "9c044f33a8043c9ba9e29cd2fb9dec6634134858",
+  "commit": "9c044f33a8043c9ba9e29cd2fb9dec6634134858",
+  "start_commit": "3031cd3b841fbba26df9ba3e5a20b6b8334c5911",
+  "instruction": "fix: match `useCheckSum` casing expected by file-entry-cache v11 (#18914)",
+  "hidden_tests": [
+    "re-formats when content changes but file size stays the same"
+  ],
+  "hidden_patch": "patches/prettier-01.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "license_note": "re-read at fix commit 9c044f33a: LICENSE=MIT",
+  "check_command": "npx jest tests/integration/__tests__/cache.js -t 're-formats when content changes but file size stays the same'"
+}
