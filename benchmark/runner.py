@@ -24,9 +24,21 @@ ARMS = {
     "tightloop-v4a": os.path.join(ROOT, "arms", "tightloop-v4a"),
     # v4b = v4 with step 4 kept but no gate rerun unless a code or test line changed
     "tightloop-v4b": os.path.join(ROOT, "arms", "tightloop-v4b"),
+    # v5 = quality-first app mode with look.py self-check (design 0be26dc/A1, 70b7958/A2)
+    "tightloop-v5": os.path.join(ROOT, "arms", "tightloop-v5"),
+    # v5b = v5 with no screenshot and a lower-thinking instruction (pre-registered in A1)
+    "tightloop-v5b": os.path.join(ROOT, "arms", "tightloop-v5b"),
 }
 # the v3 arm refuses to run unless its skill text is byte-identical to v3
 TIGHTLOOP_V3_SHA256 = "f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a"
+# the v5 / v5b arms refuse to run unless their SKILL.md is byte-identical to the text
+# committed in criteria amendment A2 (70b7958); the skill text is delivered by
+# --append-system-prompt, so its tokens are in every call's measured usage
+TIGHTLOOP_PINNED_SHA256 = {
+    "tightloop-v3": TIGHTLOOP_V3_SHA256,
+    "tightloop-v5": "04e3ca1487f2b795fa4c17a41f424fdb7f6635533170adbe5c322a97c4bc1d39",
+    "tightloop-v5b": "a451229802a17d1df235a9907f300100181344400761d5af04c7d18bd5259caf",
+}
 UNMEASURED = "unmeasured"
 # ponytail arm: the real skill file at the pin recorded in arms/ponytail.md
 PONYTAIL_PIN = "09c434ab73ca43761c5d8b0c5d341926c2fba710"
@@ -554,7 +566,7 @@ def main():
     ap.add_argument("--wait-lock-max", type=int, default=1800,
                     help="max seconds to wait for --wait-lock before starting anyway")
     ap.add_argument("--arms", nargs="+", default=list(ARMS), choices=list(ARMS),
-                    help="arms to run, in the fixed order no-skill, ponytail, tightloop-v3, tightloop-v4, tightloop-v4a, tightloop-v4b")
+                    help="arms to run, in the fixed order no-skill, ponytail, tightloop-v3, tightloop-v4, tightloop-v4a, tightloop-v4b, tightloop-v5, tightloop-v5b")
     ap.add_argument("--pass-label", type=int, default=None,
                     help="benchmark pass number written to every row as 'pass'")
     ap.add_argument("--lock-wait-scope", choices=["session", "task"], default="session",
@@ -581,13 +593,15 @@ def main():
     skills = {"no-skill": (None, "no skill"),
               "ponytail": (ponytail_text, ponytail_note)}
     versions = {"no-skill": "n/a", "ponytail": "ponytail " + PONYTAIL_PIN[:12]}
-    for arm in ("tightloop-v3", "tightloop-v4", "tightloop-v4a", "tightloop-v4b"):
+    for arm in ("tightloop-v3", "tightloop-v4", "tightloop-v4a", "tightloop-v4b",
+                "tightloop-v5", "tightloop-v5b"):
         with open(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"), "rb") as f:
             raw_skill = f.read()
         h = sha256_bytes(raw_skill)
-        if arm == "tightloop-v3" and h != TIGHTLOOP_V3_SHA256:
+        pin = TIGHTLOOP_PINNED_SHA256.get(arm)
+        if pin and h != pin:
             if arm in a.arms:
-                sys.exit(f"tightloop-v3 skill sha256 {h} != pinned {TIGHTLOOP_V3_SHA256}: refusing to run")
+                sys.exit(f"{arm} skill sha256 {h} != pinned {pin}: refusing to run")
         rel = os.path.relpath(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"),
                               os.path.join(ROOT, "..")).replace(os.sep, "/")
         skills[arm] = (raw_skill.decode(), f"{arm}: {rel} ({len(raw_skill)} bytes, sha256 {h}) "
@@ -613,6 +627,8 @@ def main():
                               "tightloop-v4 -> .claude/skills/tightloop/ (SKILL.md, gate.sh, "
                               "phases/) at the same path; tightloop-v4a -> its folder benchmark/arms/tightloop-v4a/ "
                               "at .claude/skills/tightloop/; tightloop-v4b -> benchmark/arms/tightloop-v4b/ at the same path; "
+                              "tightloop-v5 -> benchmark/arms/tightloop-v5/ (SKILL.md, look.py, gate.sh, phases/) "
+                              "at the same path; tightloop-v5b -> benchmark/arms/tightloop-v5b/ at the same path; "
                               "no-skill -> nothing (no system-prompt "
                               "text, no files)"),
            "skill_folders": {arm: [{"path": r, "bytes": len(d), "sha256": sha256_bytes(d)}
