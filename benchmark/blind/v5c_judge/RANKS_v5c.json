@@ -1,0 +1,116 @@
+{
+ "written_utc": "2026-10-18T23:06:05Z",
+ "rubric": "b8d4711 r2_JUDGE_RUBRIC.md unchanged",
+ "rubric_commit": "ca2669eedcf0ee4b197b22be42b9e432905c8055",
+ "zip_sha256": "e6ead87f37745650cea98ee0b858a0f8c4b431bf908bc056e9d252589c23ddf9",
+ "apps": {
+  "bookmarks": [
+   {
+    "label": "B",
+    "score": 99,
+    "rank": 1,
+    "reason": "Clicked through add (inline URL error shown), search, tag chip + Clear all, edit, delete (confirm cancelled then accepted), folder create/rename/delete (bookmark moved to Unsorted), export JSON array, import 1 added 1 duplicate skipped, reload kept 4; 0 errors; focus rings visible on buttons and the new-folder input; 375 px stacks with no page scroll."
+   },
+   {
+    "label": "C",
+    "score": 99,
+    "rank": 1,
+    "reason": "Same full click-through passed (invalid URL message, search, tag filter + clear, edit, delete confirm both ways, folders, export/import, reload); focus outline on buttons and ring on inputs; 0 errors; 375 px clean."
+   },
+   {
+    "label": "A",
+    "score": 98,
+    "rank": 3,
+    "reason": "Full click-through passed incl. folders, export/import report and reload; 0 errors; focus ring on buttons but none rendered on the new-folder input when tabbed to (D4 -1)."
+   },
+   {
+    "label": "D",
+    "score": 98,
+    "rank": 3,
+    "reason": "Full click-through passed (inline URL error on submit, tag chips as #tags, folder flow, import report 'Skipped 1 duplicate URL', reload); 0 errors; new-folder input shows no focus ring when tabbed to (D4 -1)."
+   },
+   {
+    "label": "E",
+    "score": 97,
+    "rank": 5,
+    "reason": "Full click-through passed (inline URL error, folders, 'Import complete: 1 added, 1 duplicate skipped', reload); 0 errors; new-folder input has no focus ring (D4 -1) and the largest source at 45 KB (Q3 -1)."
+   }
+  ],
+  "expenses": [
+   {
+    "label": "E",
+    "score": 100,
+    "rank": 1,
+    "reason": "Add with inline errors for empty/negative/non-numeric/zero, newest-first list with coloured tags, #total 842.50 only, 3 cards, category chart + 6-month trend svg, category filter to 1 row, month picker to previous month shows empty state, edit via #save-edit (850.00, total 862.50), delete cancel/accept, CSV header exact, reload kept rows; visible focus; 0 errors; 375 px clean."
+   },
+   {
+    "label": "F",
+    "score": 100,
+    "rank": 1,
+    "reason": "Same full pass: inline errors sit under their fields, list/cards/charts update, filter and month picker work, edit saved, delete confirm both ways, CSV header exact, reload persists; focus ring + border on controls; 0 errors; 375 px clean."
+   },
+   {
+    "label": "G",
+    "score": 100,
+    "rank": 1,
+    "reason": "Same full pass (also shows an average per expense); inline errors, cards, chart, 6-month trend, filter, month picker empty state, edit saved, delete both ways, CSV header exact, reload; focus outline visible; 0 errors; 375 px clean."
+   },
+   {
+    "label": "C",
+    "score": 99,
+    "rank": 4,
+    "reason": "Full pass on every feature (edit saved desc, delete both ways, CSV header, reload, chart, trend, filter, month); 0 errors; but the month input shows no focus ring when tabbed to (D4 -1)."
+   },
+   {
+    "label": "D",
+    "score": 99,
+    "rank": 4,
+    "reason": "Full pass (6-month table instead of chart, allowed; edit 850 saved, total 862.50; CSV; reload); focus outline visible; 0 errors; row Edit/Delete buttons are 32 px tall (D3 -1)."
+   },
+   {
+    "label": "B",
+    "score": 98,
+    "rank": 6,
+    "reason": "Full pass (chart + 6-month table and svg, edit saved, delete both ways, CSV, reload); 0 errors; focus style on the month input is near-invisible (4% shadow) (D4 -1) and the largest expenses source at 36 KB (Q3 -1)."
+   },
+   {
+    "label": "A",
+    "score": 71,
+    "rank": 7,
+    "reason": "BROKEN LIST: after adding 3 expenses the total shows 842.50 and the cards update, but #expenses stays empty with the empty-state text, the category chart stays at $0.00, and Edit/Delete never appear; 8 page errors 'Cannot set property dataset'. Validation, month picker, CSV export and reload of totals work. F1 5, F2 0, F3 7, F4 4, F5 0."
+   }
+  ],
+  "kanban": [
+   {
+    "label": "B",
+    "score": 100,
+    "rank": 1,
+    "reason": "Add by Enter and by button, blank rejected, modal 560 px over dim backdrop with title/desc/due/labels saved, Bug chip and red overdue date, close by button/Escape/backdrop, delete cancel then accept, drag to In progress and reorder within To do, Bug filter shows 1 of 2, add column via typed name, rename column, counts per column, reload persists; all controls 36-40 px; focus outlines visible; 0 errors; 375 px clean with modal fitting."
+   },
+   {
+    "label": "C",
+    "score": 99,
+    "rank": 2,
+    "reason": "Same full pass (prompt-based add/rename column, drag between and within, filter, modal closes 3 ways, delete confirm both ways, reload); focus outlines visible; 0 errors; column icon buttons are 32 px (D3 -1)."
+   },
+   {
+    "label": "D",
+    "score": 99,
+    "rank": 2,
+    "reason": "Same full pass (modal also offers a column select; drag, reorder, filter, add/rename column, counts, reload); focus outlines visible; 0 errors; icon buttons 32 px (D3 -1)."
+   },
+   {
+    "label": "E",
+    "score": 99,
+    "rank": 2,
+    "reason": "Same full pass (drag, reorder, filter, add/rename column, modal 3 close paths, delete both ways, reload); focus outlines visible; 0 errors; icon buttons 32 px (D3 -1)."
+   },
+   {
+    "label": "A",
+    "score": 97,
+    "rank": 5,
+    "reason": "Full pass on every feature (counts inline in headers, drag, reorder, filter, add/rename column, modal, delete, reload); 0 errors; but when tabbing to the filter select, Add column button and new-card input no focus ring was rendered despite a declared :focus-visible ring (D4 -1, Q2 -1), icon buttons 32 px (D3 -1), and the largest kanban source at 35 KB."
+   }
+  ]
+ }
+}
