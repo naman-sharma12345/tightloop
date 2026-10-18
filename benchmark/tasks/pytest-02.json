@@ -1,0 +1,19 @@
+{
+  "name": "pytest-02",
+  "kind": "bugfix",
+  "source": "https://github.com/pytest-dev/pytest",
+  "license": "MIT",
+  "license_commit": "62ca642621c0888b044ac5f663c78e86de063887",
+  "license_note": "re-read at fix commit 62ca64262: LICENSE=MIT",
+  "commit": "62ca642621c0888b044ac5f663c78e86de063887",
+  "start_commit": "0a4f8891de22ae9bbf7f89252f64ba50080bbedb",
+  "instruction": "Fix autouse fixtures running in @unittest.skip classes (#14210)",
+  "hidden_tests": [
+    "test_unittest_skip_with_autouse_fixture",
+    "test_one"
+  ],
+  "hidden_patch": "patches/pytest-02.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "pytest testing/test_unittest.py -k 'test_unittest_skip_with_autouse_fixture or test_one'"
+}
