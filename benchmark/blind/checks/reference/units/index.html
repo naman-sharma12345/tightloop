@@ -1,0 +1,11 @@
+<select id="category"><option>Length</option><option>Weight</option><option>Temperature</option></select>
+<select id="from"></select><button id="swap">Swap</button><select id="to"></select><input id="value" type="text" value="1"><div id="result"></div>
+<script>
+const U={Length:{mm:.001,cm:.01,m:1,km:1000,in:.0254,ft:.3048,mi:1609.344},Weight:{g:1,kg:1000,oz:28.349523125,lb:453.59237},Temperature:{C:0,F:0,K:0}};
+const cat=document.getElementById('category'),fr=document.getElementById('from'),to=document.getElementById('to'),v=document.getElementById('value'),r=document.getElementById('result');
+function fill(){const k=Object.keys(U[cat.value]);fr.innerHTML=to.innerHTML=k.map(x=>`<option value="${x}">${x}</option>`).join('');to.selectedIndex=1;go()}
+function tC(x,u){return u=='C'?x:u=='F'?(x-32)*5/9:x-273.15}function fC(x,u){return u=='C'?x:u=='F'?x*9/5+32:x+273.15}
+function go(){const x=parseFloat(v.value);if(isNaN(x)){r.textContent='Enter a number';return}
+let y=cat.value=='Temperature'?fC(tC(x,fr.value),to.value):x*U[cat.value][fr.value]/U[cat.value][to.value];r.textContent=String(+y.toFixed(4))}
+cat.onchange=fill;fr.onchange=to.onchange=v.oninput=go;document.getElementById('swap').onclick=()=>{const a=fr.value;fr.value=to.value;to.value=a;go()};fill();
+</script>

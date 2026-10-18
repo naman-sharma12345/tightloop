@@ -60,3 +60,15 @@ Tokens: on cost-weighted, ponytail was cheapest on notes and units, and tightloo
 - Evidence scripts: `benchmark/blind/checks/units_investigate.py` (by-hand drive, http + file:// + no-JS) and `benchmark/blind/checks/cache_sim.py` (sequential same-port session).
 
 Files Naman judged: 1280x800 screenshots plus zips in Tab's files/tl_blind/<app>/ (not committed). Every screenshot was taken in a fresh browser on its own port, so the screenshots show the right build.
+
+## Addendum (18:10Z, Pally m:1455239a): was units/C broken, and did the checker miss it?
+
+Round 1 stays as sealed above. Nothing was rebuilt or rerun, and no round-1 number changed.
+
+- Pally's guess was that the check loaded the page but never typed a value. That is not what happened. The round-1 `check_app.py` units checks were: the five elements exist (`select#category`, `select#from`, `select#to`, `input#value`, `#result`); then **"10 km -> 6.2137 mi"**, **"100 C -> 212 F"** and **"1 lb -> 0.4536 kg"** (each picks the category by label, selects from/to, fills `#value`, which fires `input`, and requires the number in `#result`); "empty input shows no NaN/undefined"; and "swap exchanges units". units/C passed all 10. A converter with dead handlers fails three of them (see `reference/units_dead` below).
+- **(a) What is broken in units/C: nothing I can find in a clean browser.** There is no console error and no dead handler. `app.js` wires `input` on `#value`, `change` on all three selects, and `click` on `#swap` (app.js lines 34-43). Driven by hand, all 74 unit pairs are correct, both over http and over file://.
+- **(b) The likely real cause is the delivery, not the code:** the same-port cache effect described above. One gap is real: the round-1 checker recorded console errors but did not fail on them.
+- New harness steps (in `benchmark/blind/checks/check_app.py`, for the next round): (1) units: type a value by keyboard, fire `change` too, and require the result to CHANGE to the expected number (3 m -> 9.8425 ft); (2) every app: any console error or uncaught page error fails the build.
+  Validation on the hand-written references in `benchmark/blind/checks/reference/`: todo 8/8, notes 6/6, units 12/12 (pass). Negative controls: `units_dead` (handlers never wired) 8/12, failing the 3 conversions and the new typed-change step; `todo_err` (uncaught error after load) 7/8, failing the new error step.
+  On the round-1 units builds (read-only): A 12/12, B 12/12, **C 12/12**. **The new step does NOT fail units/C**, because units/C works in a clean browser. It would not have caught what Naman saw.
+- Delivery fix for the next round (benchmark/blind/README.md): every label gets its own port (no two builds share an origin), file dates are not set equal, and the run line says to open a fresh private window.

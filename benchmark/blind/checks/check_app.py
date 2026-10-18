@@ -116,8 +116,22 @@ try:
                 btn.first.click(); pg.wait_for_timeout(300)
                 return ok
             ck("swap exchanges units", swap)
+            def typed_change():
+                # added after round 1: type by keyboard (input event), fire change too, and require the
+                # result to CHANGE to the expected number (catches a converter whose handlers are dead)
+                pg.select_option("#category", label="Length"); pg.wait_for_timeout(200)
+                pg.select_option("#from", value="m"); pg.select_option("#to", value="ft")
+                pg.fill("#value", "1"); pg.wait_for_timeout(200)
+                before = pg.inner_text("#result")
+                pg.click("#value", click_count=3); pg.keyboard.type("3")
+                pg.dispatch_event("#value", "change"); pg.wait_for_timeout(300)
+                after = pg.inner_text("#result")
+                return after != before and "9.8425" in after
+            ck("typed value changes result to expected (3 m -> 9.8425 ft)", typed_change)
             conv("Length", "km", "mi", "10", "")
         pg.wait_for_timeout(300)
+        # added after round 1: any console error or uncaught page error fails the build, for every app
+        ck("no console errors or uncaught page errors", lambda: not res["console_errors"] and not res["page_errors"])
         pg.screenshot(path=shot)
         b.close()
 finally:
