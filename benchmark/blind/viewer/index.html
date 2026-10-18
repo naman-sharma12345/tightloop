@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blind app viewer</title>
+<style>
+ body{margin:0;font:15px -apple-system,Segoe UI,Roboto,sans-serif;background:#f4f5f7;color:#1f2328}
+ header{padding:16px 24px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:16px;align-items:center}
+ header h1{font-size:18px;margin:0;flex:1} nav button,.close{font:inherit;padding:6px 14px;border:1px solid #d0d7de;border-radius:8px;background:#fff;cursor:pointer}
+ nav button[aria-current=true]{background:#1f2328;color:#fff;border-color:#1f2328}
+ main{padding:24px} .hint{color:#6b7280;margin:0 0 16px}
+ .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+ .tile{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+ .tile:hover,.tile:focus{outline:3px solid #4f46e5;outline-offset:2px}
+ .tile .lab{padding:10px 14px;font-weight:600;font-size:16px;border-bottom:1px solid #eef0f2}
+ .thumb{position:relative;height:200px;overflow:hidden;background:#fafafa}
+ .thumb iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform:scale(.25);transform-origin:0 0;pointer-events:none}
+ #overlay{position:fixed;inset:0;background:#fff;display:none;flex-direction:column;z-index:10}
+ #overlay.open{display:flex} #overlay .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #e5e7eb}
+ #overlay .bar b{flex:1} #overlay iframe{flex:1;border:0;width:100%}
+</style></head><body>
+<header><h1>Blind app viewer</h1><nav id="tabs"></nav></header>
+<main><p class="hint">Each tile is one version of the same app. Click a tile to open it full size and use it; Close returns here.</p>
+<div id="grid" class="grid"></div></main>
+<div id="overlay" role="dialog" aria-modal="true"><div class="bar"><b id="otitle"></b><button class="close" id="next">Next version &rarr;</button><button class="close" id="close">Close</button></div><iframe id="frame" title="app"></iframe></div>
+<script>
+fetch('manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{
+  const base=+location.port||80, apps=m.apps; let cur=0, open=-1;
+  const url=b=>`${location.protocol}//${location.hostname}:${base+b.port_offset}/index.html`;
+  const tabs=document.getElementById('tabs'), grid=document.getElementById('grid'), ov=document.getElementById('overlay'), fr=document.getElementById('frame');
+  function show(i){cur=i; tabs.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-current',j===i));
+    grid.innerHTML=''; apps[i].builds.forEach((b,k)=>{const t=document.createElement('div');t.className='tile';t.tabIndex=0;t.dataset.label=b.label;
+      t.innerHTML=`<div class="lab">${apps[i].title} &middot; ${b.label}</div><div class="thumb"><iframe loading="lazy" tabindex="-1" src="${url(b)}" title="${b.label} preview"></iframe></div>`;
+      t.onclick=()=>expand(k); t.onkeydown=e=>{if(e.key==='Enter')expand(k)}; grid.appendChild(t);});}
+  function expand(k){open=k; const b=apps[cur].builds[k]; document.getElementById('otitle').textContent=apps[cur].title+' · '+b.label; fr.src=url(b); ov.classList.add('open');}
+  document.getElementById('close').onclick=()=>{ov.classList.remove('open'); fr.src='about:blank'; show(cur);};
+  document.getElementById('next').onclick=()=>{const n=apps[cur].builds.length; if(open<n-1) expand(open+1); else {ov.classList.remove('open'); fr.src='about:blank'; show(Math.min(cur+1,apps.length-1));}};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ov.classList.contains('open'))document.getElementById('close').click()});
+  apps.forEach((a,i)=>{const b=document.createElement('button');b.textContent=a.title;b.onclick=()=>show(i);tabs.appendChild(b)}); show(0);
+});
+</script></body></html>
