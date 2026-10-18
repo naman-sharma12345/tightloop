@@ -1,0 +1,19 @@
+{
+  "name": "bat-02",
+  "kind": "bugfix",
+  "source": "https://github.com/sharkdp/bat",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "45ee2dc4c7277b4697d5b330f59e8ed5efcce99c",
+  "license_note": "re-read at fix commit 45ee2dc4c: LICENSE-MIT=MIT,LICENSE-APACHE=Apache-2.0",
+  "commit": "45ee2dc4c7277b4697d5b330f59e8ed5efcce99c",
+  "start_commit": "db66e4459bc4e66c03629d7cbc235f59245280c0",
+  "instruction": "fix: Wrap file name in header",
+  "hidden_tests": [
+    "header_narrow_terminal",
+    "header_very_narrow_terminal"
+  ],
+  "hidden_patch": "patches/bat-02.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "cargo test --test integration_tests"
+}
