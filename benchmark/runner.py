@@ -49,16 +49,54 @@ def scrub(text):
             text = text.replace(v, f"<{k} redacted>")
     return text
 
-def run_logged(cmd, cwd, timeout_s, log_path, shell=False):
+def lock_busy(path):
+    """True if another process holds an flock on path (checked without
+    waiting; the lock is released at once if we got it). None if unknown."""
+    try:
+        import fcntl
+    except ImportError:
+        return None
+    try:
+        fd = os.open(path, os.O_RDONLY)
+    except FileNotFoundError:
+        return False
+    except OSError:
+        return None
+    try:
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        fcntl.flock(fd, fcntl.LOCK_UN)
+        return False
+    except BlockingIOError:
+        return True
+    finally:
+        os.close(fd)
+
+def loadavg():
+    try:
+        return [round(x, 2) for x in os.getloadavg()]
+    except (AttributeError, OSError):
+        return UNMEASURED
+
+def run_logged(cmd, cwd, timeout_s, log_path, shell=False, watch_lock=None,
+               samples=None):
     """Run cmd in its own process group, stdout/stderr to files, kill the
     whole group on timeout. Returns (returncode or None on timeout, stdout,
-    stderr)."""
+    stderr). With watch_lock, appends lock_busy() to samples every ~30 s."""
     out_p, err_p = log_path + ".stdout", log_path + ".stderr"
     with open(out_p, "w") as fo, open(err_p, "w") as fe:
         p = subprocess.Popen(cmd, cwd=cwd, shell=shell, stdout=fo, stderr=fe,
                              stdin=subprocess.DEVNULL, start_new_session=True)
         try:
-            rc = p.wait(timeout=timeout_s)
+            deadline = time.time() + timeout_s
+            while True:
+                if watch_lock and samples is not None:
+                    samples.append(lock_busy(watch_lock))
+                try:
+                    rc = p.wait(timeout=max(0.1, min(30, deadline - time.time())))
+                    break
+                except subprocess.TimeoutExpired:
+                    if time.time() >= deadline:
+                        raise
         except subprocess.TimeoutExpired:
             try:
                 os.killpg(p.pid, signal.SIGKILL)
@@ -123,7 +161,7 @@ def prepare(task, cache):
     git("checkout", "-q", task["start_commit"], cwd=wt)
     return wt
 
-def launch(cli, prompt, skill, cwd, timeout_s, log_path):
+def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None):
     """One fresh headless session. Returns (raw_text, parsed_metrics).
     Raw stdout/stderr are kept at log_path.stdout / .stderr."""
     if cli == "claude":
@@ -137,15 +175,22 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path):
         if skill:  # codex reads AGENTS.md in the cwd
             with open(os.path.join(cwd, "AGENTS.md"), "w") as f:
                 f.write(skill)
+    samples = []
+    load0 = loadavg()
     t0 = time.time()
-    rc, stdout, stderr = run_logged(cmd, cwd, timeout_s, log_path)
+    rc, stdout, stderr = run_logged(cmd, cwd, timeout_s, log_path,
+                                    watch_lock=watch_lock, samples=samples)
     wall = time.time() - t0
+    load1 = loadavg()
     m = {"input": UNMEASURED, "output": UNMEASURED, "cache": UNMEASURED,
          "total": UNMEASURED, "turns": UNMEASURED, "tool_calls": UNMEASURED,
          "model": UNMEASURED, "model_from_modelUsage": UNMEASURED,
          "agent": f"{cli} {cli_version(cli)}",
          "wall_seconds": round(wall, 2), "timed_out": rc is None,
-         "infra_error": None}
+         "infra_error": None, "loadavg_start": load0, "loadavg_end": load1,
+         "lock_busy_during": ("unknown" if not watch_lock or None in samples or not samples
+                              else "yes" if any(samples) else "no"),
+         "lock_samples": len(samples)}
     text = stdout + stderr
     try:
         if cli == "claude":
@@ -236,6 +281,11 @@ def main():
     ap.add_argument("--timeout", type=int, default=1800, help="seconds per session")
     ap.add_argument("--grade-timeout", type=int, default=900, help="seconds per grader run")
     ap.add_argument("--cache", default=".tl-cache", help="repo clone cache dir")
+    ap.add_argument("--wait-lock", default=None,
+                    help="flock file another job on this machine holds while it runs: "
+                         "wait until free before each session (not held), sample during it")
+    ap.add_argument("--wait-lock-max", type=int, default=1800,
+                    help="max seconds to wait for --wait-lock before starting anyway")
     ap.add_argument("--min-free-mib", type=int, default=0,
                     help="stop before a new session if free disk (at --out) is below this")
     a = ap.parse_args()
@@ -275,6 +325,12 @@ def main():
                                   "model_from_modelUsage per row)"]
                                  if a.cli == "claude" else ["turns", "tool_calls", "model"]),
            "notes": "tokens.cache = cache_read_input_tokens + cache_creation_input_tokens"}
+    if a.wait_lock:
+        env["shared_machine"] = (f"wall times measured on a shared machine; another job holds "
+                                 f"{a.wait_lock} while it runs. Each session starts only once "
+                                 f"that lock is free (waited up to {a.wait_lock_max}s, not held); "
+                                 "per row: loadavg_start, loadavg_end, lock_busy_during "
+                                 "(sampled about every 30 s), lock_wait_seconds")
     with open(os.path.join(a.out, "environment.json"), "w") as f:
         json.dump(env, f, indent=2)
     rows = os.path.join(a.out, "rows.jsonl")
@@ -291,14 +347,22 @@ def main():
                                    f"{tid}/{arm}/run{i+1}")
                         break
                     tag = f"{tid}_{arm}_{i+1}"
+                    free_start = free_mib(a.out)
                     wt = prepare(task, a.cache)
+                    lock_wait = 0.0
+                    if a.wait_lock:
+                        w0 = time.time()
+                        while lock_busy(a.wait_lock) and time.time() - w0 < a.wait_lock_max:
+                            time.sleep(5)
+                        lock_wait = round(time.time() - w0, 1)
                     try:
                         prompt = strip_pr_refs(task["instruction"])
                         if task.get("kind") == "app" and task.get("spec"):
                             with open(os.path.join(ROOT, task["spec"])) as f:
                                 prompt = f.read()
                         raw, m = launch(a.cli, prompt, skill, wt, a.timeout,
-                                        os.path.join(logs, tag + ".agent"))
+                                        os.path.join(logs, tag + ".agent"),
+                                        watch_lock=a.wait_lock)
                         note = None
                         if m["timed_out"]:
                             result, diffstat = "timeout", "session timed out; grader not run"
@@ -326,6 +390,10 @@ def main():
                            "wall_seconds": m["wall_seconds"],
                            "turns": m["turns"], "tool_calls": m["tool_calls"],
                            "diff": diffstat, "result": result, "note": note,
+                           "loadavg_start": m["loadavg_start"], "loadavg_end": m["loadavg_end"],
+                           "lock_busy_during": m["lock_busy_during"],
+                           "lock_samples": m["lock_samples"], "lock_wait_seconds": lock_wait,
+                           "free_mib_start": free_start,
                            "logs": os.path.join("logs", tag + ".*")}
                     out.write(json.dumps(row) + "\n")
                     out.flush()
