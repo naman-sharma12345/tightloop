@@ -157,3 +157,49 @@ kanban/C dropped 0 hints 0 files 1
 kanban/D dropped 0 hints 0 files 1
 HINT LINES LEFT - review blind_strip_log_r2.json before building the viewer
 exit=3
+
+== Rerun after the pre-build commit b55917c (2026-10-18 ~19:17-19:26Z) ==
+-- Isolation probe, the driver's own isolation_check (benchmark/blind/r2_run/isolation_probe_test.py) --
+BEFORE the fix (old probe `find / -xdev ...`): planted KEY_v2.json file -> visible_in_sandbox [] ok True   <- NOT CAUGHT (find -xdev from / skips the tmpfs mounts)
+AFTER the fix (find over each mount root):
+0.5 {"workspace_files": [".claude/skills/tightloop/SKILL.md"], "grep_hits": [], "visible_in_sandbox": [], "ok": true}
+planted check_app text -> grep hits ["<tmp>/leak.txt"]
+planted KEY_v2.json file -> visible_in_sandbox ["<tmp>/KEY_v2.json"] ok False
+-- Checker self-test rerun (same cases; expected fails are the negative controls listed above) --
+kanban: 10/10
+kanban_pointer: 10/10
+kanban_nodnd: 8/10
+expenses: 25/25
+expenses_noconfirm: 23/25
+expenses_overflow: 24/25
+expenses_ignoredate: 23/25
+bookmarks: 20/20
+bookmarks_noconfirm: 18/20
+todo: 9/9
+notes: 7/7
+units: 13/13
+todo_err: 8/9
+todo_deadbtn: 8/9
+units_dead: 9/13
+kanban[html5-only path]: 10/10
+kanban_pointer[pointer-only path]: 10/10
+kanban_pointer[html5-only path]: 8/10
+kanban_nodnd[html5-only path]: 8/10
+r1 todo/A: 10/10
+r1 todo/B: 10/10
+r1 todo/C: 10/10
+r1 notes/A: 8/8
+r1 notes/B: 8/8
+r1 notes/C: 8/8
+r1 units/A: 14/14
+r1 units/B: 14/14
+r1 units/C: 14/14
+-- Viewer self-test rerun --
+== A (r2 refs, 4 panels per app)
+{"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-705f313c/index.html": 404}, "forbidden_files": [], "zip_listing": {"entries": 16, "key_mapping_cost_hits": []}, "bad": []}
+== B (negative: planted version name + COST file)
+{"all_ok": false, "n": 2, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 5, "hits": [[8702, "index.html", "();\n</script>\n<!-- built with ponytail -->\n"]], "n_hits": 1}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/bookmarks-A-03339b41/index.html": 404}, "forbidden_files": ["COST.json"], "zip_listing": {"entries": 6, "key_mapping_cost_hits": []}, "bad": []}
+== C (old 9 round-1 builds)
+{"all_ok": true, "n": 9, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 33, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/todo-A-c67e5422/index.html": 404}, "forbidden_files": [], "zip_listing": {"entries": 34, "key_mapping_cost_hits": []}, "bad": []}
+== A from its zip
+{"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-705f313c/index.html": 404}, "forbidden_files": [], "zip_listing": null, "bad": []}

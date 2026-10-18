@@ -54,5 +54,5 @@ Versions: no-skill, ponytail, tightloop-v4, tightloop-v4c; labels A-D shuffled p
   tool calls, turns, wall time, with v4c on the line after v4 plus v4c-v4 and v4c/v4. It is kept outside the viewer folder and
   the viewer never reads it.
 - Self-test output: results/blind_r2_selftest.txt.
-- Integrity and build isolation: [r2_INTEGRITY.md](r2_INTEGRITY.md), sha256 `7dfa3e25a95a58912d7baa60191e4d900f9df595fb917035528c141ef7f9cd25` at the pre-build commit. It covers key v2 (the reseal;
+- Integrity and build isolation: [r2_INTEGRITY.md](r2_INTEGRITY.md), sha256 `5b5cb24336d6b1f026b92e8e767fc8e119c818472d9577d01e7b95e0cbe6cdc2` as of the probe-fix commit after b55917c. It covers key v2 (the reseal;
   v1 is VOID), the GitHub block in the build sandbox, the void-and-rerun rule, leak greps, the build order file and the full sha256 list.

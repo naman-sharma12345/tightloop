@@ -38,7 +38,7 @@ Written before any round-2 build. Nothing below names which version sits behind 
 - benchmark/blind/r2_key_v1_shuffle_as_run.py (made the VOID key v1): `c6a792f54059f39e0d857aa7d3fb213832c9da1733e76f84e8520bfcf2f5944e`
 - benchmark/blind/make_order_r2.py: `4d3329b7b40d87d1e3a07e47a55f999e54d7b9c5b5a491c5cdd73ef5f9219380`; results/blind_r2_order.json: `96938a69b4dce6a90fee96231af97a2b2e369a645bcb6b7ffb896b4a1a8f1ff5`
 - benchmark/blind/leakgrep_r2.py: `cad995de7d5a06e61383e6a30566c3a87ff2299e5d633224532784210160718b`
-- benchmark/blind/r2_run/blind_driver_r2.py: `fa6d19ba7e0d3f8f01412d45e1b1b338e1c4f02ff70444691467c46cf62da645`
+- benchmark/blind/r2_run/blind_driver_r2.py: `8da0565b6275b0acffcc5c4b57ed5e7b25fe101da7670cc108a862678424fff0` (probe fix after b55917c)
 - benchmark/blind/r2_run/pack_r2.py: `2a85c53dbab41612591c86a7100edb0caef7f9c65092ef2732e6f24d85a72ce8`
 - benchmark/blind/cost_table.py: `c18e43675faa63e048c9c9c25c4f8fe9835bf3864534dd39b16c52100d3e4641`
 
@@ -62,8 +62,12 @@ Only the session's own workspace and the agent CLI's config directory are mounte
 Before every session the driver logs three things, and it stops the run if any of them fails:
 1. the workspace file list;
 2. a grep of the workspace for `check_app|KEY.json|blind/checks|checks/reference|blind_r2|COST` (must be empty);
-3. a probe from inside the same sandbox: `test -e` on the key and on every checker copy, plus
-   `find / -xdev -name check_app.py -o -name KEY.json -o -name 'blind_rows*'` (must be empty).
+3. a probe from inside the same sandbox: `test -e` on both keys and on every checker copy; `find -xdev` for `check_app.py`,
+   `KEY*.json` and `blind_rows*` over each mount root separately (/, the workspace, /tmp, /home/user/tab, the CLI config dir,
+   ~/.prime, /dev/shm), because `-xdev` from / alone skips the tmpfs mounts; and a curl to raw.githubusercontent.com. All must
+   come back empty. Fixed after the pre-build commit b55917c: the negative control (a file named KEY_v2.json planted in the
+   workspace) was NOT caught by the old `find / -xdev`. The new probe catches it (results/blind_r2_selftest.txt,
+   r2_run/isolation_probe_test.py).
 
 Dry run on this box: the workspace lists only `.claude/skills/tightloop/SKILL.md`; grep 0; probe 0. A planted file containing
 "check_app.py" is caught by the grep.

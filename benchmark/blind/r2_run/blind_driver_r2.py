@@ -39,7 +39,7 @@ def isolation_check(wt):
     files = sorted(os.path.relpath(os.path.join(dp, f), wt) for dp, dns, fs in os.walk(wt) for f in fs if "/.git/" not in "/" + os.path.relpath(os.path.join(dp, f), wt) + "/")
     g = subprocess.run(["grep", "-rIlE", "check_app|KEY\\.json|blind/checks|checks/reference|blind_r2|COST", wt, "--exclude-dir=.git"], capture_output=True, text=True).stdout.split()
     pr = subprocess.run(bwrap_prefix(wt) + ["bash", "-c", "for p in " + " ".join(PROBE) + "; do test -e $p && echo VISIBLE:$p; done; "
-                        "find / -xdev \\( -name check_app.py -o -name 'KEY*.json' -o -name 'blind_rows*' \\) 2>/dev/null | head -20; "
+                        "for r in / " + wt + " /tmp /home/user/tab /home/user/tab/work/tl_tools /home/user/.prime /dev/shm; do find $r -xdev \\( -name check_app.py -o -name 'KEY*.json' -o -name 'blind_rows*' \\) 2>/dev/null; done | sort -u | head -20; "
                         "curl -sS -m 6 -o /dev/null https://raw.githubusercontent.com/ 2>/dev/null && echo VISIBLE:github-reachable"],
                         capture_output=True, text=True, timeout=120)
     vis = [l for l in pr.stdout.split("\n") if l.strip()]
