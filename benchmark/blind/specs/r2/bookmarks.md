@@ -6,10 +6,12 @@ plus user folders; the user can create, rename and delete a folder, and deleting
 Bookmarks show as cards with the title (opens in a new tab), the domain, a letter avatar and the tags as chips. A search box
 filters live by title, URL or tag (case-insensitive); clicking a tag chip filters by that tag, and active filters are shown
 and can be cleared. Bookmarks can be edited and deleted, and a counter shows how many are visible. Export downloads all data
-as a JSON file; Import reads such a file and merges it, skipping duplicate URLs and reporting how many were added. Element ids
-the checker uses: inputs `#title`, `#url`, `#tags` and `select#folder` inside `form#bookmark-form`; the search input is
-`#search`; each bookmark card has class `bookmark`; the export and import controls are `#export` and `#import` (a file input or
-a button that opens one).
+as a JSON file; Import reads such a file and merges it, skipping duplicate URLs and reporting how many were added. Export file
+shape: a JSON array of objects `{title, url, tags, folder}`, where `tags` is an array of strings; Import accepts exactly that
+shape. Every destructive action asks first with the browser's native `confirm()` (not a custom dialog) and does nothing if the
+user cancels. Element ids the checker uses: inputs `#title`, `#url`, `#tags` and `select#folder` inside `form#bookmark-form`;
+the search input is `#search`; each bookmark card has class `bookmark`, and its edit and delete buttons carry the classes
+`edit` and `delete`; the export control is `#export`; `#import` is, or contains, an `input[type=file]`.
 
 Design instructions:
 - Layout: a fixed left sidebar (folders, 240 px) and a main area with a top bar (search, add, import/export) above a responsive card grid (3-4 columns at 1280 px).

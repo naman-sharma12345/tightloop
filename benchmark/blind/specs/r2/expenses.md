@@ -2,15 +2,18 @@
 
 Build a single-page expense tracker. The user adds an expense with a description, an amount, a category (Food, Transport,
 Housing, Fun, Other) and a date (today by default); invalid input (empty description, non-positive or non-numeric amount)
-shows a clear inline message and adds nothing. Expenses are listed newest first, with the category as a coloured tag; each
-can be edited in place or in a small dialog, and deleted. A month picker selects which month is shown (default: the current
-month) and a category filter narrows the list. Summary cards show the month's total, the number of expenses and the largest
-category, all formatted as money with two decimals. A chart of the month's spending by category (bars or a donut, drawn with
-SVG or canvas, no chart library) updates whenever data changes, and a second small chart or table shows the total for each of
-the last 6 months. Export CSV downloads the visible expenses (header row: date,description,category,amount). Element ids the
-checker uses: inputs `#desc`, `#amount`, `select#category` (option values exactly the category names above) and `#date` inside
-`form#expense-form`; each listed expense is an `li` or `tr` inside `#expenses`; `#total` contains the month's total; the chart
-is `#chart` (an `svg` or `canvas`); the month picker is `#month`; the CSV control is `#export-csv`.
+shows a clear inline message and adds nothing. Expenses are listed newest first, with the category as a coloured tag; each can
+be edited in place or in a small dialog, and deleted. A month picker selects which month is shown (default: the current month)
+and a category filter narrows the list. Summary cards show the month's total, the number of expenses and the largest category,
+all formatted as money with two decimals. A chart of the month's spending by category (bars or a donut, drawn with SVG or
+canvas, no chart library) updates whenever data changes, and a second small chart or table shows the total for each of the
+last 6 months. Export CSV downloads the visible expenses (header row: date,description,category,amount). Every destructive
+action asks first with the browser's native `confirm()` (not a custom dialog) and does nothing if the user cancels. Element
+ids the checker uses: inputs `#desc`, `#amount`, `select#category` (option values exactly the category names above) and
+`#date` inside `form#expense-form`; each listed expense is an `li` or `tr` inside `#expenses`, and its edit and delete buttons
+carry the classes `edit` and `delete`; an edit (in place or in a dialog) is saved with a button `#save-edit`; `#total`
+contains ONLY the month's total as a formatted number (no label or other words inside that element); the month picker is
+`#month` and defaults to the current month; the chart is `#chart` (an `svg` or `canvas`); the CSV control is `#export-csv`.
 
 Design instructions:
 - Layout: a header with the month picker and Export CSV, a row of 3 summary cards, then two columns: the add form and the expense list on the left (60%), the charts on the right (40%).

@@ -4,12 +4,15 @@ Build a single-page kanban board with columns To do, In progress and Done (the u
 adds a card by typing a title and pressing Enter or an Add button; empty or whitespace-only titles are not added. Cards are
 dragged between columns and reordered within a column (mouse drag and drop, with a visible drop indicator). Clicking a card
 opens a detail modal where the user edits the title and a longer description, sets a due date, and toggles labels from a fixed
-set (Bug, Feature, Design, Urgent, each with its own colour); the modal closes with a Close button, the Escape key or a click on
-the backdrop, and has a Delete button. Cards show their labels as small coloured bars or chips and the due date (overdue dates in
-red). Each column header shows its card count. A filter shows only cards with a chosen label. The board survives a page reload.
-Element ids the checker uses: the new-card title input is `#new-card`; each column is an element with class `column` and
-`data-col` set to `todo`, `doing` or `done` for the three default columns; each card is an element with class `card` inside its
-column; the detail modal has id `card-modal` and is visible only while open.
+set (Bug, Feature, Design, Urgent, each with its own colour); the modal closes with a Close button, the Escape key or a click
+on the backdrop, and has a Delete button. Cards show their labels as small coloured bars or chips and the due date (overdue
+dates in red). Each column header shows its card count. A filter shows only cards with a chosen label. The board survives a
+page reload. Every destructive action asks first with the browser's native `confirm()` (not a custom dialog) and does nothing
+if the user cancels. Element ids the checker uses: the new-card title input is `#new-card`; each column is an element with
+class `column` and `data-col` set to `todo`, `doing` or `done` for the three default columns; each card is an element with
+class `card` inside its column; the detail modal has id `card-modal` and is visible only while open; inside `#card-modal` the
+title and description fields are `#card-title` and `#card-desc`, and the delete button is `#card-delete` (with class
+`delete`); any other edit and delete buttons carry the classes `edit` and `delete`.
 
 Design instructions:
 - Layout: a slim top bar (board title, label filter, add column) above horizontally arranged columns of equal width (280-320 px) that scroll horizontally inside the board when they do not fit; the modal is centred, 560 px wide, over a dimmed backdrop.
