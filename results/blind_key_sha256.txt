@@ -1,0 +1,5 @@
+Blind app bake-off: sealed label->arm key
+file: KEY.json (kept privately by Tab until Naman has picked all 3 apps)
+sha256: 2597e7e6401a598ad61f50183dbb4f9dc54685de8fa6d86ebca9e5b9cd851e5d
+committed: 2026-10-18T17:32:08Z
+The key itself is withheld until the picks are in; it will be committed in results/blind_picks.md and must hash to the value above.
