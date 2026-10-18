@@ -1,0 +1,20 @@
+{
+  "name": "pytest-03",
+  "kind": "bugfix",
+  "source": "https://github.com/pytest-dev/pytest",
+  "license": "MIT",
+  "license_commit": "d471aef98473523f400f092071dadc7f745c7196",
+  "license_note": "re-read at fix commit d471aef98: LICENSE=MIT",
+  "commit": "d471aef98473523f400f092071dadc7f745c7196",
+  "start_commit": "6c9939b08b23b29da93854b4412ae4e5a17faaf1",
+  "instruction": "Fix sequences being shortened even with `-vv` verbosity.",
+  "hidden_tests": [
+    "test_full_sequence_print_with_vv",
+    "test_len_list",
+    "test_len_dict"
+  ],
+  "hidden_patch": "patches/pytest-03.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "pytest testing/test_terminal.py -k 'test_full_sequence_print_with_vv or test_len_list or test_len_dict'"
+}
