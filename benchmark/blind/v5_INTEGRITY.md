@@ -74,3 +74,11 @@ Mirrors r2_run/blind_driver_r2.py at 4a42a7c; no runner, grader or sandbox file 
 | benchmark/blind/v5_run/argv_v5.py | 8b804c3f2f11aebb5912e20241548260d2e459b4577885e2167904f7ffdb6097 |
 | benchmark/blind/v5_run/argv_test_v5.py | 4d774c9a9853d1be35ebb7da325e7d228851494ef5fa2b240d776ab64ee5df6d |
 | benchmark/blind/v5_run/snap_v5.sh | cff4b589d27240aebd90bc00f28c577effe3199e6bf9ee89db764336d60803a1 |
+
+## 4. Blind pack (benchmark/blind/v5_run/pack_v5.py)
+
+A copy of r2_run/pack_r2.py with only the paths, the v5 key pin (sha256 only, never opened) and 9 pages x 5 labels changed: strip
+version material, hint-line check, leak grep (leakgrep_r2.py) over the 45 blinded dirs, the zip listing+entries and the unzipped
+tree, fixed zip timestamps, no .git. Viewer: the round-2 viewer unchanged (page ids habits-1 ... pomodoro-3; its grid has 4 columns,
+so the 5th panel wraps to a second row). Dry run on 45 fake builds: 0 / 0 / 0 hits, exit 0 (results/blind_v5_pack_dryrun.txt).
+pack_v5.py sha256 b0f05e6196aa37c0b36cdb56f70825d004e5ee0c3f13be2dbecd5c2432c9d575; pack_dryrun_v5.sh sha256 5e51d87d2ba6956abba6b3b4f497441fcc25b4b90afaeed0a66d4a13e94c9122.
