@@ -1,0 +1,18 @@
+{
+  "name": "tokio-01",
+  "kind": "bugfix",
+  "source": "https://github.com/tokio-rs/tokio",
+  "license": "MIT",
+  "license_commit": "df73fa21884f65ac4f5556ec72814cefed94897f",
+  "license_note": "re-read at fix commit df73fa218: LICENSE=MIT",
+  "commit": "df73fa21884f65ac4f5556ec72814cefed94897f",
+  "start_commit": "09ad5367b8de39ae2532c7c0efe4136167be015d",
+  "instruction": "runtime: panic when `event_interval` is set to 0 (#7838)",
+  "hidden_tests": [
+    "builder_event_interval_interval_panic_caller"
+  ],
+  "hidden_patch": "patches/tokio-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p tokio --test rt_panic builder_event_interval_interval_panic_caller"
+}
