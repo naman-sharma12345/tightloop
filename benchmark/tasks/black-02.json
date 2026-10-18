@@ -1,0 +1,18 @@
+{
+  "name": "black-02",
+  "kind": "bugfix",
+  "source": "https://github.com/psf/black",
+  "license": "MIT",
+  "license_commit": "fff747d61befcae0777667c14055398c22c178dc",
+  "license_note": "re-read at fix commit fff747d61: LICENSE=MIT",
+  "commit": "fff747d61befcae0777667c14055398c22c178dc",
+  "start_commit": "9995bffbe474782fd1ec9d5802be83697806c35b",
+  "instruction": "Fix formatting cells with magic methods and starting or trailing empty lines (#4484)",
+  "hidden_tests": [
+    "test_cell_magic_with_empty_lines"
+  ],
+  "hidden_patch": "patches/black-02.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "pytest tests/test_ipynb.py::test_cell_magic_with_empty_lines"
+}
