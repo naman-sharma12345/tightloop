@@ -1,0 +1,18 @@
+{
+  "name": "fd-01",
+  "kind": "bugfix",
+  "source": "https://github.com/sharkdp/fd",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "6aac84e4ae30c502d22a76c2e80183ac7306d544",
+  "license_note": "LICENSE-MIT re-read at the fix commit; still MIT",
+  "commit": "6aac84e4ae30c502d22a76c2e80183ac7306d544",
+  "start_commit": "a8a77d21621a11dbe499f1732331448c48ce9b76",
+  "instruction": "fix: flag path separators in --and patterns, not just the primary pattern",
+  "hidden_patch": "patches/fd-01.patch",
+  "hidden_tests": [
+    "test_and_pattern_with_forward_slash_is_rejected"
+  ],
+  "check_command": "cargo test --test tests test_and_pattern_with_forward_slash_is_rejected",
+  "holdout": false,
+  "status": "UNPROVEN"
+}
