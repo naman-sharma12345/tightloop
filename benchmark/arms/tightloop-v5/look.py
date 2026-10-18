@@ -2,11 +2,11 @@
 """look.py: one real-browser self-check of a static web app (tightloop v5).
 usage: python3 look.py [app_dir]   (default: .)
 Serves app_dir on a free localhost port (no-store), opens it in headless
-Chromium, and prints at most ~25 lines:
-  console/page errors, off-host requests, every visible control exercised once
-  (inputs filled + Enter, selects changed, buttons clicked, confirm() accepted)
-  with the controls whose action changed nothing, reload persistence, and
-  horizontal overflow at 375 px. Writes exactly ONE screenshot, /tmp/look/used.png (1280x800, after
+Chromium, and prints at most ~25 lines. Generic checks only (no app-specific
+or scoring-checker logic): console/page errors, every visible control used
+once with its result (inputs filled + Enter, selects changed, buttons clicked,
+confirm() accepted; result = "changed" or "no change"), and horizontal overflow
+at 375 px. Writes exactly ONE screenshot, /tmp/look/used.png (1280x800, after
   use). Everything else is text. Never edits the app."""
 import functools, hashlib, http.server, os, sys, threading
 os.environ.pop("FORCE_COLOR", None)
@@ -24,7 +24,7 @@ class H(http.server.SimpleHTTPRequestHandler):
 srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), functools.partial(H, directory=d))
 threading.Thread(target=srv.serve_forever, daemon=True).start()
 url = "http://127.0.0.1:%d/" % srv.server_address[1]
-errs, ext, dead, notes, log = [], set(), [], [], []
+errs, notes, log, quiet = [], [], [], []
 dialogs = [0]
 def state(p):
     try:
@@ -41,18 +41,12 @@ with sync_playwright() as pw:
     p = b.new_page(viewport={"width": 1280, "height": 800})
     p.on("console", lambda m: m.type == "error" and errs.append("console: " + m.text[:120]))
     p.on("pageerror", lambda e: errs.append("pageerror: " + str(e)[:120]))
-    p.on("request", lambda r: (not r.url.startswith(url) and not r.url.startswith(("data:", "blob:"))) and ext.add(r.url[:80]))
     p.on("dialog", lambda dl: (dialogs.__setitem__(0, dialogs[0] + 1), dl.accept()))
     p.goto(url); p.wait_for_timeout(400)
     first_text = " ".join(p.evaluate("document.body.innerText").split())[:160]
     groups = ["input:not([type=file]):not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]),textarea",
               "select", "input[type=checkbox],input[type=radio]",
               "button,[role=button],input[type=submit],input[type=button],a[href^='#']"]
-    def refill():
-        for t in p.query_selector_all("input[type=text],input:not([type]),textarea"):
-            try:
-                if t.is_visible() and not t.input_value(): t.fill("Look retry", timeout=500)
-            except Exception: pass
     n_done = 0
     for g, sel in enumerate(groups):
         for i in range(40):
@@ -77,30 +71,22 @@ with sync_playwright() as pw:
                 p.wait_for_timeout(120)
                 n_done += 1
                 if state(p) == before:
-                    res = "no change"
-                    if g == 3:  # retry once with filled inputs before calling it dead
-                        refill(); before = state(p); e.click(timeout=800); p.wait_for_timeout(120)
-                        if state(p) == before: dead.append(name)
-                        else: res = "changed after inputs refilled"
+                    res = "no change"; quiet.append(name)
                 if dialogs[0] > d0: res += ", confirm() accepted"
                 log.append("  %s %s -> %s" % (("type", "select", "check", "click")[g], name, res))
                 p.keyboard.press("Escape")
             except Exception as x:
                 notes.append("could not use %s (%s)" % (label(e), str(x).split("\n")[0][:60]))
     p.screenshot(path=out + "/used.png")
-    before = state(p); p.reload(); p.wait_for_timeout(400)
-    persisted = state(p) == before
     p.set_viewport_size({"width": 375, "height": 800}); p.wait_for_timeout(250)
     sw = p.evaluate("document.documentElement.scrollWidth")
     b.close()
 srv.shutdown()
-lines = ["LOOK %s  (%s)" % ("OK" if not (errs or ext or dead or sw > 375) else "ISSUES", d)]
+lines = ["LOOK %s  (%s)" % ("OK" if not (errs or sw > 375) else "ISSUES", d)]
 lines.append("errors: %d%s" % (len(errs), "".join("\n  " + x for x in errs[:4])))
-if ext: lines.append("off-host requests: %d e.g. %s" % (len(ext), sorted(ext)[0]))
 lines.append("first load text: " + first_text)
-lines.append("controls (%d used; %d dead = no change even after refilling inputs):" % (n_done, len(dead)))
+lines.append("controls (%d used; %d with no change):" % (n_done, len(quiet)))
 lines += log[:24] + (["  ... %d more" % (len(log) - 24)] if len(log) > 24 else []) + ["  " + x for x in notes[:4]]
-lines.append("after reload: %s" % ("same visible state" if persisted else "visible state differs (fine only if the spec asks no persistence)"))
 lines.append("375px: scrollWidth %d %s" % (sw, "OK" if sw <= 375 else "OVERFLOW"))
 lines.append("one screenshot (1280x800, after use): /tmp/look/used.png")
 print("\n".join(lines))
