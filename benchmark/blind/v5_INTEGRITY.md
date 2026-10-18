@@ -37,3 +37,40 @@ The specs are frozen from this commit on.
 - Disclosure: one dry run of the same watch at 20:11:26Z wrote a throwaway key to a mktemp dir (sha256 bed01975...b7c5);
   it was never opened and was shredded right after. It is not this key and is never used.
 - The seed and mapping exist only inside KEY.json. Root and the building worker never see the mapping before the picks.
+
+## 3. Driver (benchmark/blind/v5_run/blind_driver_v5.py)
+
+Mirrors r2_run/blind_driver_r2.py at 4a42a7c; no runner, grader or sandbox file is changed:
+- Same hardened sandbox: r2_run/sandbox_r2.py prefix (own pid/net/ipc namespaces, empty home with read-only toolchains, private
+  tmp, egress proxy to the model API only), the same pre-session probe (S.run_probe) with the v5 key, v5 checker, prep worktree and
+  v5 output dir added to its path list and v5 key/checker forms added to its name and content patterns (set in the driver), the
+  same transcript audit (a checker/key/repo hit VOIDS the build; the only rerun), and a fresh CLI config per build wiped after it.
+- Skill text never in argv (root steer 20:10Z): argv_v5.py writes it to the build's own config dir and passes
+  --append-system-prompt-file /tmp/.claude-cfg/append.txt; the model receives the same bytes. Test: argv_test_v5.py,
+  results/blind_v5_argv_test.txt (5 arms, 0 skill lines in argv, file bytes identical, no-skill gets no flag). Disclosed limit:
+  argv shows whether a skill is present (no-skill has no flag), never which one.
+- Guard (exit 7, refusal logged): runs only from the snapshot (snap_v5.sh), whose history must contain the commit whose subject
+  starts "tightloop v5 blind run: checker"; /home/user/tab/files/tl_blind/v5/START_OK must exist (ROOT creates it); the pass-3
+  hold file must read "v5 builds by ..." (ROOT writes it with START_OK; the driver removes it after the last build or on a STOP);
+  no other worker (claude -p, runner.py, cargo/rustc/go, another blind driver, an unpaused pass-3/4 loop). Refusal test:
+  results/blind_v5_guard_test.txt.
+- Plan (DESIGN 4.1/4.10): 9 blocks (run 1 of habits, recipes, pomodoro, then run 2, then run 3); each block a no-skill "reply OK"
+  warm-up, then the 5 arms in row (block index mod 5) of the cyclic Latin square over [no-skill, ponytail, tightloop-v4,
+  tightloop-v5, tightloop-v5b]; cap 600 s; one session at a time; no rerun except an isolation void.
+- Pins: v5/v5b SKILL.md must equal the A2 shas (runner table); KEY.json sha256 must equal 43f5a85c... (read by sha256, and by
+  json.load in the driver process only to place each build in its label folder; never printed or logged).
+- Blinding of logs: logs, build_log_v5.tsv and results_v5.tsv name a build by its Latin-square position (app-runN-pK), never by
+  label; the label appears only in the rows file (blind_rows_v5.jsonl, task dir, never shown to the judge) and the raw output
+  folder name. Since the Latin square is public, position = arm: these logs are arm-labelled results, and the label<->arm map
+  stays only in the key and the rows file.
+- Per build, as it finishes (Naman m:98bbae98 pt 1): start, end, in+out, in+out+cache_read, cost-weighted, thinking
+  (DESIGN 4.8 field, cross-checked), wall, checks, timed-out. Warm-ups go to warmups_v5.jsonl (counted in total cost only).
+- After the last build: leakgrep_r2.py over the raw output tree is logged (raw, before strip/pack). The v5 blind pack and viewer
+  (9 pages x 5 panels) are a later step.
+
+| file | sha256 |
+|---|---|
+| benchmark/blind/v5_run/blind_driver_v5.py | d130cd1c1d1abdeba1a6576fea822b93ee06141885f76d6848c11ef540ddc927 |
+| benchmark/blind/v5_run/argv_v5.py | 8b804c3f2f11aebb5912e20241548260d2e459b4577885e2167904f7ffdb6097 |
+| benchmark/blind/v5_run/argv_test_v5.py | 4d774c9a9853d1be35ebb7da325e7d228851494ef5fa2b240d776ab64ee5df6d |
+| benchmark/blind/v5_run/snap_v5.sh | cff4b589d27240aebd90bc00f28c577effe3199e6bf9ee89db764336d60803a1 |

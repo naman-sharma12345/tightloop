@@ -1,0 +1,7 @@
+$ python3 benchmark/blind/v5_run/argv_test_v5.py <repo>   (2026-10-18 20:16Z, nothing launched)
+no-skill: argv items 11, skill lines checked 0, leaked 0, ok True
+ponytail: argv items 13, skill lines checked 15, leaked 0, ok True
+tightloop-v4: argv items 13, skill lines checked 13, leaked 0, ok True
+tightloop-v5: argv items 13, skill lines checked 15, leaked 0, ok True
+tightloop-v5b: argv items 13, skill lines checked 16, leaked 0, ok True
+ARGV TEST: PASS
