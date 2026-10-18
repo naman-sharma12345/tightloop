@@ -1,13 +1,18 @@
 # ponytail arm
 
 Third-party baseline: https://github.com/DietrichGebert/ponytail
+("lazy senior dev" skill: smallest change that fully solves the task)
 
-- Version pinned: pending (record the exact commit here when the harness
-  is first run)
-- License: pending verification - the arm is not wired into run.sh until
-  the repository's LICENSE file is read and recorded here, and this
-  harness's own license compatibility is confirmed.
-- Installation used: pending (record the exact commands)
+- Version pinned: commit `09c434ab73ca43761c5d8b0c5d341926c2fba710`
+  (default-branch head, read 2026-10-18)
+- License: MIT, read from the LICENSE file at the pinned commit
+  (copyright 2026 DietrichGebert). Compatible with this repository's MIT
+  license.
+- Installation used: copy `skills/ponytail/SKILL.md` from the pinned
+  commit into the agent's skill path (equivalent to the plugin install in
+  the repo's INSTALL.md; plugins also add lifecycle hooks which the
+  benchmark does not need).
+- Popularity note: 166,540 stars via the GitHub API on 2026-10-18.
 
-If the license cannot be verified as MIT or Apache-2.0 compatible, the
-ponytail arm is dropped from published tables and the README says so.
+If the pinned commit's LICENSE ever differs from MIT, the ponytail arm is
+dropped from published tables and the README says so.
