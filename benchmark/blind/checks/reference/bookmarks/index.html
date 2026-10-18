@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bookmarks ref</title>
+<style>body{margin:8px;font:14px sans-serif}input,select{max-width:100%}</style>
+<form id="bookmark-form"><input id="title" size="10"><input id="url" size="14"><input id="tags" size="8"><select id="folder"><option>Unsorted</option></select><button>Add</button></form><p id="msg"></p>
+<input id="search" size="10"><button id="export">Export</button><label id="import">Import <input type="file" accept=".json"></label><div id="list"></div>
+<script>
+let B=JSON.parse(localStorage.bm||'[]');const $=id=>document.getElementById(id);const save=()=>localStorage.bm=JSON.stringify(B);
+function draw(){const q=$('search').value.toLowerCase();$('list').innerHTML='';B.filter(b=>!q||(b.title+' '+b.url+' '+b.tags.join(' ')).toLowerCase().includes(q)).forEach(b=>{const d=document.createElement('div');d.className='bookmark';d.append(b.title+' '+b.url+' '+b.tags.join(','));
+const e=document.createElement('button');e.className='edit';e.textContent='Edit';e.onclick=()=>{const i=document.createElement('input');i.value=b.title;i.onchange=()=>{b.title=i.value;save();draw()};d.append(i)};
+const x=document.createElement('button');x.className='delete';x.textContent='Delete';x.onclick=()=>{if(!(confirm('Delete this bookmark?')))return;B.splice(B.indexOf(b),1);save();draw()};d.append(e,x);$('list').append(d)})}
+$('bookmark-form').onsubmit=e=>{e.preventDefault();let ok=false;try{ok=/^https?:$/.test(new URL($('url').value).protocol)}catch(_){}if(!ok){$('msg').textContent='Enter a valid http(s) URL';return}
+B.push({title:$('title').value,url:$('url').value,tags:$('tags').value.split(',').map(s=>s.trim()).filter(Boolean),folder:$('folder').value});save();$('msg').textContent='';['title','url','tags'].forEach(i=>$(i).value='');draw()};
+$('search').oninput=draw;$('export').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(B)],{type:'application/json'}));a.download='bookmarks.json';a.click()};
+$('import').querySelector('input').onchange=async ev=>{const f=ev.target.files[0];if(!f)return;let n=0;const norm=u=>u.replace(/\/$/,'');for(const o of JSON.parse(await f.text())){if(!B.some(b=>norm(b.url)==norm(o.url))){B.push({title:o.title,url:o.url,tags:o.tags||[],folder:o.folder||'Unsorted'});n++}}save();$('msg').textContent='Added '+n;draw()};draw();
+</script>

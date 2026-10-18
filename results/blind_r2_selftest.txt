@@ -1,0 +1,44 @@
+Blind round 2 harness self-test, 2026-10-18 18:42Z (checker benchmark/blind/checks/check_app.py, viewer benchmark/blind/viewer/).
+One line per case: check_app.py on a reference app or control; [..-only path] = BLIND_DRAG_ONLY forced (self-test only). r1 = the 9 round-1 builds, each on its own port with its zip (served-bytes check).
+w375 = [document.documentElement.scrollWidth, viewport width] at 375 px; it is a check only for expenses and bookmarks, recorded for the others.
+
+{"case": "kanban", "passed": 10, "total": 10, "fails": [], "drag": "pointer (real mouse events; the page got native HTML5 dragstart/drop from them)", "drag_tried": ["pointer"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban_pointer", "passed": 10, "total": 10, "fails": [], "drag": "pointer (real mouse events; no HTML5 drag events reached the page)", "drag_tried": ["pointer"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban_nodnd", "passed": 8, "total": 10, "fails": ["drag a card from To do to Done (real mouse events, else HTML5 drag events)", "board survives reload"], "drag": "none", "drag_tried": ["pointer", "html5"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "expenses", "passed": 25, "total": 25, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "expenses_noconfirm", "passed": 23, "total": 25, "fails": ["delete asks with native confirm(); Cancel keeps the expense", "delete, confirmed, removes it and the total becomes 1205.50"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "expenses_overflow", "passed": 24, "total": 25, "fails": ["375 px wide: no horizontal page scroll (scrollWidth <= viewport)"], "drag": null, "drag_tried": null, "w375": [608, 375], "dead": [], "errs": 0}
+{"case": "expenses_ignoredate", "passed": 23, "total": 25, "fails": ["#date set inside a chosen past month is saved there: shows in that month's list and total, not in the current month", "expenses survive reload"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "bookmarks", "passed": 20, "total": 20, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "bookmarks_noconfirm", "passed": 18, "total": 20, "fails": ["delete asks with native confirm(); Cancel keeps the bookmark", "delete, confirmed, removes the bookmark"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "todo", "passed": 9, "total": 9, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "notes", "passed": 7, "total": 7, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "units", "passed": 13, "total": 13, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "todo_err", "passed": 8, "total": 9, "fails": ["no console errors or uncaught page errors"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 16}
+{"case": "todo_deadbtn", "passed": 8, "total": 9, "fails": ["every visible button changes page state"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": ["Sort"], "errs": 0}
+{"case": "units_dead", "passed": 9, "total": 13, "fails": ["10 km -> 6.2137 mi", "100 C -> 212 F", "1 lb -> 0.4536 kg", "typed value changes result to expected (3 m -> 9.8425 ft)"], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban[html5-only path]", "passed": 10, "total": 10, "fails": [], "drag": "html5 (synthetic dragstart/dragover/drop events)", "drag_tried": ["html5"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban_pointer[pointer-only path]", "passed": 10, "total": 10, "fails": [], "drag": "pointer (real mouse events; no HTML5 drag events reached the page)", "drag_tried": ["pointer"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban_pointer[html5-only path]", "passed": 8, "total": 10, "fails": ["drag a card from To do to Done (real mouse events, else HTML5 drag events)", "board survives reload"], "drag": "none", "drag_tried": ["html5"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "kanban_nodnd[html5-only path]", "passed": 8, "total": 10, "fails": ["drag a card from To do to Done (real mouse events, else HTML5 drag events)", "board survives reload"], "drag": "none", "drag_tried": ["html5"], "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 todo/A", "passed": 10, "total": 10, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 todo/B", "passed": 10, "total": 10, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 todo/C", "passed": 10, "total": 10, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 notes/A", "passed": 8, "total": 8, "fails": [], "drag": null, "drag_tried": null, "w375": [393, 375], "dead": [], "errs": 0}
+{"case": "r1 notes/B", "passed": 8, "total": 8, "fails": [], "drag": null, "drag_tried": null, "w375": [424, 375], "dead": [], "errs": 0}
+{"case": "r1 notes/C", "passed": 8, "total": 8, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 units/A", "passed": 14, "total": 14, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 units/B", "passed": 14, "total": 14, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+{"case": "r1 units/C", "passed": 14, "total": 14, "fails": [], "drag": null, "drag_tried": null, "w375": [375, 375], "dead": [], "errs": 0}
+
+Viewer (verify_viewer.py): A = 3 round-2 apps x 4 reference builds; B = negative (one build with a planted version name, a COST.json dropped in the viewer folder); C = the 9 round-1 builds; A from its zip.
+== A (r2 refs, 4 panels per app)
+{"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-596888e0/index.html": 404}, "forbidden_files": [], "bad": []}
+== B (negative: planted version name + COST file)
+{"all_ok": false, "n": 2, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 5, "hits": [[8702, "index.html", "();\n</script>\n<!-- built with ponytail -->\n"]], "n_hits": 1}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/bookmarks-A-20daef0d/index.html": 404}, "forbidden_files": ["COST.json"], "bad": []}
+== C (old 9 round-1 builds)
+{"all_ok": true, "n": 9, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 33, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/todo-A-0f876233/index.html": 404}, "forbidden_files": [], "bad": []}
+== A from its zip
+{"all_ok": true, "n": 12, "distinct_origins": true, "viewer_errors": [], "name_grep": {"files_fetched": 15, "hits": [], "n_hits": 0}, "viewer_port_blocked": {"serve.py": 404, "README.txt": 404, "builds/": 404, "builds/kanban-A-596888e0/index.html": 404}, "forbidden_files": [], "bad": []}
+
+Cost file (cost_table.py) tested on the round-1 rows plus a synthetic v4c row: v4c appears on the line after v4 with v4c - v4 and v4c / v4 per app.

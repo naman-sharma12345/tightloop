@@ -1,0 +1,16 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Expenses ref</title>
+<style>body{margin:8px;font:14px sans-serif}input,select{max-width:100%}</style>
+<input id="month" type="month"><button id="export-csv">Export CSV</button>
+<form id="expense-form"><input id="desc" size="10"><input id="amount" size="6"><select id="category"><option>Food</option><option>Transport</option><option>Housing</option><option>Fun</option><option>Other</option></select><input id="date" type="date"><button>Add</button></form>
+<p id="msg"></p><ul id="expenses"></ul><p>Total: <span id="total"></span></p><svg id="chart" width="300" height="120" style="max-width:100%"></svg>
+<script>
+let E=JSON.parse(localStorage.ex||'[]');const $=id=>document.getElementById(id);const today=new Date().toISOString().slice(0,10);$('date').value=today;$('month').value=today.slice(0,7);
+function draw(){const m=$('month').value,v=E.filter(e=>e.date.slice(0,7)==m);$('expenses').innerHTML='';v.slice().reverse().forEach(e=>{const li=document.createElement('li');li.append(e.date+' '+e.desc+' '+e.cat+' '+e.amt.toFixed(2)+' ');
+const ed=document.createElement('button');ed.className='edit';ed.textContent='Edit';ed.onclick=()=>{const i=document.createElement('input');i.value=e.amt.toFixed(2);const s=document.createElement('button');s.id='save-edit';s.textContent='Save';s.onclick=()=>{const a=Number(i.value);if(a>0){e.amt=a;save()}draw()};li.append(i,s)};
+const b=document.createElement('button');b.className='delete';b.textContent='Delete';b.onclick=()=>{if(!(confirm('Delete this expense?')))return;E.splice(E.indexOf(e),1);save();draw()};li.append(ed,b);$('expenses').append(li)});
+$('total').textContent=v.reduce((s,e)=>s+e.amt,0).toFixed(2);const cats=['Food','Transport','Housing','Fun','Other'],t=cats.map(c=>v.filter(e=>e.cat==c).reduce((s,e)=>s+e.amt,0)),mx=Math.max(1,...t);
+$('chart').innerHTML=cats.map((c,i)=>`<rect x="${i*60}" y="${120-t[i]/mx*110}" width="40" height="${t[i]/mx*110}" fill="#4a7"></rect>`).join('')}
+const save=()=>localStorage.ex=JSON.stringify(E);
+$('expense-form').onsubmit=ev=>{ev.preventDefault();const d=$('desc').value.trim(),a=Number($('amount').value);if(!d||!(a>0)){$('msg').textContent='Enter a description and a positive amount';return}E.push({desc:d,amt:a,cat:$('category').value,date:$('date').value||today});save();$('desc').value='';$('amount').value='';$('msg').textContent='';draw()};
+$('month').onchange=draw;$('export-csv').onclick=()=>{const m=$('month').value,rows=E.filter(e=>e.date.slice(0,7)==m).map(e=>[e.date,e.desc,e.cat,e.amt.toFixed(2)].join(','));const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['date,description,category,amount\n'+rows.join('\n')],{type:'text/csv'}));a.download='expenses.csv';a.click()};draw();
+</script>

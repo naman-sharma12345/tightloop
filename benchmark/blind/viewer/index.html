@@ -7,11 +7,12 @@
  header h1{font-size:18px;margin:0;flex:1} nav button,.close{font:inherit;padding:6px 14px;border:1px solid #d0d7de;border-radius:8px;background:#fff;cursor:pointer}
  nav button[aria-current=true]{background:#1f2328;color:#fff;border-color:#1f2328}
  main{padding:24px} .hint{color:#6b7280;margin:0 0 16px}
- .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+ .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+ @media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}} @media (max-width:600px){.grid{grid-template-columns:1fr}}
  .tile{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.05)}
  .tile:hover,.tile:focus{outline:3px solid #4f46e5;outline-offset:2px}
  .tile .lab{padding:10px 14px;font-weight:600;font-size:16px;border-bottom:1px solid #eef0f2}
- .thumb{position:relative;height:200px;overflow:hidden;background:#fafafa}
+ .thumb{position:relative;height:210px;overflow:hidden;background:#fafafa}
  .thumb iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform:scale(.25);transform-origin:0 0;pointer-events:none}
  #overlay{position:fixed;inset:0;background:#fff;display:none;flex-direction:column;z-index:10}
  #overlay.open{display:flex} #overlay .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid #e5e7eb}

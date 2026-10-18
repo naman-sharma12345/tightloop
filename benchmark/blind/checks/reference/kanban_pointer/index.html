@@ -1,0 +1,17 @@
+<!doctype html><meta charset="utf-8"><title>Kanban ref (pointer)</title>
+<style>.board{display:flex;gap:8px}.column{width:200px;min-height:200px;background:#eee;padding:4px}.card{background:#fff;margin:4px;padding:4px;cursor:grab;user-select:none}#card-modal{display:none;position:fixed;inset:20%;background:#fff;border:1px solid}#card-modal.open{display:block}</style>
+<input id="new-card"><button id="add">Add</button>
+<div class="board"><div class="column" data-col="todo"><h3>To do</h3></div><div class="column" data-col="doing"><h3>In progress</h3></div><div class="column" data-col="done"><h3>Done</h3></div></div>
+<div id="card-modal"><input id="card-title"><textarea id="card-desc"></textarea><button id="m-close">Close</button><button id="card-delete" class="delete">Delete</button></div>
+<script>
+let S=JSON.parse(localStorage.kb||'{"todo":[],"doing":[],"done":[]}'),cur=null,drag=null,justDragged=false;const save=()=>localStorage.kb=JSON.stringify(S);const $=id=>document.getElementById(id);
+function move(f,i,t){if(f==t)return;const x=S[f].splice(i,1)[0];S[t].push(x);save();draw()}
+function draw(){document.querySelectorAll('.column').forEach(c=>{c.querySelectorAll('.card').forEach(x=>x.remove());S[c.dataset.col].forEach((o,i)=>{const d=document.createElement('div');d.className='card';d.textContent=o.t;d.onmousedown=e=>{drag={f:c.dataset.col,i,x:e.clientX,y:e.clientY,moved:false}};
+d.onclick=()=>{if(justDragged)return;cur=[c.dataset.col,i];$('card-title').value=o.t;$('card-desc').value=o.d||'';$('card-modal').classList.add('open')};c.appendChild(d)})})}
+document.addEventListener('mousemove',e=>{if(drag&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>5)drag.moved=true});document.addEventListener('mouseup',e=>{if(drag&&drag.moved){const el=document.elementFromPoint(e.clientX,e.clientY),c=el&&el.closest('.column');if(c)move(drag.f,drag.i,c.dataset.col);justDragged=true;setTimeout(()=>justDragged=false,50)}drag=null});
+function add(){const v=$('new-card').value.trim();if(v){S.todo.push({t:v,d:''});save()}$('new-card').value='';draw()}
+$('new-card').onkeydown=e=>{if(e.key=='Enter')add()};$('add').onclick=add;
+const close=()=>{if(cur){const o=S[cur[0]][cur[1]];o.t=$('card-title').value||o.t;o.d=$('card-desc').value;save()}$('card-modal').classList.remove('open');cur=null;draw()};
+$('m-close').onclick=close;document.addEventListener('keydown',e=>{if(e.key=='Escape')close()});
+$('card-delete').onclick=()=>{if(!confirm('Delete this card?'))return;S[cur[0]].splice(cur[1],1);cur=null;save();$('card-modal').classList.remove('open');draw()};draw();
+</script>
