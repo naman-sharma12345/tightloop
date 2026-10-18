@@ -1,0 +1,9 @@
+#!/bin/bash
+# pipeline-check stub: not a model, never reports tokens
+if [ "$1" = "--version" ]; then echo "stub-claude 0.0.0-pipeline-check"; exit 0; fi
+if [ "${STUB_FIX:-1}" = "1" ]; then
+  for p in /tmp/hcheck/gin-01-src.patch /tmp/hcheck/gin-02-src.patch; do
+    git apply --check --whitespace=nowarn "$p" 2>/dev/null && git apply --whitespace=nowarn "$p"
+  done
+fi
+echo '{"type":"result","subtype":"success","num_turns":1}'
