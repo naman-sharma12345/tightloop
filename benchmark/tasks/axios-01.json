@@ -1,0 +1,18 @@
+{
+  "name": "axios-01",
+  "kind": "bugfix",
+  "source": "https://github.com/axios/axios",
+  "license": "MIT",
+  "license_commit": "97131238cab2e56f58f26b5bfd95e40bb5b9df14",
+  "license_note": "re-read at fix commit 97131238c: LICENSE=MIT",
+  "commit": "97131238cab2e56f58f26b5bfd95e40bb5b9df14",
+  "start_commit": "3d253b4f17a5107e6f274ee5b2e96e03508dceb2",
+  "instruction": "fix(http): flush download progress before stream close (#11040)",
+  "hidden_tests": [
+    "should flush final download progress before a streamed response closes"
+  ],
+  "hidden_patch": "patches/axios-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "npx mocha tests/unit/adapters/http.test.js --grep 'should flush final download progress before a streamed response closes'"
+}
