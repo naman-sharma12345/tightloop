@@ -20,6 +20,14 @@ Codex:
 
 ## Status
 
-Measurement harness and benchmark results land here as the public-repo
-benchmark produces them. Method and formulas are pinned in `MEASURE.md`
-before any run; only measured numbers are ever reported.
+Benchmark state: **pipeline verified, real numbers pending.** The harness,
+grader and controller are proven end to end (pipeline check with a stub
+solver; fixtures in `benchmark/tests/`). No real benchmark run has happened
+yet, so this repository contains **no gain percentage of any kind** - none
+will appear until it is computed from a real run.
+
+The first run covers 5 tasks: fd-01, fd-02, fd-03, gin-01, gin-02.
+
+Method and formulas are pinned in `benchmark/MEASURE.md`; the holdout split,
+pass/fail rules and run protocol are frozen in `benchmark/FREEZE.md`. Only
+measured numbers are ever reported, losses included.
