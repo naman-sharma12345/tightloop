@@ -1,0 +1,31 @@
+{
+ "generator": "benchmark/blind/make_key_v5.py",
+ "generator_sha256": "f3f85456dd23f7b0da5e06317c00f6e4c1aa84e17c2d2527c7baf47b768fdb51",
+ "loop_interval_s": 0.05,
+ "loop_seconds": 5.0,
+ "generator_rc": 0,
+ "generator_stdout_is_one_64hex_line": true,
+ "generator_stderr_bytes": 0,
+ "key_sha256": "43f5a85cc299abbf0f8a7000e1e5769d75a8eca30f1511ff0465cfa88fd29544",
+ "key_sha256_recomputed": "43f5a85cc299abbf0f8a7000e1e5769d75a8eca30f1511ff0465cfa88fd29544",
+ "key_mode": "0o600",
+ "generator_start_utc": "20:11:42.657Z",
+ "generator_ms": 29.3,
+ "hardened": {
+  "samples": 100,
+  "samples_during_generator": 2,
+  "max_visible_processes": 0,
+  "samples_with_host_or_generator_process_visible": 0,
+  "first_sample_utc": "20:11:41Z",
+  "last_sample_utc": "20:11:46Z"
+ },
+ "positive_control_old_sandbox": {
+  "samples": 85,
+  "samples_with_host_or_dummy_visible": 85,
+  "max_visible_processes": 182
+ },
+ "ok": true,
+ "ran_by": "benchmark/blind/v5_run/gen_key_watch_v5.py (sha256 af944f118103bf8b62cbdeccef8f3f4a14860ba36f62011b7041a22ee9471cfc) with r2_run/sandbox_r2.py and egress_r2.py as committed at 4a42a7c",
+ "command": "python3 benchmark/blind/v5_run/gen_key_watch_v5.py /home/user/tab/files/tl_blind/v5/KEY.json /home/user/tab/work/tl_v5prep f3f85456dd23f7b0da5e06317c00f6e4c1aa84e17c2d2527c7baf47b768fdb51",
+ "dry_run_before": "one dry run at 20:11:26Z wrote a throwaway key to a mktemp dir (sha256 bed01975...b7c5), never opened, shredded right after; ok true"
+}

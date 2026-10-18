@@ -20,3 +20,20 @@ benchmark/arms/tightloop-v5b/, benchmark/design/ or .claude/skills/, and wrote f
 by the prep worker: a stray ",." in pomodoro.md ("requestAnimationFrame alone,.") became "alone." (helper's sha was
 6b13d19b4d1bf210291eca2fca2f69e2bccf7b583d3dd6a60328e23a2a6f8a41; the table above is the committed file).
 The specs are frozen from this commit on.
+
+## 2. Sealed label key (made after the specs commit 1bbe58e, before any v5 build)
+
+- Path: /home/user/tab/files/tl_blind/v5/KEY.json, mode 0600 (dir 0700). Never opened; read only by sha256sum.
+- sha256: 43f5a85cc299abbf0f8a7000e1e5769d75a8eca30f1511ff0465cfa88fd29544 (results/blind_v5_key_sha256.txt).
+- Made 2026-10-18 20:11:42.657Z by benchmark/blind/make_key_v5.py (sha256 f3f85456dd23f7b0da5e06317c00f6e4c1aa84e17c2d2527c7baf47b768fdb51),
+  the round-2 key v4 method: seed = secrets.randbits(63) (os.urandom), random.Random(seed) shuffles the 5 arms independently
+  per (app, run) for habits, recipes, pomodoro x runs 1-3 into labels A-E (9 pages). Its only arguments are the key path and
+  the repo path; nothing secret in argv or env; its whole stdout was one 64-hex line; it refuses to overwrite.
+- Run under watch by benchmark/blind/v5_run/gen_key_watch_v5.py (sha256 af944f118103bf8b62cbdeccef8f3f4a14860ba36f62011b7041a22ee9471cfc;
+  a copy of r2_run/gen_key_watch_r2.py with only the generator path changed): the hardened build sandbox's process-list loop
+  (every 50 ms for 5 s, same sandbox_r2 invocation as a build) took 100 samples, 2 inside the generator's 29.3 ms lifetime,
+  and saw 0 host or generator processes; the positive control (old sandbox, no pid namespace, dummy make_key process) saw
+  host processes in 85 of 85 samples. Log: results/blind_v5_key_generation_probe.json (no key content).
+- Disclosure: one dry run of the same watch at 20:11:26Z wrote a throwaway key to a mktemp dir (sha256 bed01975...b7c5);
+  it was never opened and was shredded right after. It is not this key and is never used.
+- The seed and mapping exist only inside KEY.json. Root and the building worker never see the mapping before the picks.
