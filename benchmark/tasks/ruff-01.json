@@ -1,0 +1,21 @@
+{
+  "name": "ruff-01",
+  "kind": "bugfix",
+  "source": "https://github.com/astral-sh/ruff",
+  "license": "MIT",
+  "license_commit": "8e420ea2b22cd4e5add408029e024113459f423e",
+  "license_note": "re-read at fix commit 8e420ea2b: LICENSE=MIT",
+  "commit": "8e420ea2b22cd4e5add408029e024113459f423e",
+  "start_commit": "0df54882ffeffbad9d8a18c6c7c7abdbe4813ea5",
+  "instruction": "[ty] Fix diagnostics in ignored folders after adding new files (#25236)",
+  "hidden_tests": [
+    "new_non_python_file_is_not_indexed",
+    "new_file_in_ignored_directory",
+    "new_file_in_parent_ignored_directory",
+    "new_ignore_file_in_ignored_directory"
+  ],
+  "hidden_patch": "patches/ruff-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p ty --test file_watching"
+}
