@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""benchmark/score.py - turn results/<run-id>/lines.tsv into published tables.
+"""benchmark/score.py - turn a results dir into published tables.
+
+Reads results/<run-id>/lines.tsv (run.sh) or, if that is absent,
+<dir>/rows.jsonl (runner.py).
 
 Rules (see MEASURE.md):
 - token headline: raw median of per-task ratios (arm tokens_total / no-skill
@@ -69,14 +72,98 @@ def table(rows, label):
             print(f"{arm} token ratio vs no-skill: no complete pairs")
 
 
+ARMS = ("no-skill", "ponytail", "tightloop")
+
+
+def load_rows_jsonl(path: Path):
+    rows = []
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if line:
+            rows.append(json.loads(line))
+    return rows
+
+
+def tok(r, keys):
+    """Sum of the named token fields, or None if any is not a number."""
+    vals = [r.get("tokens", {}).get(k) for k in keys]
+    if any(not isinstance(v, (int, float)) or isinstance(v, bool) for v in vals):
+        return None
+    return sum(vals)
+
+
+def table_jsonl(rows, label):
+    by_task = {}
+    for r in rows:
+        by_task.setdefault(r["task"], {}).setdefault(r["arm"], []).append(r)
+    print(f"--- {label} ({len(by_task)} tasks) ---")
+    for task, arms in sorted(by_task.items()):
+        for arm in ARMS:
+            for r in arms.get(arm, []):
+                t = r.get("tokens", {})
+                print(f"{task} {arm} run{r.get('run')}: result={r.get('result')} "
+                      f"in={t.get('input')} out={t.get('output')} cache={t.get('cache')} "
+                      f"total={t.get('total')} wall={r.get('wall_seconds')}s "
+                      f"turns={r.get('turns')} tool_calls={r.get('tool_calls')}"
+                      + (f" note={r['note']}" if r.get("note") else ""))
+    for name, keys in (("input+output", ("input", "output")),
+                       ("input+output+cache", ("input", "output", "cache"))):
+        for arm in ("ponytail", "tightloop"):
+            ratios = []
+            for task, arms in sorted(by_task.items()):
+                a, b = arms.get(arm, []), arms.get("no-skill", [])
+                for ra, rb in zip(a, b):  # run i vs run i
+                    ta, tb = tok(ra, keys), tok(rb, keys)
+                    if ta is None or tb is None or tb == 0:
+                        continue
+                    ratios.append(ta / tb)
+            if ratios:
+                print(f"{arm} token ratio ({name}) vs no-skill: raw median "
+                      f"{statistics.median(ratios)!r} over {len(ratios)} pairs")
+            else:
+                print(f"{arm} token ratio ({name}) vs no-skill: no measured pairs")
+    for arm in ARMS:
+        res = [r.get("result") for arms in by_task.values() for r in arms.get(arm, [])]
+        if res:
+            print(f"{arm} results: " + ", ".join(f"{k}={res.count(k)}"
+                                                for k in sorted(set(res))))
+
+
+def main_jsonl(rows_path: Path, holdout) -> int:
+    rows = load_rows_jsonl(rows_path)
+    print(f"rows: {len(rows)} (from {rows_path.name}); "
+          f"not pass/fail: {sum(r.get('result') not in ('pass', 'fail') for r in rows)}")
+    if not rows:
+        print("no runs yet - results pending")
+        return 0
+    tune = [r for r in rows if r["task"] not in holdout]
+    hold = [r for r in rows if r["task"] in holdout]
+    table_jsonl(tune, "tuning set")
+    if hold:
+        table_jsonl(hold, "HOLDOUT - reported separately, never mixed")
+    return 0
+
+
+def load_holdout():
+    split_path = Path(__file__).parent / "tasks" / "holdout-split.json"
+    if split_path.is_file():
+        return set(json.loads(split_path.read_text()).get("holdout_task_ids", []))
+    return set()
+
+
 def main() -> int:
     if len(sys.argv) != 2:
-        print("usage: score.py benchmark/results/<run-id>", file=sys.stderr)
+        print("usage: score.py <results dir with lines.tsv or rows.jsonl> | <rows.jsonl>", file=sys.stderr)
         return 2
     results_dir = Path(sys.argv[1])
     lines_path = results_dir / "lines.tsv"
     if not lines_path.is_file():
-        print(f"no lines.tsv at {results_dir}", file=sys.stderr)
+        rows_path = results_dir / "rows.jsonl"
+        if results_dir.is_file() and results_dir.suffix == ".jsonl":
+            rows_path = results_dir
+        if rows_path.is_file():
+            return main_jsonl(rows_path, load_holdout())
+        print(f"no lines.tsv or rows.jsonl at {results_dir}", file=sys.stderr)
         return 1
     rows = load_lines(lines_path)
     bad = [r for r in rows if r["status"] != "OK"]
@@ -84,10 +171,7 @@ def main() -> int:
     if not rows:
         print("no runs yet - results pending")
         return 0
-    split_path = Path(__file__).parent / "tasks" / "holdout-split.json"
-    holdout = set()
-    if split_path.is_file():
-        holdout = set(json.loads(split_path.read_text()).get("holdout_task_ids", []))
+    holdout = load_holdout()
     tune = [r for r in rows if r["task"] not in holdout]
     hold = [r for r in rows if r["task"] in holdout]
     table(tune, "tuning set")
