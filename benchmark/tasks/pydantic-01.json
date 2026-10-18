@@ -1,0 +1,18 @@
+{
+  "name": "pydantic-01",
+  "kind": "bugfix",
+  "source": "https://github.com/pydantic/pydantic",
+  "license": "MIT",
+  "license_commit": "64fca3acd732b18fb840a1e5efbd3cfa223a3f51",
+  "license_note": "re-read at fix commit 64fca3acd: LICENSE=MIT",
+  "commit": "64fca3acd732b18fb840a1e5efbd3cfa223a3f51",
+  "start_commit": "7973d4b2f6b7376be2eb263ea9f9b59ea1da58e6",
+  "instruction": "Fix issue with recursive generic models with a parent model class (#12398)",
+  "hidden_tests": [
+    "test_generic_recursive_models_parametrized_with_model_subclass"
+  ],
+  "hidden_patch": "patches/pydantic-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "pytest tests/test_generics.py::test_generic_recursive_models_parametrized_with_model_subclass"
+}
