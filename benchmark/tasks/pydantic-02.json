@@ -1,0 +1,18 @@
+{
+  "name": "pydantic-02",
+  "kind": "bugfix",
+  "source": "https://github.com/pydantic/pydantic",
+  "license": "MIT",
+  "license_commit": "5c21e7cb1f1dd9953475e09d6aede763acea9693",
+  "license_note": "re-read at fix commit 5c21e7cb1: LICENSE=MIT",
+  "commit": "5c21e7cb1f1dd9953475e09d6aede763acea9693",
+  "start_commit": "4d52abbb1995803033a33f35b31b79deecbe8fd1",
+  "instruction": "Wrap `weakref.ref` instead of subclassing to fix `cloudpickle` serialization (#7780)",
+  "hidden_tests": [
+    "test_pickle_pydantic_weakref"
+  ],
+  "hidden_patch": "patches/pydantic-02.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "pytest tests/test_pickle_pydantic_weakref.py::test_pickle_pydantic_weakref"
+}
