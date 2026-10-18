@@ -1,0 +1,18 @@
+{
+  "name": "gin-01",
+  "kind": "bugfix",
+  "source": "https://github.com/gin-gonic/gin",
+  "license": "MIT",
+  "license_commit": "63dd3e60cab89c27fb66bce1423bd268d52abad1",
+  "license_note": "LICENSE re-read at the fix commit before vendoring",
+  "commit": "63dd3e60cab89c27fb66bce1423bd268d52abad1",
+  "start_commit": "c358d5656d0feb8b310d4ec379bccde46ccc8cc7",
+  "instruction": "fix(recover): suppress http.ErrAbortHandler in recover (#4336)",
+  "hidden_patch": "patches/gin-01.patch",
+  "hidden_tests": [
+    "TestPanicWithAbortHandler"
+  ],
+  "check_command": "go test -run TestPanicWithAbortHandler ./...",
+  "holdout": false,
+  "status": "UNPROVEN"
+}
