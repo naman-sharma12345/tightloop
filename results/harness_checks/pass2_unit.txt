@@ -1,0 +1,17 @@
+pass-2 harness unit check (no agent; stub claude on PATH emitting stream-json), task gin-02, 4 arms, --pass-label 2.
+Stub events: 3 distinct tool_use ids (t2 emitted twice, counted once; t3 inside a subagent), result usage in 5 / out 7 / cache_read 100 / cache_creation 20, num_turns 3.
+What the stub saw in its checkout (.claude files) and the --append-system-prompt length:
+{"cwd_skill_files": [], "append_len": 0, "argv_has_stream": true}
+{"cwd_skill_files": [".claude/skills/ponytail/SKILL.md"], "append_len": 3496, "argv_has_stream": true}
+{"cwd_skill_files": [".claude/skills/tightloop/SKILL.md"], "append_len": 12053, "argv_has_stream": true}
+{"cwd_skill_files": [".claude/skills/tightloop/SKILL.md", ".claude/skills/tightloop/gate.sh", ".claude/skills/tightloop/phases/fail.md", ".claude/skills/tightloop/phases/risky.md"], "append_len": 1984, "argv_has_stream": true}
+Rows written (arm, pass, arm_version, tool_calls, tool_calls_main, by_name, skill_files, diff +/-, result):
+no-skill | 2 | n/a | 3 | 2 | {'Bash': 1, 'Read': 1, 'Grep': 1} | [] | +1/-0 | fail (stub made no fix; grader ran)
+ponytail | 2 | ponytail 09c434ab73ca | 3 | 2 | {'Bash': 1, 'Read': 1, 'Grep': 1} | [('.claude/skills/ponytail/SKILL.md', 3496)] | +1/-0 | fail (stub made no fix; grader ran)
+tightloop-v3 | 2 | v3 sha256 f83ba03a1927 | 3 | 2 | {'Bash': 1, 'Read': 1, 'Grep': 1} | [('.claude/skills/tightloop/SKILL.md', 12053)] | +1/-0 | fail (stub made no fix; grader ran)
+tightloop-v4 | 2 | v4 sha256 519851ae61e5 | 3 | 2 | {'Bash': 1, 'Read': 1, 'Grep': 1} | [('.claude/skills/tightloop/SKILL.md', 1984), ('.claude/skills/tightloop/gate.sh', 2683), ('.claude/skills/tightloop/phases/fail.md', 970), ('.claude/skills/tightloop/phases/risky.md', 901)] | +1/-0 | fail (stub made no fix; grader ran)
+Diffs: the only change in each is the stub's stub_note.txt; no .claude/skills file appears in any diff (git-excluded).
+v3 hash check: with one byte appended to benchmark/arms/tightloop-v3/SKILL.md (throwaway worktree), `runner.py --arms tightloop-v3` exits 1 before any session:
+"tightloop-v3 skill sha256 3ff48abc... != pinned f83ba03a...: refusing to run".
+Real CLI (2.1.302, one tiny prompt, not a benchmark run): stream-json --verbose gives an init event (tools, skills), assistant events whose tool_use blocks carry unique ids (2 parallel Reads in one message + 1 Bash = 3 ids, each matched by a tool_result), and a final result event with usage, num_turns (4) and modelUsage.
+score.py on results/ after the change prints the same first-pass ratios as before (0.8296025582457743, 1.100366076876144, 1.2213679666567432, 1.4580842666178075).

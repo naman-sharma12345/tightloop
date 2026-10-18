@@ -72,7 +72,7 @@ def table(rows, label):
             print(f"{arm} token ratio vs no-skill: no complete pairs")
 
 
-ARMS = ("no-skill", "ponytail", "tightloop")
+ARMS = ("no-skill", "ponytail", "tightloop", "tightloop-v3", "tightloop-v4")
 
 
 def load_rows_jsonl(path: Path):
@@ -103,12 +103,25 @@ def table_jsonl(rows, label):
                 t = r.get("tokens", {})
                 print(f"{task} {arm} run{r.get('run')}: result={r.get('result')} "
                       f"in={t.get('input')} out={t.get('output')} cache={t.get('cache')} "
-                      f"total={t.get('total')} wall={r.get('wall_seconds')}s "
-                      f"turns={r.get('turns')} tool_calls={r.get('tool_calls')}"
+                      + (f"(read {t.get('cache_read')}, creation {t.get('cache_creation')}) "
+                         if "cache_read" in t else "")
+                      + f"total={t.get('total')} wall={r.get('wall_seconds')}s "
+                      f"turns={r.get('turns')} tool_calls={r.get('tool_calls')} "
+                      f"overlap={r.get('overlap')} rename={r.get('rename_applied')} "
+                      f"fallback={r.get('hidden_patch_fallback')}"
+                      + (f" diff=+{r['agent_diff_added']}/-{r['agent_diff_deleted']}"
+                         if "agent_diff_added" in r else "")
                       + (f" note={r['note']}" if r.get("note") else ""))
-    for name, keys in (("input+output", ("input", "output")),
-                       ("input+output+cache", ("input", "output", "cache"))):
-        for arm in ("ponytail", "tightloop"):
+    measures = [("input+output", ("input", "output")),
+                ("input+output+cache", ("input", "output", "cache"))]
+    if any("cache_read" in r.get("tokens", {}) for arms in by_task.values()
+           for rs in arms.values() for r in rs):
+        # MEASURE.md's definition: input + output + cache reads
+        measures.append(("input+output+cache_read", ("input", "output", "cache_read")))
+    for name, keys in measures:
+        for arm in ARMS[1:]:
+            if not any(arm in arms for arms in by_task.values()):
+                continue
             ratios = []
             for task, arms in sorted(by_task.items()):
                 a, b = arms.get(arm, []), arms.get("no-skill", [])
@@ -152,11 +165,15 @@ def main_jsonl(rows_path: Path, holdout) -> int:
     if not rows:
         print("no runs yet - results pending")
         return 0
-    tune = [r for r in rows if r["task"] not in holdout]
-    hold = [r for r in rows if r["task"] in holdout]
-    table_jsonl(tune, "tuning set")
-    if hold:
-        table_jsonl(hold, "HOLDOUT - reported separately, never mixed")
+    # passes are scored separately (rows without a "pass" field are pass 1);
+    # a ratio only ever pairs rows of the same pass
+    for p in sorted({r.get("pass") or 1 for r in rows}):
+        pr = [r for r in rows if (r.get("pass") or 1) == p]
+        tune = [r for r in pr if r["task"] not in holdout]
+        hold = [r for r in pr if r["task"] in holdout]
+        table_jsonl(tune, f"pass {p}, tuning set")
+        if hold:
+            table_jsonl(hold, f"pass {p}, HOLDOUT - reported separately, never mixed")
     return 0
 
 

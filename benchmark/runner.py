@@ -17,8 +17,12 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 ARMS = {
     "no-skill": None,
     "ponytail": None,  # pinned upstream SKILL.md, loaded by ponytail_skill()
-    "tightloop": os.path.join(ROOT, "..", ".claude", "skills", "tightloop", "SKILL.md"),
+    # each tightloop arm: (its skill folder in this repo, folder name installed in the checkout)
+    "tightloop-v3": os.path.join(ROOT, "arms", "tightloop-v3"),
+    "tightloop-v4": os.path.join(ROOT, "..", ".claude", "skills", "tightloop"),
 }
+# the v3 arm refuses to run unless its skill text is byte-identical to v3
+TIGHTLOOP_V3_SHA256 = "f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a"
 UNMEASURED = "unmeasured"
 # ponytail arm: the real skill file at the pin recorded in arms/ponytail.md
 PONYTAIL_PIN = "09c434ab73ca43761c5d8b0c5d341926c2fba710"
@@ -152,6 +156,51 @@ def strip_pr_refs(instruction):
     at the reference fix. Task JSON is left as it is."""
     return re.sub(r"\s*\(#\d+\)", "", instruction).strip()
 
+def sha256_bytes(b):
+    return hashlib.sha256(b).hexdigest()
+
+def skill_folder(arm, ponytail_text):
+    """The arm's skill folder as {relative path in the checkout: bytes, mode}.
+    Same mechanism for every arm: ponytail gets its pinned SKILL.md at
+    .claude/skills/ponytail/, each tightloop arm gets its whole folder at
+    .claude/skills/tightloop/, no-skill gets nothing."""
+    if arm == "no-skill":
+        return {}
+    if arm == "ponytail":
+        return {".claude/skills/ponytail/SKILL.md": (ponytail_text.encode(), 0o644)}
+    src = os.path.normpath(ARMS[arm])
+    files = {}
+    for dp, _, fns in os.walk(src):
+        for fn in sorted(fns):
+            if fn.endswith(".pyc"):
+                continue
+            p = os.path.join(dp, fn)
+            rel = os.path.relpath(p, src).replace(os.sep, "/")
+            with open(p, "rb") as fh:
+                files[".claude/skills/tightloop/" + rel] = (fh.read(), os.stat(p).st_mode & 0o777)
+    return files
+
+def install_skill(files, wt):
+    """Write the arm's skill folder into the checkout and git-exclude it
+    (.git/info/exclude), so it is never part of the agent's diff, the rename
+    rule or grading. Returns [{path, bytes, sha256}]."""
+    out = []
+    for rel, (data, mode) in sorted(files.items()):
+        p = os.path.join(wt, rel)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "wb") as fh:
+            fh.write(data)
+        os.chmod(p, mode)
+        out.append({"path": rel, "bytes": len(data), "sha256": sha256_bytes(data)})
+    if files:
+        ex = run(["git", "rev-parse", "--git-path", "info/exclude"], cwd=wt).stdout.strip()
+        ex = ex if os.path.isabs(ex) else os.path.join(wt, ex)
+        os.makedirs(os.path.dirname(ex), exist_ok=True)
+        dirs = sorted({"/" + "/".join(r.split("/")[:3]) + "/" for r in files})
+        with open(ex, "a") as fh:
+            fh.write("\n" + "\n".join(dirs) + "\n")
+    return out
+
 def ponytail_skill(cache):
     """The pinned ponytail SKILL.md (fetched once into the cache, sha256
     checked). Falls back to arms/ponytail.md, labelled, if it cannot be
@@ -200,7 +249,7 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
     """One fresh headless session. Returns (raw_text, parsed_metrics).
     Raw stdout/stderr are kept at log_path.stdout / .stderr."""
     if cli == "claude":
-        cmd = ["claude", "-p", prompt, "--output-format", "json",
+        cmd = ["claude", "-p", prompt, "--output-format", "stream-json", "--verbose",
                "--permission-mode", "bypassPermissions",
                "--disallowedTools", *DISALLOWED_TOOLS]
         if skill:
@@ -222,6 +271,9 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
     m = {"input": UNMEASURED, "output": UNMEASURED, "cache": UNMEASURED,
          "total": UNMEASURED, "turns": UNMEASURED, "tool_calls": UNMEASURED,
          "model": UNMEASURED, "model_from_modelUsage": UNMEASURED,
+         "cache_read": UNMEASURED, "cache_creation": UNMEASURED,
+         "tool_calls_main": UNMEASURED, "tool_calls_by_name": UNMEASURED,
+         "skills_listed": UNMEASURED,
          "agent": f"{cli} {cli_version(cli)}",
          "wall_seconds": round(wall, 2), "timed_out": rc is None,
          "infra_error": None, "loadavg_start": load0, "loadavg_end": load1,
@@ -235,7 +287,35 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
     text = stdout + stderr
     try:
         if cli == "claude":
-            d = json.loads(stdout)
+            # stream-json: one event per line; the final "result" event carries
+            # what --output-format json used to (usage, num_turns, modelUsage).
+            # tool_calls = distinct tool_use ids in assistant events, counted
+            # exactly (subagent calls included; tool_calls_main = parent only).
+            evs = []
+            for line in stdout.splitlines():
+                try:
+                    evs.append(json.loads(line))
+                except ValueError:
+                    continue
+            res = [e for e in evs if isinstance(e, dict) and e.get("type") == "result"]
+            if not res:
+                raise ValueError("no result event")
+            d = res[-1]
+            uses = {}
+            for e in evs:
+                if isinstance(e, dict) and e.get("type") == "assistant":
+                    for c in (e.get("message") or {}).get("content") or []:
+                        if isinstance(c, dict) and c.get("type") == "tool_use":
+                            uses[c["id"]] = (c.get("name"), e.get("parent_tool_use_id"))
+            by_name = {}
+            for nm, _ in uses.values():
+                by_name[nm] = by_name.get(nm, 0) + 1
+            init = [e for e in evs if isinstance(e, dict) and e.get("type") == "system"
+                    and e.get("subtype") == "init"]
+            m.update({"tool_calls": len(uses),
+                      "tool_calls_main": sum(1 for _, par in uses.values() if par is None),
+                      "tool_calls_by_name": by_name,
+                      "skills_listed": (init[0].get("skills", UNMEASURED) if init else UNMEASURED)})
             u = d.get("usage", {})
             m.update({
                 "input": u.get("input_tokens", UNMEASURED),
@@ -243,6 +323,8 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
                 "cache": (u.get("cache_read_input_tokens", 0) or 0) +
                          (u.get("cache_creation_input_tokens", 0) or 0) or UNMEASURED,
                 "total": u.get("total_tokens", UNMEASURED),
+                "cache_read": u.get("cache_read_input_tokens", UNMEASURED),
+                "cache_creation": u.get("cache_creation_input_tokens", UNMEASURED),
                 "turns": d.get("num_turns", UNMEASURED),
                 "model": d.get("model", UNMEASURED)})
             if d.get("modelUsage"):
@@ -284,9 +366,9 @@ def save_diff(wt, path):
     text = scrub("".join(parts))
     with open(path, "w") as fh:
         fh.write(text)
-    return sum(1 for l in text.splitlines()
-               if (l.startswith("+") and not l.startswith("+++"))
-               or (l.startswith("-") and not l.startswith("---")))
+    ls = text.splitlines()
+    return (sum(1 for l in ls if l.startswith("+") and not l.startswith("+++")),
+            sum(1 for l in ls if l.startswith("-") and not l.startswith("---")))
 
 def rename_colliding_tests(task, wt):
     """If the agent ADDED a test function with the same name as a hidden test
@@ -421,7 +503,9 @@ def main():
     ap.add_argument("--wait-lock-max", type=int, default=1800,
                     help="max seconds to wait for --wait-lock before starting anyway")
     ap.add_argument("--arms", nargs="+", default=list(ARMS), choices=list(ARMS),
-                    help="arms to run, in the fixed order no-skill, ponytail, tightloop")
+                    help="arms to run, in the fixed order no-skill, ponytail, tightloop-v3, tightloop-v4")
+    ap.add_argument("--pass-label", type=int, default=None,
+                    help="benchmark pass number written to every row as 'pass'")
     ap.add_argument("--lock-wait-scope", choices=["session", "task"], default="session",
                     help="wait for --wait-lock before every session, or only before the "
                          "first arm of each task so a task's arms run back to back")
@@ -443,12 +527,22 @@ def main():
     os.makedirs(diffs, exist_ok=True)
     tasks = [load_task(t) for t in a.tasks]
     ponytail_text, ponytail_note = ponytail_skill(a.cache)
-    with open(os.path.normpath(ARMS["tightloop"])) as f:
-        tightloop_text = f.read()
     skills = {"no-skill": (None, "no skill"),
-              "ponytail": (ponytail_text, ponytail_note),
-              "tightloop": (tightloop_text, "tightloop .claude/skills/tightloop/SKILL.md "
-                            "from this harness commit")}
+              "ponytail": (ponytail_text, ponytail_note)}
+    versions = {"no-skill": "n/a", "ponytail": "ponytail " + PONYTAIL_PIN[:12]}
+    for arm in ("tightloop-v3", "tightloop-v4"):
+        with open(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"), "rb") as f:
+            raw_skill = f.read()
+        h = sha256_bytes(raw_skill)
+        if arm == "tightloop-v3" and h != TIGHTLOOP_V3_SHA256:
+            if arm in a.arms:
+                sys.exit(f"tightloop-v3 skill sha256 {h} != pinned {TIGHTLOOP_V3_SHA256}: refusing to run")
+        rel = os.path.relpath(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"),
+                              os.path.join(ROOT, "..")).replace(os.sep, "/")
+        skills[arm] = (raw_skill.decode(), f"{arm}: {rel} ({len(raw_skill)} bytes, sha256 {h}) "
+                       "from this harness commit")
+        versions[arm] = f"{arm.split('-')[1]} sha256 {h[:12]}"
+    folders = {arm: skill_folder(arm, ponytail_text) for arm in ARMS}
     env = {"os": f"{platform.system()} {platform.release()}",
            "machine": platform.machine(),
            "python": platform.python_version(),
@@ -458,8 +552,20 @@ def main():
            "tools": tool_versions(),
            "task_start_commits": {t["name"]: t.get("start_commit", "n/a") for t in tasks},
            "arms": {k: v[1] for k, v in skills.items()},
-           "skill_delivery": ("--append-system-prompt" if a.cli == "claude"
-                              else "AGENTS.md in the task checkout"),
+           "skill_delivery": (("--append-system-prompt with the arm's SKILL.md text" if a.cli == "claude"
+                               else "AGENTS.md in the task checkout")
+                              + "; plus, same rule for every arm, the arm's skill folder copied "
+                              "into the checkout before the session and git-excluded via "
+                              ".git/info/exclude (never in the diff or graded): ponytail -> "
+                              ".claude/skills/ponytail/SKILL.md; tightloop-v3 -> its folder "
+                              "benchmark/arms/tightloop-v3/ at .claude/skills/tightloop/; "
+                              "tightloop-v4 -> .claude/skills/tightloop/ (SKILL.md, gate.sh, "
+                              "phases/) at the same path; no-skill -> nothing (no system-prompt "
+                              "text, no files)"),
+           "skill_folders": {arm: [{"path": r, "bytes": len(d), "sha256": sha256_bytes(d)}
+                                   for r, (d, _) in sorted(f.items())]
+                             for arm, f in folders.items()},
+           "arm_versions": versions,
            "prompt": "task instruction with upstream PR refs like (#123) removed",
            "network": ("Claude Code built-in web tools denied with --disallowedTools "
                        + " ".join(DISALLOWED_TOOLS) + ". NOT network-isolated: the CLI "
@@ -467,12 +573,15 @@ def main():
                        "keeps network access." if a.cli == "claude" else
                        "no restriction applied (codex)"),
            "session_timeout_s": a.timeout, "grade_timeout_s": a.grade_timeout,
-           "unmeasured_fields": (["tool_calls (not in claude -p JSON)",
-                                  "tokens.total (claude -p JSON has no total_tokens)",
+           "unmeasured_fields": (["tokens.total (claude -p result has no total_tokens)",
                                   "model (claude -p JSON has no top-level model; see "
                                   "model_from_modelUsage per row)"]
                                  if a.cli == "claude" else ["turns", "tool_calls", "model"]),
-           "notes": "tokens.cache = cache_read_input_tokens + cache_creation_input_tokens",
+           "notes": ("tokens.cache = cache_read_input_tokens + cache_creation_input_tokens; "
+                     "tokens.cache_read and tokens.cache_creation are the two parts. "
+                     "claude runs with --output-format stream-json --verbose; tool_calls = "
+                     "distinct tool_use ids in the event stream (exact count, subagents "
+                     "included), tool_calls_main = those not inside a subagent"),
            "grading_rename_rule": ("after the session and before the hidden patch: a test function "
                                    "the agent ADDED (Rust `fn NAME(`, Go `func NAME(`) whose name equals "
                                    "a hidden test name is renamed NAME_agent; same rule on every arm; "
@@ -514,6 +623,7 @@ def main():
                         tag = f"{tid}_{arm}_{i+1}_attempt{k}"
                     free_start = free_mib(a.out)
                     wt = prepare(task, a.cache)
+                    installed = install_skill(folders[arm], wt)
                     lock_wait = 0.0
                     pause_wait = 0.0
                     if a.pause_file:
@@ -537,7 +647,7 @@ def main():
                                         watch_lock=a.wait_lock, watch_cwd=a.overlap_cwd,
                                         watch_cmd=a.overlap_cmd)
                         note = None
-                        diff_lines = save_diff(wt, os.path.join(diffs, tag + ".diff"))
+                        diff_added, diff_deleted = save_diff(wt, os.path.join(diffs, tag + ".diff"))
                         renamed = []
                         reset = []
                         if m["timed_out"]:
@@ -558,22 +668,29 @@ def main():
                     if isinstance(m["model_from_modelUsage"], list):
                         models_seen.update(m["model_from_modelUsage"])
                     row = {"task": tid, "arm": arm, "run": i + 1,
+                           "pass": a.pass_label, "arm_version": versions[arm],
+                           "skill_files": installed,
                            "agent": m.pop("agent"), "model": m.pop("model"),
                            "model_from_modelUsage": m["model_from_modelUsage"],
                            "arm_note": arm_note,
                            "environment": env,
                            "start_commit": task.get("start_commit", "n/a"),
                            "prompt": prompt,
-                           "tokens": {k: m[k] for k in ("input", "output", "cache", "total")},
+                           "tokens": {k: m[k] for k in ("input", "output", "cache", "cache_read",
+                                                         "cache_creation", "total")},
                            "wall_seconds": m["wall_seconds"],
                            "turns": m["turns"], "tool_calls": m["tool_calls"],
+                           "tool_calls_main": m["tool_calls_main"],
+                           "tool_calls_by_name": m["tool_calls_by_name"],
+                           "skills_listed": m["skills_listed"],
                            "diff": diffstat, "result": result, "note": note,
                            "loadavg_start": m["loadavg_start"], "loadavg_end": m["loadavg_end"],
                            "lock_busy_during": m["lock_busy_during"],
                            "overlap": m["overlap"], "overlap_samples": m["overlap_samples"],
                            "lock_samples": m["lock_samples"], "lock_wait_seconds": lock_wait,
                            "pause_wait_seconds": pause_wait,
-                           "agent_diff_lines": diff_lines,
+                           "agent_diff_lines": diff_added + diff_deleted,
+                           "agent_diff_added": diff_added, "agent_diff_deleted": diff_deleted,
                            "rename_applied": "yes" if renamed else "no",
                            "renamed_tests": sorted({r["from"] for r in renamed}),
                            "renamed_agent_tests": renamed,

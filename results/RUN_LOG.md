@@ -95,3 +95,19 @@ fd-03 excluded: hidden test cannot tell the half fix from the real fix when thre
 Note: a grader variant that also runs the test with --threads 1 is an idea for a LATER pass only; it is not applied now. No fd-03 arm session was run and no grader or harness edit was made for fd-03.
 
 No further task is in this pass's queue (benchmark/FREEZE.md: first pass = fd-01, fd-02, fd-03, gin-01, gin-02).
+
+## Pass 2 harness (2026-10-18 ~14:45Z): what changed and why
+
+Arms: no-skill, ponytail, tightloop-v3, tightloop-v4 (all 4 back to back per task). Tasks: fd-01, gin-01, gin-02. fd-02 and fd-03 stay dropped; holdout-split.json untouched.
+
+- tightloop-v3 reads benchmark/arms/tightloop-v3/SKILL.md and refuses to run unless its sha256 is f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a (v3 as at d3a3680). tightloop-v4 reads .claude/skills/tightloop/SKILL.md.
+- Skill folder in the checkout, same rule for every arm (Naman, 8:07 PM IST): before the session, the arm's skill folder is copied into the fresh checkout and git-excluded (.git/info/exclude), so it never enters the diff, the rename rule or grading. ponytail: .claude/skills/ponytail/SKILL.md (the pinned file). tightloop-v3: its folder (SKILL.md only) at .claude/skills/tightloop/. tightloop-v4: .claude/skills/tightloop/ (SKILL.md, gate.sh, phases/). no-skill: nothing at all (no system-prompt text, no files). The SKILL.md text is still also passed with --append-system-prompt, as in pass 1.
+- Claude Code now runs with --output-format stream-json --verbose on every arm. tool_calls = distinct tool_use ids in the event stream, an exact count (subagent calls included; tool_calls_main = those not inside a subagent; tool_calls_by_name per tool). Tokens are read from the final result event, the same fields as before.
+- tokens now also carry cache_read and cache_creation separately (tokens.cache is still their sum). score.py reports the median per-task ratio for input+output, input+output+cache, and input+output+cache_read (MEASURE.md's definition), and scores each pass separately.
+- Rows carry pass=2, arm_version, skill_files (path, bytes, sha256), agent_diff_added / agent_diff_deleted.
+- Unchanged: the rename rule and the hidden-patch fallback exactly as in 2c7a6fd; --wait-lock-max 0 (lock only sampled for the overlap tag); --min-free-mib 1900; CLI 2.1.302; model claude-opus-5-5; fresh checkout per run.
+- Unit check without an agent: results/harness_checks/pass2_unit.txt.
+
+Comparability: the first-pass rows (no-skill, ponytail, and v3 as "tightloop") ran without the skill folder in the checkout and with --output-format json. They are NOT directly comparable to pass-2 rows. v3 is rerun under the pass-2 harness, so all 4 pass-2 arms are same-harness. First-pass rows stay in rows.jsonl untouched.
+
+Defect score: unmeasured. MEASURE.md describes a reviewer agent, but the harness has none; a concrete reviewer proposal waits for Naman's OK.
