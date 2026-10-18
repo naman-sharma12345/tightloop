@@ -59,3 +59,16 @@ Three arms, identical task sets, identical agent CLI and model:
 The solver in every session is a fresh-context agent CLI session. The agent
 that mined these tasks has seen every fix commit, hidden test and patch, and
 must never be the solver: its results would measure memory, not skill.
+
+## Verification status (note added 2026-10-18, before any real run)
+
+- gin-01, gin-02: grader proven in both directions (baseline fails on the
+  target test, reference fix passes) - harness check, not a benchmark.
+- Runner pipeline proven end to end with a stub solver: correct pass rows
+  and fail rows, unreported tokens recorded as "unmeasured" - pipeline
+  check, not a benchmark.
+- app-01, app-02, app-03: pinned tests pass against a reference
+  implementation.
+- app-04: pinned test is UNVERIFIED (no Rust toolchain in the checking
+  environment). app-04 is excluded from the first run and counts toward
+  nothing until verified.
