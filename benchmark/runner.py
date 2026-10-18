@@ -71,6 +71,30 @@ def lock_busy(path):
     finally:
         os.close(fd)
 
+def procs_under(prefix, exclude_pgid=None, cmd_substr=None):
+    """Count processes whose working directory is under prefix (and whose
+    command line contains cmd_substr, if given) via Linux /proc (None
+    elsewhere), leaving out our own session's process group."""
+    if not prefix or not os.path.isdir("/proc"):
+        return None
+    n = 0
+    for pid in os.listdir("/proc"):
+        if not pid.isdigit():
+            continue
+        try:
+            if exclude_pgid is not None and os.getpgid(int(pid)) == exclude_pgid:
+                continue
+            if not os.readlink(f"/proc/{pid}/cwd").startswith(prefix):
+                continue
+            if cmd_substr:
+                with open(f"/proc/{pid}/cmdline", "rb") as fh:
+                    if cmd_substr.encode() not in fh.read():
+                        continue
+            n += 1
+        except OSError:
+            continue
+    return n
+
 def loadavg():
     try:
         return [round(x, 2) for x in os.getloadavg()]
@@ -78,7 +102,7 @@ def loadavg():
         return UNMEASURED
 
 def run_logged(cmd, cwd, timeout_s, log_path, shell=False, watch_lock=None,
-               samples=None):
+               samples=None, watch_cwd=None, overlap=None, watch_cmd=None):
     """Run cmd in its own process group, stdout/stderr to files, kill the
     whole group on timeout. Returns (returncode or None on timeout, stdout,
     stderr). With watch_lock, appends lock_busy() to samples every ~30 s."""
@@ -88,11 +112,21 @@ def run_logged(cmd, cwd, timeout_s, log_path, shell=False, watch_lock=None,
                              stdin=subprocess.DEVNULL, start_new_session=True)
         try:
             deadline = time.time() + timeout_s
-            while True:
+            t_start = time.time()
+            def sample():
                 if watch_lock and samples is not None:
                     samples.append(lock_busy(watch_lock))
+                if overlap is not None:
+                    la = loadavg()
+                    overlap.append({"t": round(time.time() - t_start, 1),
+                                    "load1": la[0] if isinstance(la, list) else la,
+                                    "lock_busy": lock_busy(watch_lock) if watch_lock else None,
+                                    "procs_under_prefix": procs_under(watch_cwd, p.pid, watch_cmd)})
+            while True:
+                sample()
                 try:
                     rc = p.wait(timeout=max(0.1, min(30, deadline - time.time())))
+                    sample()  # end sample
                     break
                 except subprocess.TimeoutExpired:
                     if time.time() >= deadline:
@@ -161,7 +195,8 @@ def prepare(task, cache):
     git("checkout", "-q", task["start_commit"], cwd=wt)
     return wt
 
-def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None):
+def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_cwd=None,
+           watch_cmd=None):
     """One fresh headless session. Returns (raw_text, parsed_metrics).
     Raw stdout/stderr are kept at log_path.stdout / .stderr."""
     if cli == "claude":
@@ -176,10 +211,12 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None):
             with open(os.path.join(cwd, "AGENTS.md"), "w") as f:
                 f.write(skill)
     samples = []
+    overlap = []
     load0 = loadavg()
     t0 = time.time()
     rc, stdout, stderr = run_logged(cmd, cwd, timeout_s, log_path,
-                                    watch_lock=watch_lock, samples=samples)
+                                    watch_lock=watch_lock, samples=samples,
+                                    watch_cwd=watch_cwd, overlap=overlap, watch_cmd=watch_cmd)
     wall = time.time() - t0
     load1 = loadavg()
     m = {"input": UNMEASURED, "output": UNMEASURED, "cache": UNMEASURED,
@@ -190,7 +227,11 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None):
          "infra_error": None, "loadavg_start": load0, "loadavg_end": load1,
          "lock_busy_during": ("unknown" if not watch_lock or None in samples or not samples
                               else "yes" if any(samples) else "no"),
-         "lock_samples": len(samples)}
+         "lock_samples": len(samples),
+         "overlap_samples": overlap,
+         "overlap": ("unknown" if not (watch_lock or watch_cwd) or not overlap else
+                     "overlapped" if any(s["lock_busy"] or (s["procs_under_prefix"] or 0) > 0
+                                         for s in overlap) else "clean")}
     text = stdout + stderr
     try:
         if cli == "claude":
@@ -349,6 +390,16 @@ def main():
                          "wait until free before each session (not held), sample during it")
     ap.add_argument("--wait-lock-max", type=int, default=1800,
                     help="max seconds to wait for --wait-lock before starting anyway")
+    ap.add_argument("--arms", nargs="+", default=list(ARMS), choices=list(ARMS),
+                    help="arms to run, in the fixed order no-skill, ponytail, tightloop")
+    ap.add_argument("--lock-wait-scope", choices=["session", "task"], default="session",
+                    help="wait for --wait-lock before every session, or only before the "
+                         "first arm of each task so a task's arms run back to back")
+    ap.add_argument("--overlap-cwd", default=None,
+                    help="also tag a session overlapped if any process outside it has its "
+                         "working directory under this prefix at a sample")
+    ap.add_argument("--overlap-cmd", default=None,
+                    help="with --overlap-cwd, only count processes whose command line contains this")
     ap.add_argument("--pause-file", default=None,
                     help="before each session, wait while this file exists")
     ap.add_argument("--min-free-mib", type=int, default=0,
@@ -396,6 +447,14 @@ def main():
                                    "the agent ADDED (Rust `fn NAME(`, Go `func NAME(`) whose name equals "
                                    "a hidden test name is renamed NAME_agent; same rule on every arm; "
                                    "the raw diff is saved to diffs/ before the rename")}
+    if a.wait_lock or a.overlap_cwd:
+        env["overlap_rule"] = ("row overlap=overlapped if at any sample (start, about every 30 s, "
+                               "end) the lock was held by another process or a process outside "
+                               f"the session had its cwd under {a.overlap_cwd}"
+                               + (f" and '{a.overlap_cmd}' in its command line" if a.overlap_cmd else "")
+                               + "; else clean. "
+                               f"lock wait scope: {a.lock_wait_scope}. Compare wall time only "
+                               "within the same overlap tag.")
     if a.wait_lock:
         env["shared_machine"] = (f"wall times measured on a shared machine; another job holds "
                                  f"{a.wait_lock} while it runs. Each session starts only once "
@@ -410,7 +469,7 @@ def main():
     with open(rows, "a") as out:
         for task in tasks:
             tid = task["name"]
-            for arm in ARMS:
+            for arm in [x for x in ARMS if x in a.arms]:
                 skill, arm_note = skills[arm]
                 for i in range(a.runs):
                     if a.min_free_mib and free_mib(a.out) < a.min_free_mib:
@@ -432,7 +491,8 @@ def main():
                         while os.path.exists(a.pause_file):
                             time.sleep(30)
                         pause_wait = round(time.time() - p0, 1)
-                    if a.wait_lock:
+                    first_of_task = arm == [x for x in ARMS if x in a.arms][0] and i == 0
+                    if a.wait_lock and (a.lock_wait_scope == "session" or first_of_task):
                         w0 = time.time()
                         while lock_busy(a.wait_lock) and time.time() - w0 < a.wait_lock_max:
                             time.sleep(5)
@@ -444,7 +504,8 @@ def main():
                                 prompt = f.read()
                         raw, m = launch(a.cli, prompt, skill, wt, a.timeout,
                                         os.path.join(logs, tag + ".agent"),
-                                        watch_lock=a.wait_lock)
+                                        watch_lock=a.wait_lock, watch_cwd=a.overlap_cwd,
+                                        watch_cmd=a.overlap_cmd)
                         note = None
                         diff_lines = save_diff(wt, os.path.join(diffs, tag + ".diff"))
                         renamed = []
@@ -478,6 +539,7 @@ def main():
                            "diff": diffstat, "result": result, "note": note,
                            "loadavg_start": m["loadavg_start"], "loadavg_end": m["loadavg_end"],
                            "lock_busy_during": m["lock_busy_during"],
+                           "overlap": m["overlap"], "overlap_samples": m["overlap_samples"],
                            "lock_samples": m["lock_samples"], "lock_wait_seconds": lock_wait,
                            "pause_wait_seconds": pause_wait,
                            "agent_diff_lines": diff_lines,
