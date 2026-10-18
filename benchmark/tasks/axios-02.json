@@ -1,0 +1,20 @@
+{
+  "name": "axios-02",
+  "kind": "bugfix",
+  "source": "https://github.com/axios/axios",
+  "license": "MIT",
+  "license_commit": "58d8a125bf8339b9079caf9359c82ac136da95b0",
+  "license_note": "re-read at fix commit 58d8a125b: LICENSE=MIT",
+  "commit": "58d8a125bf8339b9079caf9359c82ac136da95b0",
+  "start_commit": "5aa9da03dc01d1110b19c71e44474cc788b7046e",
+  "instruction": "fix(http): preserve basic auth on same-origin redirects (#6929) (#10929)",
+  "hidden_tests": [
+    "should preserve basic auth across same-origin 303 POST -> GET redirect",
+    "should strip basic auth on cross-origin redirect",
+    "should preserve basic auth across multi-hop same-origin redirects"
+  ],
+  "hidden_patch": "patches/axios-02.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "npx mocha tests/unit/adapters/http.test.js --grep 'should preserve basic auth across same-origin 303 POST -> GET redirect|should strip basic auth on cross-origin redirect|should preserve basic auth across multi-hop same-origin redirects'"
+}
