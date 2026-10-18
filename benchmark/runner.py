@@ -232,6 +232,69 @@ def cli_version(cli):
     r = run([cli, "--version"])
     return r.stdout.strip().split()[0] if r.returncode == 0 and r.stdout.strip() else "unknown"
 
+def save_diff(wt, path):
+    """The agent's change vs the start commit, untracked files included,
+    written before the grader touches the tree. Returns lines added+deleted."""
+    tracked = run(["git", "diff", "HEAD"], cwd=wt).stdout
+    parts = [tracked]
+    others = run(["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=wt).stdout
+    for f in [x for x in others.split("\0") if x]:
+        parts.append(run(["git", "diff", "--no-index", "--", os.devnull, f], cwd=wt).stdout)
+    text = scrub("".join(parts))
+    with open(path, "w") as fh:
+        fh.write(text)
+    return sum(1 for l in text.splitlines()
+               if (l.startswith("+") and not l.startswith("+++"))
+               or (l.startswith("-") and not l.startswith("---")))
+
+def rename_colliding_tests(task, wt):
+    """If the agent ADDED a test function with the same name as a hidden test
+    (Rust `fn NAME(`, Go `func NAME(`), rename only that added definition to
+    NAME_agent so the hidden patch does not create a duplicate. Lines that
+    exist at the start commit, the hidden patch, task files and graders are
+    never touched. Returns a list of {file, line, from, to}."""
+    names = task.get("hidden_tests") or []
+    if not names:
+        return []
+    pats = {n: re.compile(r"^(\s*(?:pub\s+)?(?:async\s+)?fn\s+|\s*func\s+)" + re.escape(n) + r"(\s*[(<])")
+            for n in names}
+    added = {}  # file -> set of 1-based line numbers added by the agent
+    cur = None
+    for l in run(["git", "diff", "-U0", "HEAD"], cwd=wt).stdout.splitlines():
+        if l.startswith("+++ "):
+            cur = l[6:] if l.startswith("+++ b/") else None
+        elif l.startswith("@@") and cur:
+            m = re.search(r"\+(\d+)(?:,(\d+))?", l)
+            start, count = int(m.group(1)), int(m.group(2) or 1)
+            added.setdefault(cur, set()).update(range(start, start + count))
+    others = run(["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=wt).stdout
+    for f in [x for x in others.split("\0") if x]:
+        added[f] = None  # whole file is the agent's
+    done = []
+    for f, lines in added.items():
+        p = os.path.join(wt, f)
+        if not os.path.isfile(p):
+            continue
+        try:
+            with open(p) as fh:
+                content = fh.read().split("\n")
+        except (UnicodeDecodeError, OSError):
+            continue
+        changed = False
+        for i, line in enumerate(content, 1):
+            if lines is not None and i not in lines:
+                continue
+            for n, pat in pats.items():
+                if pat.match(line):
+                    new = pat.sub(lambda m: m.group(1) + n + "_agent" + m.group(2), line, count=1)
+                    content[i - 1] = new
+                    done.append({"file": f, "line": i, "from": n, "to": n + "_agent"})
+                    changed = True
+        if changed:
+            with open(p, "w") as fh:
+                fh.write("\n".join(content))
+    return done
+
 def grade(task, wt, timeout_s, log_path):
     if task.get("kind") == "app":
         tdir = os.path.join(ROOT, "apps", task["name"], "tests")
@@ -286,6 +349,8 @@ def main():
                          "wait until free before each session (not held), sample during it")
     ap.add_argument("--wait-lock-max", type=int, default=1800,
                     help="max seconds to wait for --wait-lock before starting anyway")
+    ap.add_argument("--pause-file", default=None,
+                    help="before each session, wait while this file exists")
     ap.add_argument("--min-free-mib", type=int, default=0,
                     help="stop before a new session if free disk (at --out) is below this")
     a = ap.parse_args()
@@ -293,6 +358,8 @@ def main():
     os.makedirs(a.cache, exist_ok=True)
     logs = os.path.join(a.out, "logs")
     os.makedirs(logs, exist_ok=True)
+    diffs = os.path.join(a.out, "diffs")
+    os.makedirs(diffs, exist_ok=True)
     tasks = [load_task(t) for t in a.tasks]
     ponytail_text, ponytail_note = ponytail_skill(a.cache)
     with open(os.path.normpath(ARMS["tightloop"])) as f:
@@ -324,7 +391,11 @@ def main():
                                   "model (claude -p JSON has no top-level model; see "
                                   "model_from_modelUsage per row)"]
                                  if a.cli == "claude" else ["turns", "tool_calls", "model"]),
-           "notes": "tokens.cache = cache_read_input_tokens + cache_creation_input_tokens"}
+           "notes": "tokens.cache = cache_read_input_tokens + cache_creation_input_tokens",
+           "grading_rename_rule": ("after the session and before the hidden patch: a test function "
+                                   "the agent ADDED (Rust `fn NAME(`, Go `func NAME(`) whose name equals "
+                                   "a hidden test name is renamed NAME_agent; same rule on every arm; "
+                                   "the raw diff is saved to diffs/ before the rename")}
     if a.wait_lock:
         env["shared_machine"] = (f"wall times measured on a shared machine; another job holds "
                                  f"{a.wait_lock} while it runs. Each session starts only once "
@@ -347,9 +418,20 @@ def main():
                                    f"{tid}/{arm}/run{i+1}")
                         break
                     tag = f"{tid}_{arm}_{i+1}"
+                    k = 1
+                    while any(os.path.exists(os.path.join(d, tag + s)) for d, s in
+                              ((logs, ".agent.stdout"), (diffs, ".diff"))):
+                        k += 1  # never overwrite an earlier attempt's files
+                        tag = f"{tid}_{arm}_{i+1}_attempt{k}"
                     free_start = free_mib(a.out)
                     wt = prepare(task, a.cache)
                     lock_wait = 0.0
+                    pause_wait = 0.0
+                    if a.pause_file:
+                        p0 = time.time()
+                        while os.path.exists(a.pause_file):
+                            time.sleep(30)
+                        pause_wait = round(time.time() - p0, 1)
                     if a.wait_lock:
                         w0 = time.time()
                         while lock_busy(a.wait_lock) and time.time() - w0 < a.wait_lock_max:
@@ -364,6 +446,8 @@ def main():
                                         os.path.join(logs, tag + ".agent"),
                                         watch_lock=a.wait_lock)
                         note = None
+                        diff_lines = save_diff(wt, os.path.join(diffs, tag + ".diff"))
+                        renamed = []
                         if m["timed_out"]:
                             result, diffstat = "timeout", "session timed out; grader not run"
                             note = f"session exceeded {a.timeout}s"
@@ -371,6 +455,8 @@ def main():
                             result, diffstat = "invalid", "grader not run"
                             note = m["infra_error"]
                         else:
+                            if task.get("kind") != "app":
+                                renamed = rename_colliding_tests(task, wt)
                             result, diffstat = grade(task, wt, a.grade_timeout,
                                                      os.path.join(logs, tag + ".grade"))
                             if result == "timeout":
@@ -393,8 +479,16 @@ def main():
                            "loadavg_start": m["loadavg_start"], "loadavg_end": m["loadavg_end"],
                            "lock_busy_during": m["lock_busy_during"],
                            "lock_samples": m["lock_samples"], "lock_wait_seconds": lock_wait,
+                           "pause_wait_seconds": pause_wait,
+                           "agent_diff_lines": diff_lines,
+                           "rename_applied": "yes" if renamed else "no",
+                           "renamed_tests": sorted({r["from"] for r in renamed}),
+                           "renamed_agent_tests": renamed,
+                           "diff_file": os.path.join("diffs", tag + ".diff"),
                            "free_mib_start": free_start,
-                           "logs": os.path.join("logs", tag + ".*")}
+                           "logs": os.path.join("logs", tag + ".*"),
+                           "status": ("ok, agent test renamed before grading (hidden-test name collision)"
+                                      if renamed else "ok")}
                     out.write(json.dumps(row) + "\n")
                     out.flush()
                     print(f"{tid} {arm} run{i+1}: {result} "
