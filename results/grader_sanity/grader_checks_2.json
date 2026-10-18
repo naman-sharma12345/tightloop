@@ -1,0 +1,133 @@
+[
+  {
+    "task": "fd-01",
+    "input": "wrong_plausible",
+    "patch": "fd-01_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cargo test --test tests test_and_pattern_with_forward_slash_is_rejected",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 110 filtered out; finished in 0.01s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "diffstat": "3 files changed, 49 insertions(+), 6 deletions(-)",
+    "renamed": [],
+    "seconds": 57.4,
+    "at": "2026-10-18T13:31:00Z"
+  },
+  {
+    "task": "fd-02",
+    "input": "upstream_fix_nontest",
+    "patch": "fd-02_upstream_fix_nontest.patch",
+    "expected": "pass",
+    "result": "fail",
+    "ok": false,
+    "check_command": "cargo test --test tests test_pattern_with_forward_slash",
+    "result_lines": [
+      "test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "diffstat": "3 files changed, 74 insertions(+), 6 deletions(-)",
+    "renamed": [],
+    "seconds": 37.5,
+    "at": "2026-10-18T13:31:38Z"
+  },
+  {
+    "task": "fd-02",
+    "input": "empty",
+    "patch": null,
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cargo test --test tests test_pattern_with_forward_slash",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "diffstat": "1 file changed, 32 insertions(+)",
+    "renamed": [],
+    "seconds": 40.4,
+    "at": "2026-10-18T13:32:19Z"
+  },
+  {
+    "task": "fd-02",
+    "input": "wrong_plausible",
+    "patch": "fd-02_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cargo test --test tests test_pattern_with_forward_slash",
+    "result_lines": [
+      "test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s",
+      "error: test failed, to rerun pass `--test tests`"
+    ],
+    "diffstat": "3 files changed, 70 insertions(+), 6 deletions(-)",
+    "renamed": [],
+    "seconds": 35.7,
+    "at": "2026-10-18T13:32:55Z"
+  },
+  {
+    "task": "gin-01",
+    "input": "upstream_fix_nontest",
+    "patch": "gin-01_upstream_fix_nontest.patch",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "ok  \tgithub.com/gin-gonic/gin\t0.007s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.005s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.002s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.006s [no tests to run]"
+    ],
+    "diffstat": "2 files changed, 27 insertions(+)",
+    "renamed": [],
+    "seconds": 36.1,
+    "at": "2026-10-18T13:33:31Z"
+  },
+  {
+    "task": "gin-01",
+    "input": "empty",
+    "patch": null,
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "--- FAIL: TestPanicWithAbortHandler (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.007s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.006s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.005s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.002s [no tests to run]"
+    ],
+    "diffstat": "1 file changed, 24 insertions(+)",
+    "renamed": [],
+    "seconds": 3.1,
+    "at": "2026-10-18T13:33:35Z"
+  },
+  {
+    "task": "gin-01",
+    "input": "wrong_plausible",
+    "patch": "gin-01_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "go test -run TestPanicWithAbortHandler ./...",
+    "result_lines": [
+      "--- FAIL: TestPanicWithAbortHandler (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.006s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/ginS\t0.006s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.002s [no tests to run]"
+    ],
+    "diffstat": "2 files changed, 29 insertions(+), 1 deletion(-)",
+    "renamed": [],
+    "seconds": 3.1,
+    "at": "2026-10-18T13:33:38Z"
+  }
+]

@@ -1,0 +1,33 @@
+
+running 2 tests
+test test_pattern_with_forward_slash_allowed_with_full_path ... FAILED
+test test_pattern_with_forward_slash_is_rejected ... FAILED
+
+failures:
+
+---- test_pattern_with_forward_slash_allowed_with_full_path stdout ----
+
+thread 'test_pattern_with_forward_slash_allowed_with_full_path' (2327202) panicked at tests/testenv/mod.rs:274:13:
+`fd --full-path one/two/c` did not produce the expected output.
+Showing diff between expected and actual:
++one/two/C.Foo2
+ one/two/c.foo
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- test_pattern_with_forward_slash_is_rejected stdout ----
+
+thread 'test_pattern_with_forward_slash_is_rejected' (2327203) panicked at tests/testenv/mod.rs:335:17:
+`fd nonexistent/path` did not produce the expected output.
+Showing diff between expected and actual:
+-[fd error]: The search pattern 'nonexistent/path' contains a path-separation character and will not lead to any search results.
+-
+
+
+
+failures:
+    test_pattern_with_forward_slash_allowed_with_full_path
+    test_pattern_with_forward_slash_is_rejected
+
+test result: FAILED. 0 passed; 2 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s
+

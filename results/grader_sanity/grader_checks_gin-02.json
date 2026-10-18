@@ -1,0 +1,64 @@
+[
+  {
+    "task": "gin-02",
+    "input": "upstream_fix_nontest",
+    "patch": "gin-02_upstream_fix_nontest.patch",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "ok  \tgithub.com/gin-gonic/gin\t0.008s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.011s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.007s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/fs\t0.004s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/render\t0.011s [no tests to run]"
+    ],
+    "diffstat": "2 files changed, 62 insertions(+), 2 deletions(-)",
+    "renamed": [],
+    "seconds": 15.7,
+    "at": "2026-10-18T13:45:20Z"
+  },
+  {
+    "task": "gin-02",
+    "input": "empty",
+    "patch": null,
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)",
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_only_should_succeed_(websocket_pattern) (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.009s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.011s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.008s [no tests to run]"
+    ],
+    "diffstat": "1 file changed, 58 insertions(+)",
+    "renamed": [],
+    "seconds": 3.1,
+    "at": "2026-10-18T13:45:24Z"
+  },
+  {
+    "task": "gin-02",
+    "input": "wrong_plausible",
+    "patch": "gin-02_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "go test -run TestResponseWriterHijackAfterWriteHeaderNow ./...",
+    "result_lines": [
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)",
+      "--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_+_Write_should_fail (0.00s)",
+      "FAIL",
+      "FAIL\tgithub.com/gin-gonic/gin\t0.009s",
+      "ok  \tgithub.com/gin-gonic/gin/binding\t0.013s [no tests to run]",
+      "ok  \tgithub.com/gin-gonic/gin/internal/bytesconv\t0.005s [no tests to run]"
+    ],
+    "diffstat": "2 files changed, 58 insertions(+), 3 deletions(-)",
+    "renamed": [],
+    "seconds": 3.2,
+    "at": "2026-10-18T13:45:27Z"
+  }
+]

@@ -1,0 +1,6 @@
+ed47664 fix: flag any pattern containing a path separator, not just ones that name a directory
+test test_pattern_with_forward_slash_is_rejected ... ok
+test test_pattern_with_forward_slash_allowed_with_full_path ... FAILED
+`fd --full-path one/two/c` did not produce the expected output.
++one/two/C.Foo2
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s

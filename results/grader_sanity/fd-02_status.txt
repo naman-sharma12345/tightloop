@@ -1,0 +1,3 @@
+fd-02 status: dropped: grader rejects the real upstream fix (ed47664 fails the hidden test, smart-case)
+
+The hidden test test_pattern_with_forward_slash_allowed_with_full_path runs `fd --full-path one/two/c` and expects only one/two/c.foo; fd's smart case (lowercase pattern = case-insensitive) also returns one/two/C.Foo2. The upstream commit ed47664 itself, checked out whole, fails the same test on this machine (fd-02_upstream_commit_itself.log). The hidden patch equals the upstream test change. No agent session was run for fd-02 in this pass; nothing was edited. Decision: Naman, 2026-10-18 7:14 PM IST.

@@ -1,0 +1,42 @@
+{
+  "os": "Linux 6.1.158+",
+  "machine": "x86_64",
+  "python": "3.11.6",
+  "cli": "claude",
+  "cli_version": "2.1.302",
+  "git": "git version 2.39.5",
+  "harness_commit": "21e14a97ae16d4b168b9e1e57f064628f5972c2d (+uncommitted changes)",
+  "tools": {
+    "go": "go version go1.27.2 linux/amd64",
+    "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+    "cargo": "cargo 1.99.0 (5f94df478 2026-08-27)",
+    "node": "v22.23.2"
+  },
+  "task_start_commits": {
+    "fd-01": "a8a77d21621a11dbe499f1732331448c48ce9b76",
+    "gin-01": "c358d5656d0feb8b310d4ec379bccde46ccc8cc7",
+    "gin-02": "df2753778e7bc5c2dd559361cf0c97b2b313e9bb"
+  },
+  "arms": {
+    "no-skill": "no skill",
+    "ponytail": "ponytail SKILL.md @ 09c434ab73ca43761c5d8b0c5d341926c2fba710 (sha256 9badd22a32e1)",
+    "tightloop": "tightloop .claude/skills/tightloop/SKILL.md from this harness commit"
+  },
+  "skill_delivery": "--append-system-prompt",
+  "prompt": "task instruction with upstream PR refs like (#123) removed",
+  "network": "Claude Code built-in web tools denied with --disallowedTools WebFetch WebSearch. NOT network-isolated: the CLI needs the model API, and its Bash tool (cargo, go, git, curl) keeps network access.",
+  "session_timeout_s": 1800,
+  "grade_timeout_s": 900,
+  "unmeasured_fields": [
+    "tool_calls (not in claude -p JSON)",
+    "tokens.total (claude -p JSON has no total_tokens)",
+    "model (claude -p JSON has no top-level model; see model_from_modelUsage per row)"
+  ],
+  "notes": "tokens.cache = cache_read_input_tokens + cache_creation_input_tokens",
+  "grading_rename_rule": "after the session and before the hidden patch: a test function the agent ADDED (Rust `fn NAME(`, Go `func NAME(`) whose name equals a hidden test name is renamed NAME_agent; same rule on every arm; the raw diff is saved to diffs/ before the rename",
+  "overlap_rule": "row overlap=overlapped if at any sample (start, about every 30 s, end) the lock was held by another process or a process outside the session had its cwd under /tmp/eyes and 'chrome' in its command line; else clean. lock wait scope: session. Compare wall time only within the same overlap tag.",
+  "shared_machine": "wall times measured on a shared machine; another job holds /tmp/kimo_perf.lock while it runs. Each session starts only once that lock is free (waited up to 0s, not held); per row: loadavg_start, loadavg_end, lock_busy_during (sampled about every 30 s), lock_wait_seconds",
+  "models_reported_modelUsage": [
+    "claude-opus-5-5"
+  ]
+}

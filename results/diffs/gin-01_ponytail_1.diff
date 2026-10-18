@@ -1,0 +1,55 @@
+diff --git a/recovery.go b/recovery.go
+index fdd463f..f1fcacf 100644
+--- a/recovery.go
++++ b/recovery.go
+@@ -58,6 +58,8 @@ func CustomRecoveryWithWriter(out io.Writer, handle RecoveryFunc) HandlerFunc {
+ 				// Check for a broken connection, as it is not really a
+ 				// condition that warrants a panic stack trace.
+ 				var brokenPipe bool
++				// http.ErrAbortHandler is a deliberate abort; net/http doesn't log it either.
++				abortHandler := err == http.ErrAbortHandler //nolint:errorlint
+ 				if ne, ok := err.(*net.OpError); ok {
+ 					var se *os.SyscallError
+ 					if errors.As(ne, &se) {
+@@ -68,7 +70,7 @@ func CustomRecoveryWithWriter(out io.Writer, handle RecoveryFunc) HandlerFunc {
+ 						}
+ 					}
+ 				}
+-				if logger != nil {
++				if logger != nil && !abortHandler {
+ 					const stackSkip = 3
+ 					if brokenPipe {
+ 						logger.Printf("%s\n%s%s", err, secureRequestDump(c.Request), reset)
+@@ -80,7 +82,7 @@ func CustomRecoveryWithWriter(out io.Writer, handle RecoveryFunc) HandlerFunc {
+ 							timeFormat(time.Now()), err, stack(stackSkip), reset)
+ 					}
+ 				}
+-				if brokenPipe {
++				if brokenPipe || abortHandler {
+ 					// If the connection is dead, we can't write a status to it.
+ 					c.Error(err.(error)) //nolint: errcheck
+ 					c.Abort()
+diff --git a/recovery_test.go b/recovery_test.go
+index 8a9e347..f4ea0a8 100644
+--- a/recovery_test.go
++++ b/recovery_test.go
+@@ -142,6 +142,19 @@ func TestPanicWithBrokenPipe(t *testing.T) {
+ 	}
+ }
+ 
++func TestPanicWithErrAbortHandler(t *testing.T) {
++	var buf strings.Builder
++	router := New()
++	router.Use(RecoveryWithWriter(&buf))
++	router.GET("/recovery", func(c *Context) {
++		c.Status(http.StatusNoContent)
++		panic(http.ErrAbortHandler)
++	})
++	w := PerformRequest(router, http.MethodGet, "/recovery")
++	assert.Equal(t, http.StatusNoContent, w.Code)
++	assert.Empty(t, buf.String())
++}
++
+ func TestCustomRecoveryWithWriter(t *testing.T) {
+ 	errBuffer := new(strings.Builder)
+ 	buffer := new(strings.Builder)

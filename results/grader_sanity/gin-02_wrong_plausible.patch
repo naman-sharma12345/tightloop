@@ -1,0 +1,14 @@
+diff --git a/response_writer.go b/response_writer.go
+index ab2f5fe..8dbb43c 100644
+--- a/response_writer.go
++++ b/response_writer.go
+@@ -109,9 +109,6 @@ func (w *responseWriter) Written() bool {
+ 
+ // Hijack implements the http.Hijacker interface.
+ func (w *responseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
+-	if w.Written() {
+-		return nil, nil, errHijackAlreadyWritten
+-	}
+ 	if w.size < 0 {
+ 		w.size = 0
+ 	}

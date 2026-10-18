@@ -1,0 +1,23 @@
+
+running 2 tests
+test test_pattern_with_forward_slash_is_rejected ... ok
+test test_pattern_with_forward_slash_allowed_with_full_path ... FAILED
+
+failures:
+
+---- test_pattern_with_forward_slash_allowed_with_full_path stdout ----
+
+thread 'test_pattern_with_forward_slash_allowed_with_full_path' (2321013) panicked at tests/testenv/mod.rs:274:13:
+`fd --full-path one/two/c` did not produce the expected output.
+Showing diff between expected and actual:
++one/two/C.Foo2
+ one/two/c.foo
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    test_pattern_with_forward_slash_allowed_with_full_path
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s
+

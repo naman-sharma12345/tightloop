@@ -1,0 +1,16 @@
+--- FAIL: TestResponseWriterHijackAfterWriteHeaderNow (0.00s)
+    --- FAIL: TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_+_Write_should_fail (0.00s)
+        response_writer_test.go:247: 
+            	Error Trace:	/tmp/tlw-9vm3ww9o/response_writer_test.go:247
+            	Error:      	Expected error with "gin: response already written" in chain but got nil.
+            	Test:       	TestResponseWriterHijackAfterWriteHeaderNow/hijack_after_WriteHeaderNow_+_Write_should_fail
+            	Messages:   	unexpected error from Hijack()
+FAIL
+FAIL	github.com/gin-gonic/gin	0.009s
+ok  	github.com/gin-gonic/gin/binding	0.013s [no tests to run]
+?   	github.com/gin-gonic/gin/codec/json	[no test files]
+?   	github.com/gin-gonic/gin/ginS	[no test files]
+ok  	github.com/gin-gonic/gin/internal/bytesconv	0.005s [no tests to run]
+ok  	github.com/gin-gonic/gin/internal/fs	0.015s [no tests to run]
+ok  	github.com/gin-gonic/gin/render	0.011s [no tests to run]
+FAIL
