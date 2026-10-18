@@ -1,0 +1,34 @@
+{
+ "model": "claude-opus-5-5",
+ "baseline_no_skill": 112,
+ "arms": {
+  "ponytail": {
+   "bytes": 3496,
+   "raw_delta": 1283
+  },
+  "tightloop-v4": {
+   "bytes": 1984,
+   "raw_delta": 752
+  },
+  "tightloop-v4c": {
+   "bytes": 978,
+   "raw_delta": 424
+  },
+  "tightloop-v5c": {
+   "bytes": 1248,
+   "raw_delta": 526
+  },
+  "tightloop-v6c": {
+   "bytes": 1248,
+   "raw_delta": 525
+  },
+  "tightloop-v7": {
+   "bytes": 1231,
+   "raw_delta": 499
+  },
+  "tightloop-v8": {
+   "bytes": 1139,
+   "raw_delta": 474
+  }
+ }
+}
