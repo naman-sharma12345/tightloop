@@ -1,0 +1,19 @@
+{
+  "name": "fd-02",
+  "kind": "bugfix",
+  "source": "https://github.com/sharkdp/fd",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "ed4766419152120bb0b21516f581b4a4ac71f531",
+  "license_note": "LICENSE-MIT re-read at the fix commit; still MIT",
+  "commit": "ed4766419152120bb0b21516f581b4a4ac71f531",
+  "start_commit": "90e73d72df258db32bad7a4d11154a936b05ea92",
+  "instruction": "fix: flag any pattern containing a path separator, not just ones that name a directory",
+  "hidden_patch": "patches/fd-02.patch",
+  "hidden_tests": [
+    "test_pattern_with_forward_slash_is_rejected",
+    "test_pattern_with_forward_slash_allowed_with_full_path"
+  ],
+  "check_command": "cargo test --test tests test_pattern_with_forward_slash",
+  "holdout": false,
+  "status": "UNPROVEN"
+}
