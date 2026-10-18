@@ -1,0 +1,56 @@
+[
+  {
+    "task": "tokio-02",
+    "input": "empty",
+    "patch": null,
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cp /home/user/tab/work/tightloop_bench/benchmark/tasks/fixtures/tokio-02/Cargo.lock Cargo.lock && cargo test --locked --manifest-path tokio/Cargo.toml --test sync_watch rx_mark_unchanged",
+    "result_lines": [
+      "error[E0599]: no method named `mark_unchanged` found for struct `tokio::sync::watch::Receiver<T>` in the current scope",
+      "error[E0599]: no method named `mark_unchanged` found for struct `tokio::sync::watch::Receiver<T>` in the current scope",
+      "error: could not compile `tokio` (test \"sync_watch\") due to 2 previous errors; 3 warnings emitted"
+    ],
+    "diffstat": "1 file changed, 33 insertions(+)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 14.7,
+    "at": "2026-10-18T17:54:03Z"
+  },
+  {
+    "task": "tokio-02",
+    "input": "upstream_fix_nontest",
+    "patch": "tokio-02_upstream_fix_nontest.patch",
+    "expected": "pass",
+    "result": "pass",
+    "ok": true,
+    "check_command": "cp /home/user/tab/work/tightloop_bench/benchmark/tasks/fixtures/tokio-02/Cargo.lock Cargo.lock && cargo test --locked --manifest-path tokio/Cargo.toml --test sync_watch rx_mark_unchanged",
+    "result_lines": [
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.00s"
+    ],
+    "diffstat": "2 files changed, 44 insertions(+)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 19.2,
+    "at": "2026-10-18T17:54:23Z"
+  },
+  {
+    "task": "tokio-02",
+    "input": "wrong_plausible",
+    "patch": "tokio-02_wrong_plausible.patch",
+    "expected": "fail",
+    "result": "fail",
+    "ok": true,
+    "check_command": "cp /home/user/tab/work/tightloop_bench/benchmark/tasks/fixtures/tokio-02/Cargo.lock Cargo.lock && cargo test --locked --manifest-path tokio/Cargo.toml --test sync_watch rx_mark_unchanged",
+    "result_lines": [
+      "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.02s",
+      "error: test failed, to rerun pass `--test sync_watch`"
+    ],
+    "diffstat": "2 files changed, 43 insertions(+)",
+    "renamed": [],
+    "hidden_patch_fallback": "no",
+    "seconds": 19.9,
+    "at": "2026-10-18T17:54:43Z"
+  }
+]

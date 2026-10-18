@@ -1,0 +1,18 @@
+
+running 1 test
+test rx_mark_unchanged ... FAILED
+
+failures:
+
+---- rx_mark_unchanged stdout ----
+
+thread 'rx_mark_unchanged' (2950925) panicked at tokio/tests/sync_watch.rs:118:9:
+assertion failed: !rx.has_changed().unwrap()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    rx_mark_unchanged
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 9 filtered out; finished in 0.02s
+
