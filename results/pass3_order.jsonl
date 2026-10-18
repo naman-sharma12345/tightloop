@@ -28,3 +28,13 @@
 {"tag": "gin-02_tightloop-v4b_1_attempt2", "task": "gin-02", "repeat": 2, "arm": "tightloop-v4b", "position": 3, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
 {"tag": "gin-02_no-skill_1_attempt5", "task": "gin-02", "repeat": 2, "arm": "no-skill", "position": 4, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
 {"tag": "gin-02_ponytail_1_attempt5", "task": "gin-02", "repeat": 2, "arm": "ponytail", "position": 5, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_tightloop-v3_1_attempt2", "task": "tokio-02", "repeat": 1, "arm": "tightloop-v3", "position": 1, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_tightloop-v4a_1", "task": "tokio-02", "repeat": 1, "arm": "tightloop-v4a", "position": 2, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_tightloop-v4b_1", "task": "tokio-02", "repeat": 1, "arm": "tightloop-v4b", "position": 3, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_no-skill_1", "task": "tokio-02", "repeat": 1, "arm": "no-skill", "position": 4, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_ponytail_1", "task": "tokio-02", "repeat": 1, "arm": "ponytail", "position": 5, "order": ["tightloop-v3", "tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail"]}
+{"tag": "tokio-02_tightloop-v4a_1_attempt2", "task": "tokio-02", "repeat": 2, "arm": "tightloop-v4a", "position": 1, "order": ["tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail", "tightloop-v3"]}
+{"tag": "tokio-02_tightloop-v4b_1_attempt2", "task": "tokio-02", "repeat": 2, "arm": "tightloop-v4b", "position": 2, "order": ["tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail", "tightloop-v3"]}
+{"tag": "tokio-02_no-skill_1_attempt2", "task": "tokio-02", "repeat": 2, "arm": "no-skill", "position": 3, "order": ["tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail", "tightloop-v3"]}
+{"tag": "tokio-02_ponytail_1_attempt2", "task": "tokio-02", "repeat": 2, "arm": "ponytail", "position": 4, "order": ["tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail", "tightloop-v3"]}
+{"tag": "tokio-02_tightloop-v3_1_attempt3", "task": "tokio-02", "repeat": 2, "arm": "tightloop-v3", "position": 5, "order": ["tightloop-v4a", "tightloop-v4b", "no-skill", "ponytail", "tightloop-v3"]}
