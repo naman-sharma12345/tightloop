@@ -43,6 +43,7 @@ command -v jq >/dev/null || { echo "need jq" >&2; exit 2; }
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
 OUT="benchmark/results/$RUN_ID"
 mkdir -p "$OUT"
+OUT="$(cd "$OUT" && pwd)"
 printf '{"run_id":"%s","arms":"%s","tasks_file":"%s","agent_cmd":%s}\n' \
   "$RUN_ID" "$ARMS" "$TASKS" "$(jq -Rn --arg c "$AGENT_CMD" '$c')" > "$OUT/run.json"
 printf 'run_id\ttask\tarm\ttokens_in\ttokens_out\twall_s\ttests_passed\ttests_total\tdiff_lines\tstatus\n' > "$OUT/lines.tsv"
@@ -56,8 +57,10 @@ run_arm() { # task_json arm
   NAME=$(jq -r .name "$TJ"); SRC=$(jq -r .source "$TJ")
   START=$(jq -r .start_commit "$TJ"); INSTR=$(jq -r .instruction "$TJ")
   PATCH=$(jq -r .hidden_patch "$TJ"); CHECK=$(jq -r .check_command "$TJ")
-  local DIR="$OUT/$NAME/$ARM" WORK="$DIR/work"
+  local DIR="$OUT/$NAME/$ARM"
+  local WORK="$DIR/work"
   mkdir -p "$DIR"
+  export DIR
   git clone -q "$SRC" "$WORK" || { echo clone-failed; return; }
   git -C "$WORK" checkout -q "$START" || { echo checkout-failed; return; }
   "$SCRIPT_DIR/arms/$ARM.sh" "$REPO_ROOT" "$WORK" || { echo arm-setup-failed; return; }
@@ -86,12 +89,20 @@ run_arm() { # task_json arm
     git -C "$WORK" apply --whitespace=nowarn "$REPO_ROOT/benchmark/tasks/$PATCH" \
       || { STATUS="PATCH_FAIL"; }
     if [ "${STATUS:-}" != "PATCH_FAIL" ]; then
-      ( cd "$WORK" && eval "$CHECK" ) >"$DIR/tests.log" 2>&1
       TT=$(jq -r '.hidden_tests | length' "$TJ")
-      TP=$(grep -c PASS "$DIR/tests.log" 2>/dev/null || true)
+      if ( cd "$WORK" && eval "$CHECK" ) >"$DIR/tests.log" 2>&1; then
+        TP=$TT
+      else
+        TP=0
+        STATUS="TESTS_FAIL"
+      fi
+      printf '{"check_command":%s,"hidden_tests":%s,"all_passed":%s}
+' \
+        "$(jq -Rn --arg c "$CHECK" '$c')" "$(jq -c .hidden_tests "$TJ")" \
+        "$([ "$TP" = "$TT" ] && echo true || echo false)" > "$DIR/tests.json"
     fi
   fi
-  git -C "$WORK" diff --stat | tail -1 | awk '{print $4+$6}' > "$DIR/.dlines" 2>/dev/null || echo 0 > "$DIR/.dlines"
+  git -C "$WORK" diff --numstat | awk '{a+=$1; d+=$2} END {print a+d+0}' > "$DIR/.dlines" 2>/dev/null || echo 0 > "$DIR/.dlines"
   local DL; DL=$(cat "$DIR/.dlines"); DL=${DL:-0}
   [ -n "${STATUS:-}" ] || STATUS="OK"
   printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
