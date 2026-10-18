@@ -1,0 +1,72 @@
+{
+ "clean": {
+  "ok": true,
+  "probe_ok": true
+ },
+ "planted": {
+  "ok": true,
+  "planted": [
+   "/tmp/tlb-e3fhqlb5/sub/KEY_v2.json",
+   "/tmp/tlb-e3fhqlb5/sub/mapping_r2.json",
+   "/tmp/tlb-e3fhqlb5/sub/notes.txt",
+   "/tmp/.claude-cfg/sub/KEY_v2.json",
+   "/tmp/.claude-cfg/sub/mapping_r2.json",
+   "/tmp/.claude-cfg/sub/notes.txt"
+  ],
+  "name_hits": [
+   "/tmp/.claude-cfg/sub/KEY_v2.json",
+   "/tmp/.claude-cfg/sub/mapping_r2.json",
+   "/tmp/tlb-e3fhqlb5/sub/KEY_v2.json",
+   "/tmp/tlb-e3fhqlb5/sub/mapping_r2.json"
+  ],
+  "content_hits": [
+   "/tmp/.claude-cfg/sub/notes.txt",
+   "/tmp/tlb-e3fhqlb5/sub/notes.txt"
+  ]
+ },
+ "env_extra": {
+  "ok": true,
+  "unexpected": [
+   "EXTRA_TEST_NAME"
+  ]
+ },
+ "home_extra": {
+  "ok": true,
+  "entries": [
+   ".cargo",
+   ".rustup",
+   "extra",
+   "go-dist",
+   "tl-npm"
+  ]
+ },
+ "writable_extra": {
+  "ok": true,
+  "host_backed_rw": [
+   "/tmp/.claude-cfg",
+   "/tmp/tlb-oyszs23n",
+   "/var/tmp/shared"
+  ]
+ },
+ "old_sandbox": {
+  "ok": true,
+  "visible_host_processes": 158,
+  "sentinel_or_host_marker_hits": 28
+ },
+ "two_builds": {
+  "ok": true,
+  "build_A_rc": 0,
+  "A_config_dir_wiped": true,
+  "seen_from_B": {
+   "/tmp/tlb-4ey2xa5e": false,
+   "/tmp/tlb-4ey2xa5e/index.html": false,
+   "/tmp/tlb-cfg-7xg79j0s": false,
+   "/home/user/tab/work/tlb-out-w7zzkhyg": false,
+   "/home/user/tab/work/tlb-out-w7zzkhyg/A/index.html": false,
+   "/home/user/tab/work/tl_blind_out": false,
+   "own_cfg_listing": []
+  },
+  "note": "A's workspace still existed on the host while B ran (worst case)"
+ },
+ "ok": true
+}

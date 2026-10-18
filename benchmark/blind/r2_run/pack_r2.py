@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# round-2 blind packaging. Raw builds come stored by label (the driver resolved labels from the sealed key v2; this script only checks its sha),
+# round-2 blind packaging. Raw builds come stored by label (the driver resolved labels from the sealed key v4; this script only checks its sha),
 # copy each build with version material stripped, log leftovers, build the one-zip viewer, verify it, re-shoot each label.
 import hashlib, json, os, re, shutil, subprocess, sys
 TD = "/home/user/tab/tasks/a84b5a07-3830-42f7-8e27-78e0788c75e3"
@@ -7,8 +7,8 @@ SNAP = os.environ.get("R2_SNAP", "/home/user/tab/work/tl_blind_r2")
 OUT = os.environ.get("R2_OUT", "/home/user/tab/work/tl_blind_out/r2")   # env overrides exist only for the dry-run self-test
 BL = os.environ.get("R2_BL", "/home/user/tab/work/tl_blind_r2_labelled")          # blinded copies (labels only)
 FB = "/home/user/tab/files/tl_blind/r2"
-KEYP = FB + "/KEY_v2.json"; KEY_SHA = "fd1d6896f82f74afb087dddbb69c9716ca2418c5fceba30b47cd5940a742b04c"   # key v2 (reseal); v1 KEY.json is VOID (seed printed), never used
-assert hashlib.sha256(open(KEYP, "rb").read()).hexdigest() == KEY_SHA, "KEY_v2.json changed - stop"   # sha only; not opened
+KEYP = FB + "/KEY_v4.json"; KEY_SHA = "e765297c4a34e6908638bcc4348b78b76a2eadf05760da4756b82127e8f40d71"   # key v4 (reseal 993a431); v1 VOID, v2 BURNED, v3 VOID-UNUSED: never used
+assert hashlib.sha256(open(KEYP, "rb").read()).hexdigest() == KEY_SHA, "KEY_v4.json changed - stop"   # sha only; not opened
 sys.path.insert(0, SNAP + "/benchmark/blind"); import leakgrep_r2 as LG   # Naman m:ed447bea (c)
 # raw builds are stored by LABEL by the driver (it resolved label -> version from the key); this script never opens the key
 DROP_DIRS = {".claude", ".git", "node_modules", "target", "__pycache__", ".pytest_cache", ".tightloop", ".github"}

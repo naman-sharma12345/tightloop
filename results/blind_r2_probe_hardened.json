@@ -1,0 +1,219 @@
+{
+ "processes": {
+  "ok": true,
+  "all_visible_besides_probe": [
+   [
+    1,
+    "bwrap"
+   ]
+  ],
+  "n_other_processes": 0,
+  "pids_other": [],
+  "argv0": [],
+  "note": "besides this probe, the sandbox init (pid 1, bwrap) and the sandbox egress forwarder",
+  "host_sentinel_or_host_process_visible": 0,
+  "own_pid_namespace": true
+ },
+ "env_names_only": {
+  "ok": true,
+  "names": [
+   "ALL_PROXY",
+   "ANTHROPIC_API_KEY",
+   "ANTHROPIC_BASE_URL",
+   "CLAUDE_CONFIG_DIR",
+   "HOME",
+   "HTTPS_PROXY",
+   "HTTP_PROXY",
+   "LANG",
+   "LOGNAME",
+   "NO_PROXY",
+   "PATH",
+   "SHELL",
+   "TMPDIR",
+   "USER",
+   "http_proxy",
+   "https_proxy",
+   "no_proxy"
+  ],
+  "pid1_names": [
+   "ANTHROPIC_API_KEY",
+   "ANTHROPIC_BASE_URL",
+   "CLAUDE_CONFIG_DIR",
+   "HOME",
+   "LANG",
+   "LOGNAME",
+   "PATH",
+   "SHELL",
+   "TMPDIR",
+   "USER"
+  ],
+  "unexpected": []
+ },
+ "network": {
+  "ok": true,
+  "blocked": {
+   "github.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "raw.githubusercontent.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "api.github.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "codeload.github.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "objects.githubusercontent.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "cdn.jsdelivr.net": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "registry.npmjs.org": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "pypi.org": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "files.pythonhosted.org": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "crates.io": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "index.crates.io": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "static.crates.io": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "proxy.golang.org": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   },
+   "example.com": {
+    "rc": 56,
+    "http": "000",
+    "refused": true
+   }
+  },
+  "direct_no_proxy_rc": 6,
+  "allowed_model_api_http": "200",
+  "allowed_reply": "OK"
+ },
+ "writable": {
+  "ok": true,
+  "host_backed_rw": [
+   "/tmp/.claude-cfg",
+   "/tmp/tlb-oxy0ljn_"
+  ],
+  "rw_mount_but_no_write_permission": [
+   "/sys/kernel/debug/tracing"
+  ],
+  "private_tmpfs_rw": [
+   "/dev",
+   "/dev/full",
+   "/dev/null",
+   "/dev/pts",
+   "/dev/random",
+   "/dev/shm",
+   "/dev/tty",
+   "/dev/urandom",
+   "/dev/zero",
+   "/home/user",
+   "/run",
+   "/tmp",
+   "/var/tmp"
+  ]
+ },
+ "scan": {
+  "ok": true,
+  "roots": [
+   "/",
+   "/etc/hosts",
+   "/etc/ssl/certs",
+   "/home/user",
+   "/home/user/.cargo",
+   "/home/user/.rustup",
+   "/home/user/go-dist",
+   "/home/user/tl-npm",
+   "/run",
+   "/run/credentials/systemd-sysctl.service",
+   "/run/credentials/systemd-sysusers.service",
+   "/run/credentials/systemd-tmpfiles-setup-dev.service",
+   "/run/credentials/systemd-tmpfiles-setup.service",
+   "/run/lock",
+   "/run/rpc_pipefs",
+   "/tmp",
+   "/tmp/.claude-cfg",
+   "/tmp/.egress",
+   "/tmp/.egress.py",
+   "/tmp/tlb-oxy0ljn_",
+   "/var/tmp"
+  ],
+  "files_seen": 179232,
+  "name_hits": [],
+  "content_hits": [],
+  "name_rule": "^(KEY(_v\\d+)?\\.json|mapping(_r\\d+)?\\.json|check_app\\.py|blind_rows.*\\.jsonl|COST|METRICS\\.json|\\.netrc)$",
+  "content_rule": "key/mapping or checker signature (see sandbox_r2.CONTENT_RE)",
+  "content_scope": "every mount except / and the read-only toolchain binds (those get the name rule)"
+ },
+ "unix_sockets": {
+  "ok": true,
+  "visible": [
+   "/tmp/.egress/egress.sock"
+  ]
+ },
+ "home": {
+  "ok": true,
+  "entries": [
+   ".cargo",
+   ".rustup",
+   "go-dist",
+   "tl-npm"
+  ],
+  "expected_readonly_toolchains": [
+   ".cargo",
+   ".rustup",
+   "go-dist",
+   "tl-npm"
+  ],
+  "toolchains_writable": []
+ },
+ "old_probe_paths": {
+  "ok": true,
+  "visible": []
+ },
+ "no_privilege": {
+  "ok": true,
+  "sudo_rc": 1
+ },
+ "ok": true,
+ "host_sentinel_pid": 3174738
+}

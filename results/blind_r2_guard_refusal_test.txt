@@ -1,0 +1,11 @@
+# benchmark/blind/r2_run/guard_refusal_test_r2.sh run from the commit worktree before the CHECKS commit (so 'not running from the snapshot' and the b0130d7 snapshot's missing .snap_commit also refuse); re-run from the CHECKS snapshot after the push (see NOTES/milestone)
+== 1. real launch as the driver would run: python3 /tmp/tlb_push/benchmark/blind/r2_run/blind_driver_r2.py
+20:03:50Z REFUSED: not running from the snapshot; snapshot has no .snap_commit; START_OK missing
+exit=7
+== 2. guard with a snapshot dir that has no .snap_commit (empty dir)
+20:03:50Z REFUSED: not running from the snapshot; snapshot has no .snap_commit; START_OK missing
+exit=7
+== 3. a fake build process named cargo running (symlink to sleep) while the guard runs
+20:03:51Z REFUSED: not running from the snapshot; snapshot has no .snap_commit; START_OK missing; other workers running: build:cargo:3175160
+exit=7
+== START_OK present: no (never created by this test)

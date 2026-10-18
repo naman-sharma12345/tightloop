@@ -43,6 +43,95 @@ Written before any round-2 build. Nothing below names which version sits behind 
   The hardened sandbox removes both: /home/user is an empty tmpfs with only the toolchains read-only, and each build gets a fresh
   empty CLI config dir that is wiped after the build.
 
+## CHECKS before build 1 (Naman m:f4cffa5e, m:b3c5c470, m:5eb8c3c4; this commit is "blind round 2 CHECKS")
+The sections "Build isolation" and "Network" further down describe the b0130d7 sandbox. It is SUPERSEDED by the hardened sandbox
+below; 0 builds ever ran in the old one.
+- **Hardened build sandbox** (`r2_run/sandbox_r2.py` `prefix()`, used by the driver for every build and by the probe; only the
+  command after the prefix differs): root filesystem read-only; own pid, ipc, uts and cgroup namespaces and a fresh /proc; NO network
+  namespace access (`--unshare-net`, loopback only); `/home/user` an EMPTY tmpfs with only the 4 toolchains bound back read-only
+  (tl-npm, go-dist, .cargo, .rustup); `/tmp`, `/var/tmp`, `/run`, `/dev/shm` private tmpfs; a minimal private /dev; `--new-session`,
+  `--die-with-parent`; no_new_privs (sudo fails). The keys, every repo/checker copy, task logs, agent session transcripts, ~/.netrc
+  and the CLI's old shared config dir are not in it. Environment cut to an allowlist (`egress_r2.ALLOW_ENV`).
+- **Writable paths per build** (exactly two host paths, both fresh per build, never shared by two builds): the build's workspace
+  (`mkdtemp /tmp/tlb-*`, copied to the raw build area by label after the build, then deleted) and the CLI config dir (`mkdtemp
+  /tmp/tlb-cfg-*`, bound at `/tmp/.claude-cfg` = CLAUDE_CONFIG_DIR, wiped right after the build). Everything else writable inside is a
+  private tmpfs that dies with the sandbox (`/home/user`, `/tmp`, `/var/tmp`, `/run`, `/dev`, `/dev/shm`). One mount, tracefs at
+  /sys/kernel/debug/tracing, is mounted rw by the host but not writable by the build's user (probe: no write permission).
+- **Outbound allowed** from a build: only an HTTPS CONNECT to the model API host on port 443, through the egress proxy
+  (`r2_run/egress_r2.py`, which reads the host from its environment and logs it as <model-api>); the sandbox has no network of its own
+  (no DNS, no direct sockets); every other host, incl. GitHub, npm, PyPI, crates.io, the Go proxy and CDNs, gets 403.
+- **Registry check** (`r2_run/registry_check_r2.py`, results/blind_r2_registry_check.txt): from inside the sandbox, npm view / npm install
+  github:… / pip download / pip install git+… / cargo search / go mod download / git clone, for both "tightloop" and "ponytail":
+  14 of 14 BLOCKED.
+- **The probe, ONE command** (exit 0 only if every check passes): `python3 benchmark/blind/r2_run/sandbox_r2.py --probe`
+  (from the snapshot: `python3 /home/user/tab/work/tl_blind_r2/benchmark/blind/r2_run/sandbox_r2.py --probe`). It builds a fresh
+  workspace + fresh config dir + its own egress proxy + a host sentinel process exactly as a build gets them, runs `prefix()` and FAILS
+  unless: (1) processes: own pid namespace, no host process and no sentinel visible (all visible besides the probe: the sandbox init
+  and the egress forwarder); (2) env dump is names only and every name is allowlisted (its own and pid 1's); (3) network: 14 blocked
+  hosts incl. github.com fail, a direct connection fails, and a minimal model call to the model API returns HTTP 200; (4) writable:
+  the only writable host-backed mounts are the workspace and the config dir; (5) scan: every mount root plus /tmp and /home/user
+  walked, names matched against `^(KEY(_v\d+)?\.json|mapping(_r\d+)?\.json|check_app\.py|blind_rows.*\.jsonl|COST|METRICS\.json|\.netrc)$` and, on every mount except / and the read-only toolchains, file bytes matched
+  against a key/mapping/checker signature; (6) unix sockets: only the egress socket; (7) home: exactly the 4 read-only toolchains;
+  (8) the old probe paths (keys v1-v4, checker copies, tasks, raw builds, ~/.netrc, ~/.prime, the old CLI config) absent;
+  (9) sudo fails. Run at 20:03Z: ok=true; 179232 files walked; 0 name and 0 content hits; 0 host processes visible;
+  model API HTTP 200; results/blind_r2_probe_hardened.json. The driver runs the same probe before every build.
+- **Self-tests** (`r2_run/sandbox_selftest_r2.py`, results/blind_r2_sandbox_selftest.json), all as expected: clean probe passes;
+  planted files under 3 names (KEY_v2.json, mapping_r2.json, notes.txt with key-shaped content) in 2 mount paths (workspace, CLI
+  config dir) -> probe FAILS, all 6 caught (4 by name, 2 by content); an extra env name -> FAILS; an extra dir under /home/user ->
+  FAILS; an extra writable host path -> FAILS; the old b0130d7 sandbox with a host sentinel -> process check FAILS (157 host
+  processes visible; positive control); two fake builds: B (fresh workspace + config) cannot see A's workspace, A's config dir, the
+  scratch output copy of A or the raw build area, sees an empty config dir of its own, and A's config dir is gone after A.
+- **CLI smoke** (`r2_run/cli_smoke_r2.py`, results/blind_r2_cli_smoke.json; not a build, no tools): the agent CLI starts with an
+  empty config in the hardened sandbox, gets "OK" from the model, wrote 4 files only into its own config dir, which was then wiped.
+- **Edit audit** (`benchmark/blind/r2_EDIT_AUDIT.md`): the 12:37 IST (19:07Z) edits and every later change to blind_driver_r2.py and
+  pack_r2.py, diffed line by line against the saved originals and marked WIRING or BEHAVIOUR. BEHAVIOUR hunks (for root to re-check):
+  - blind_driver_r2.py S1-1 [12:37] (b55917c lines 33-33): in-sandbox probe also tests the KEY_v2 path
+  - blind_driver_r2.py S1-2 [12:37] (b55917c lines 42-42): probe's find matches KEY*.json, not only KEY.json
+  - blind_driver_r2.py S1-3 (b55917c lines 75-85): build ORDER from the committed random order file; labels resolved from key v2 inside the driver; usage-source text
+  - blind_driver_r2.py S2-1 (b0130d7 lines 42-42): probe runs find over each mount root (old find / -xdev skipped tmpfs mounts and missed a planted KEY_v2.json)
+  - blind_driver_r2.py S3-3 (this commit lines 11-58): own-hold rule, other_workers(), guard() (snapshot has CHECKS commit + START_OK + no other worker; REFUSED + exit 7), --guard-test, sandbox import
+  - blind_driver_r2.py S3-4 (this commit lines 62-63): environment cut to an allowlist (sandbox_r2.clean_env); own egress proxy started
+  - blind_driver_r2.py S3-5 (this commit lines 65-65): old bwrap_prefix removed; CUR carries the per-build config dir
+  - blind_driver_r2.py S3-6 (this commit lines 67-67): every build runs under the hardened sandbox_r2.prefix
+  - blind_driver_r2.py S3-7 (this commit lines 70-72): old probe paths replaced by isolation_check(wt, cfg)
+  - blind_driver_r2.py S3-8 (this commit lines 75-82): isolation check = workspace grep + full hardened probe (sentinel host process) in the exact build invocation; transcript AUDIT also matches KEY_vN.json and mapping_rN
+  - blind_driver_r2.py S3-9 (this commit lines 88-96): release_hold() + build_log.tsv writer
+  - blind_driver_r2.py S3-10 (this commit lines 99-100): busy(): a foreign hold or any other worker (agent session, runner, cargo/rustc/go, other driver) blocks the next build; our own hold does not
+  - blind_driver_r2.py S3-14 (this commit lines 156-156): fresh CLI config dir per build
+  - blind_driver_r2.py S3-15 (this commit lines 161-162): probe gets the build config dir
+  - blind_driver_r2.py S3-16 (this commit lines 164-166): ISOLATION STOP names the failed checks; wipes cfg; releases hold (run-ending STOP)
+  - blind_driver_r2.py S3-17 (this commit lines 170-171): config dir wiped right after each build
+  - blind_driver_r2.py S3-18 (this commit lines 176-176): INFRA STOP logs build_log row and releases hold
+  - blind_driver_r2.py S3-20 (this commit lines 189-189): VOID STOP releases hold
+  - blind_driver_r2.py S3-23 (this commit lines 216-216): hold removed after build 12
+  - pack_r2.py S1-3 [12:37] (b55917c lines 10-13): key path/sha v2; leak-grep module imported; pack no longer reads the key
+  - pack_r2.py S1-4 [12:37] (b55917c lines 15-16): more files stripped from builds before packing (md, logs, look.py output, screenshots, editor dirs)
+  - pack_r2.py S1-5 (b55917c lines 24-24): raw build read by label (driver stored it so); no key lookup
+  - pack_r2.py S1-7 [12:37] (b55917c lines 48-71): leak grep over build dirs, zip listing+entries, unzipped tree, mtimes, .git; any hit stops the pack (exit 3)
+  - new files (all BEHAVIOUR): r2_run/sandbox_r2.py, egress_r2.py, sandbox_selftest_r2.py, gen_key_watch_r2.py, registry_check_r2.py,
+    guard_refusal_test_r2.sh, snap_r2.sh, cli_smoke_r2.py.
+- **Driver guard** (`blind_driver_r2.py` guard()): the driver refuses to start, logs `REFUSED: <reasons>` and exits 7, unless (a) it runs
+  from the snapshot and the snapshot's commit (`.snap_commit`, written by `snap_r2.sh`) has this "blind round 2 CHECKS" commit in its
+  ancestry, (b) `/home/user/tab/files/tl_blind/r2/START_OK` exists (created by root alone, after he re-checks the BEHAVIOUR hunks and
+  re-runs the probe; never by a worker), and (c) no other worker runs: no agent CLI session, no runner.py, no cargo/rustc/go, no other
+  round-2 driver, and no pass-3/4 driver unless our hold pauses it. The same "other worker" check gates every build.
+  Refusal test (`r2_run/guard_refusal_test_r2.sh`, results/blind_r2_guard_refusal_test.txt): a real launch, an empty snapshot, and a
+  fake `cargo` process each REFUSED with exit 7; START_OK was never created.
+- **Hold file**: /home/user/tab/tasks/77f85275-5fad-4ce4-ad2e-269d3b04d7ec/hold (created by root 19:33:47Z, "r2 builds by …") pauses pass 3.
+  The driver treats a hold starting "r2 builds by" as its own (does not wait on it) and removes it after build 12 or on a run-ending
+  STOP (isolation, infra, void), logging the time.
+- **Restart record**: the driver was relaunched by worker 14334bcb at 2026-10-18T19:27:29Z (pid 3131507, snapshot b0130d7, key v2)
+  before Naman's 12:53 IST checks were committed; it only waited (on a running pass-3 session); root killed it at 19:28:20Z. 0 builds.
+  It has not run since.
+- **Build log**: one row per build in `build_log.tsv` (header `build_label	start_utc	end_utc	df_mib_after`, results/blind_r2_build_log.tsv),
+  labels only; void attempts and an infra stop get their own rows.
+- **Seed grep v4 after the reseal commit 993a431** (argv-free, as above): repo history 0, commit messages 0, bench clone history 0, every
+  area 0 files except the box's files area = 1 (KEY_v4.json). Re-run after this commit.
+- **Order file**: the committed `results/blind_r2_order.json` (12 labels, drawn independently with `secrets`, labels only, committed in
+  b55917c) is kept unchanged. It names labels, not versions, so it does not depend on which key is in force.
+- **Old egress proxy**: an uncommitted proxy left by 14334bcb (pid 3149448, allowed host in its argv) was killed at 19:57Z; the
+  committed sandbox starts its own proxy per process.
+
 ## Key history before v4 (as written at b55917c: v1 VOID; v2 is now BURNED, see above)
 - **Key v1 is VOID.** `tl_blind/r2/KEY.json`, sha256 `2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433`
   (committed at bc4b673), stays on the box untouched and is never used. VOID since 2026-10-18T19:06Z. Reason: seed printed once in an agent session

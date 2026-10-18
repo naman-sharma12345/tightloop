@@ -1,0 +1,1 @@
+{"rc": 0, "result": "success", "is_error": false, "reply": "OK", "usage_in_out": [2, 4], "files_written_to_own_config_dir": 4, "config_dir_wiped": true, "stderr_tail": ""}

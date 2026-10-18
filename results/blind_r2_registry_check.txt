@@ -1,0 +1,16 @@
+# benchmark/blind/r2_run/registry_check_r2.py, run 2026-10-18T20:00Z in the hardened build sandbox
+BLOCKED  npm view tightloop  rc=1  npm ERR! request to https://registry.npmjs.org/tightloop failed, reason: getaddrinfo EAI_AGAIN registry.npmjs.
+BLOCKED  npm install github:naman-sharma12345/tightloop  rc=128  npm ERR! An unknown git error occurred
+BLOCKED  pip download tightloop  rc=1  ERROR: Could not find a version that satisfies the requirement tightloop (from versions: none)
+BLOCKED  pip install git+https://github.com/naman-sharma12345/tightloop  rc=1    fatal: unable to access 'https://github.com/naman-sharma12345/tightloop/': CONNECT tunnel failed, response 4
+BLOCKED  cargo search tightloop  rc=101  error: failed to retrieve search results from the registry at https://crates.io
+BLOCKED  go mod download github.com/naman-sharma12345/tightloop  rc=1  go: module github.com/naman-sharma12345/tightloop: Get "https://proxy.golang.org/github.com/naman-sharma12345/
+BLOCKED  git clone https://github.com/naman-sharma12345/tightloop  rc=128  fatal: unable to access 'https://github.com/naman-sharma12345/tightloop/': CONNECT tunnel failed, response 403
+BLOCKED  npm view ponytail  rc=1  npm ERR! request to https://registry.npmjs.org/ponytail failed, reason: getaddrinfo EAI_AGAIN registry.npmjs.o
+BLOCKED  npm install github:naman-sharma12345/ponytail  rc=128  npm ERR! An unknown git error occurred
+BLOCKED  pip download ponytail  rc=1  ERROR: Could not find a version that satisfies the requirement ponytail (from versions: none)
+BLOCKED  pip install git+https://github.com/naman-sharma12345/ponytail  rc=1    fatal: unable to access 'https://github.com/naman-sharma12345/ponytail/': CONNECT tunnel failed, response 40
+BLOCKED  cargo search ponytail  rc=101  error: failed to retrieve search results from the registry at https://crates.io
+BLOCKED  go mod download github.com/naman-sharma12345/ponytail  rc=1  go: module github.com/naman-sharma12345/ponytail: Get "https://proxy.golang.org/github.com/naman-sharma12345/p
+BLOCKED  git clone https://github.com/naman-sharma12345/ponytail  rc=128  fatal: unable to access 'https://github.com/naman-sharma12345/ponytail/': CONNECT tunnel failed, response 403
+OUTBOUND ALLOWED from a build: only an HTTPS CONNECT to the model API host on port 443, through the egress proxy (egress_r2.py); the sandbox has no network of its own (no DNS, no direct sockets); every other host, incl. GitHub, npm, PyPI, crates.io, the Go proxy and CDNs, gets 403.
