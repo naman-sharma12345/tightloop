@@ -72,3 +72,13 @@ Round 1 stays as sealed above. Nothing was rebuilt or rerun, and no round-1 numb
   Validation on the hand-written references in `benchmark/blind/checks/reference/`: todo 8/8, notes 6/6, units 12/12 (pass). Negative controls: `units_dead` (handlers never wired) 8/12, failing the 3 conversions and the new typed-change step; `todo_err` (uncaught error after load) 7/8, failing the new error step.
   On the round-1 units builds (read-only): A 12/12, B 12/12, **C 12/12**. **The new step does NOT fail units/C**, because units/C works in a clean browser. It would not have caught what Naman saw.
 - Delivery fix for the next round (benchmark/blind/README.md): every label gets its own port (no two builds share an origin), file dates are not set equal, and the run line says to open a fresh private window.
+
+## Re-judge after the cache finding (Pally m:14b11f24)
+
+The round-1 picks above stay exactly as given. Naman re-judged one app in a private (incognito) window, so nothing was cached:
+
+- units: **C ≈ B** (incognito, Naman, 11:42 PM IST Oct 18). His original verdict was A > B > C, with C "did not even function". In a clean window he finds C roughly equal to B.
+- todo: not re-judged yet (Naman decides).
+- notes: not re-judged yet (Naman decides).
+
+Key, for reading the re-judge: units B = no-skill, units C = tightloop-v4.
