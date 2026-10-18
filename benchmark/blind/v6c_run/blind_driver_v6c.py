@@ -5,6 +5,7 @@
 #  - the plan is the committed build-id order results/v6c_order.json (9 v6c builds; no ponytail rerun); arm tightloop-v6c;
 #  - its own hold: the hold text must contain "v6" (written and removed by root; this driver never creates or deletes it);
 #  - a running v5c or r2 driver counts as another worker (wait);
+#  - HARD CUTOFF 2026-10-18T23:30:00Z (Naman m:ecfa8839): no build starts at or after it; the build in progress finishes; logged "cut to n";
 #  - logs under TD/logs_v6c, rows TD/blind_rows_v6c.jsonl, per-build row also to COSTDIR/BUILD_RESULTS.tsv (same columns as v5c).
 # Unchanged from v5c: runner.launch, skill delivery (skill folder in the workspace + --append-system-prompt), sandbox (sandbox_r2),
 # nice -n 15, 1800 s timeout, transcript audit + VOID rule, one RETRY on a harness crash only, the checks/check_app.py call.
@@ -140,9 +141,14 @@ if os.path.exists(rows_p):
     for l in open(rows_p): r = json.loads(l); done.add(r["build"])
 os.makedirs(TD + "/logs_v6c", exist_ok=True); os.makedirs(COSTDIR, exist_ok=True)
 log("plan (build ids)", ORDER, "done", len(done))
+CUTOFF = 1792366200   # 2026-10-18T23:30:00Z
+def cut(where):
+    log("CUTOFF 23:30Z reached", where, "- no further build starts; cut to", len(done), "of", len(PLAN), sorted(done))
+    report(f"v6c CUTOFF 23:30Z: cut to {len(done)} of {len(PLAN)} builds ({where}); built: {','.join(sorted(done))}"); release_hold("cutoff")
 for app, arm, bid in PLAN:
     tag = bid
     if bid in done: continue
+    if time.time() >= CUTOFF: cut("before " + tag); sys.exit(0)
     t_wait = time.time(); last = None; disk_warned = False; clear_since = None
     while True:
         b = busy()
@@ -155,6 +161,7 @@ for app, arm, bid in PLAN:
         if clear_since is None: clear_since = time.time(); log("clear; settling 60 s so a waiting pass-3 session shows itself first"); time.sleep(5); continue
         if time.time() - clear_since < 60: time.sleep(5); continue
         break
+    if time.time() >= CUTOFF: cut("while waiting before " + tag); sys.exit(0)
     waited = round(time.time() - t_wait, 1); d0 = df()
     voided = []; infra_retried = False
     for attempt in range(1, 5):

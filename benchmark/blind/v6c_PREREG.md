@@ -2,6 +2,11 @@
 
 Direction: Naman m:e1c448c3 (3:29 AM IST, pt 5) and m:5f617c79 (3:40 AM IST, pt 3): the finish checklist as a READ-ONLY review of what
 already exists, not a rewrite pass and not a test harness; edit only if a listed item is actually missing. ONE change vs v5c.
+Commit 1 (e3908f1, committed 2026-10-18T22:16:06Z) wrote sections 0-6; amendment 2026-10-18T22:24:32Z (Naman m:ecfa8839, before any v6c build) adds
+section 0b, the 23:30Z cutoff in section 2, section 7 "IF v6 LOSES" and the baseline line below. Nothing in sections 3-4 was loosened.
+HYPOTHESIS: a read-only review (edit only if a listed item is actually missing) keeps v5c's polish checks but costs fewer tokens than v5c's check-and-fix
+pass with a click-through, because no server, browser or test script gets built.
+BASELINE: v5c's results are the baseline as they are in files/tl_blind/v5c/BUILD_RESULTS.tsv (all 9 v5c builds), unchanged; no v5c number is re-run or re-scored.
 This is a hypothesis. v5c (`v5c_PREREG.md`, commit 72b3bc1) was still building when this was written; nothing here uses its blind judge result.
 
 ## 0. Why (evidence available at writing time, all from v5c builds 1-8 of 10; not a result)
@@ -23,6 +28,11 @@ v5c-kanban-3	12513	850	11663	10051	1525	0	696	-609	0	app.jsx1;index.htmlx1;style
   Read: "after_b_app_rewrites_edits" = 0 and "app files edited more than once" = 0 on all 6 rows, so the extra tokens are NOT rewrites. The extra
   is the verification step itself (extra tool calls, each re-sending the context: cache write/read) plus thinking. v5c's item (e) "click every
   feature once" is the item that invites a server + browser + script. v6c replaces it with a static check and forbids browser/server/test script.
+
+## 0b. Root's evidence (a GREP HINT over the v5c transcripts, not a measured result)
+In most v5c builds the agent's click-test script tried playwright and failed with "Executable doesn't exist ... chrome-headless-shell": the browser is
+absent in the build sandbox, so the click test never ran and those tokens bought nothing. kanban-3's script included #add-column but not the column
+pencils (kanban-3 is the run whose checker failed on "+ Add column" and the column edit buttons).
 
 ## 1. Definition: v6c = v5c with step 4 rewritten as a read-only review
 `benchmark/arms/tightloop-v6c/` is a byte copy of `benchmark/arms/tightloop-v5c/` (gate.sh, phases/fail.md, phases/risky.md identical; steps 1-3
@@ -63,6 +73,9 @@ v4 752, v4c 424, v5c 526 raw):
   v6c-kanban-1, v6c-bookmarks-3, v6c-bookmarks-2, v6c-bookmarks-1, v6c-expenses-3, v6c-kanban-3, v6c-expenses-2, v6c-expenses-1, v6c-kanban-2.
 - Retries: none, except a harness crash (no usable result event): one retry, logged as RETRY with its reason and tokens. A transcript that
   touches checker/key material is VOID and rerun (r2 rule), logged with its tokens. App failures are never retried. No rescue reruns, no tweaks.
+- HARD CUTOFF (Naman m:ecfa8839): the v6c builds must finish by 2026-10-18T23:30:00Z (5:00 AM IST). The driver starts no build at or after the
+  cutoff (it finishes the build in progress). If not all 9 are done, the report says n built per app and "cut to n"; medians/ranges are then over
+  the builds that exist, labelled with their n, and nothing is dropped silently.
 - Per build: BUILD_RESULTS.tsv (same columns as v5c) and TOKEN_WHY.tsv (same columns as v5c's) under files/tl_blind/v6c/.
 - Baselines (r2 harness-log rows, cw = in + 5*out + 0.1*cache_read + 1.25*cache_write), unchanged denominators:
 
@@ -107,3 +120,10 @@ Keep v6c over the previous kept version only if it beats it on BOTH tokens AND b
 ## 6. What is reported
 Per app: v6c median and min-max cw (and in+out+cache_read) vs r2 no-skill, r2 v4c and v5c; checker passes per run; TOKEN_WHY per build
 (first-pass write vs verification vs rewrites, files edited twice, tool calls); P1-P3 HIT/MISS; the keep verdict per section 4.
+
+## 7. IF v6 LOSES
+Reported exactly as follows, with no rescue: the per-app v6c cw median and min-max as they are, beside r2 no-skill (same denominators: kb 198,718.9 /
+bm 249,587.55 / exp 216,408.95), r2 v4c and v5c (baseline, unchanged); each of P1-P3 as HIT or MISS with its number; checker passes per run with
+every failed check named (a defect in 1 of 3 runs is in the range); the judge result per app per section 4. Any MISS on P1 or P2, or a keep verdict
+other than "beats", is written as "v6c FAILED" (or "not distinguishable" where section 4 says so), the previous kept version stays, and the next version
+builds from it. No rescue reruns, no prompt or rule tweaks, no re-scoring, no dropping of a build or an app after the numbers are in.
