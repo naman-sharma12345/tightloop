@@ -7,16 +7,18 @@ extraction, and a reference-fix run proving the grader both ways.
 ## Bug fixes (real upstream fix commits that add tests)
 
 - cli/cli (MIT) - gh command fixes with Go tests
-- BurntSushi/ripgrep (MIT) - regex/glob edge cases with Rust integration tests
-- junegunn/fzf (MIT) - Go, has test suite
-- sindresorhus/ky (MIT) - HTTP client, node:test coverage
-- tinyhttp/tinyhttp (MIT) - Express-like, node tests
+  - VERIFIED candidate ghcli-01: commit 221e12681 (Add a shared result line for unchanged artifacts), license re-read live at the fix commit (MIT), baseline fails (undefined: PrintUnchanged), reference fix passes (go test exit 0). Mined and checked 2026-10-18; not yet vendored.
+- BurntSushi/ripgrep (MIT) - regex/glob edge cases with Rust integration tests (BLOCKED on a Rust toolchain for verification)
+- junegunn/fzf (MIT) - Go, has test suite (mined 2026-10-18: 0 commits matched the fix+separate-test-file pattern)
+- sindresorhus/ky (MIT) - HTTP client (mined 2026-10-18: 0 pattern matches)
+- tinyhttp/tinyhttp (MIT) - Express-like (mined 2026-10-18: 0 pattern matches)
 
 ## Features (real upstream feature commits checked by upstream tests)
 
 - sharkdp/fd (MIT/Apache-2.0) - new flag additions with integration tests
 - clap-rs/clap (MIT/Apache-2.0) - builder API additions
 - gin-gonic/gin (MIT) - middleware additions
+  - VERIFIED candidate ginfeat-01: commit dbd8a251 (feat: AbortWithStatusPureJSON), license re-read live (MIT), baseline fails (undefined method), reference fix passes (go test exit 0). Mined and checked 2026-10-18; not yet vendored.
 - axios/axios (MIT) - interceptor/adapter features
 
 ## Small apps (from-scratch specs, pinned tests)
