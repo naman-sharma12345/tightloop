@@ -1,0 +1,40 @@
+{
+  "apps": {
+    "bookmarks": {
+      "A": "no-skill",
+      "B": "tightloop-v4c",
+      "C": "ponytail",
+      "D": "tightloop-v4"
+    },
+    "expenses": {
+      "A": "no-skill",
+      "B": "tightloop-v4",
+      "C": "ponytail",
+      "D": "tightloop-v4c"
+    },
+    "kanban": {
+      "A": "no-skill",
+      "B": "tightloop-v4",
+      "C": "ponytail",
+      "D": "tightloop-v4c"
+    }
+  },
+  "arm_dirs": {
+    "no-skill": "(no skill folder)",
+    "ponytail": "pinned ponytail SKILL.md via runner.ponytail_skill (fallback benchmark/arms/ponytail.md)",
+    "tightloop-v4": ".claude/skills/tightloop (SKILL.md sha256 519851ae61e501effbca5095f5d7c1efec1563949990ef61a7041d37bf4d5a0b)",
+    "tightloop-v4c": "benchmark/arms/tightloop-v4c (SKILL.md sha256 6c2683f102ddbb000b779a9aefe2367b8342f1253b66c8fe6056b3561b2cf7e7)"
+  },
+  "arms": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4",
+    "tightloop-v4c"
+  ],
+  "created_utc": "2026-10-18T19:55:39Z",
+  "key_version": 2,
+  "made_by": "benchmark/blind/make_key_r2.py",
+  "rng": "python random.Random(seed), seed = secrets.randbits(63); for app in [bookmarks, expenses, kanban]: shuffle([no-skill, ponytail, tightloop-v4, tightloop-v4c]) -> labels A,B,C,D",
+  "round": 2,
+  "seed": 3685970887950970270
+}
