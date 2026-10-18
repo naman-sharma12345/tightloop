@@ -1,0 +1,18 @@
+{
+  "name": "black-01",
+  "kind": "bugfix",
+  "source": "https://github.com/psf/black",
+  "license": "MIT",
+  "license_commit": "6c136f979c14956eeddb4a20c3f2653bce7e9505",
+  "license_note": "re-read at fix commit 6c136f979: LICENSE=MIT",
+  "commit": "6c136f979c14956eeddb4a20c3f2653bce7e9505",
+  "start_commit": "cb8cddd35d9bccef548e8a5aadac2c2d16a04d3b",
+  "instruction": "fix: no spurious target-version warning when runtime version is included (#5167)",
+  "hidden_tests": [
+    "test_mixed_target_versions_with_runtime_no_warning"
+  ],
+  "hidden_patch": "patches/black-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "pytest tests/test_black.py::test_mixed_target_versions_with_runtime_no_warning"
+}
