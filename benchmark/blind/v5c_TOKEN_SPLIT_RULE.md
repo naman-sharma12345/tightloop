@@ -49,3 +49,17 @@ or it runs a script file that was written earlier in the same build containing o
   `.select_option(` call in the build's browser scripts (unique, in order). They count as clicked only where browser_launched is yes;
   otherwise the column shows what the script would have clicked.
 - app files written or edited more than once; tool calls; first-pass tool calls.
+
+
+## Amendment v1.1 (written 2026-10-18T22:29:19Z, after reading the tool results; token classes unchanged)
+Applying v1 to the logs showed three detection gaps in the click-test columns and one in the code. None of them moves a token between classes:
+the comparison with the pre-rule TOKEN_WHY.tsv (generation 3) is "no number changed" for all 9 v5c builds (the ponytail rerun is new).
+1. Browser-script run = a tool call that LAUNCHES a browser (`sync_playwright`, `async_playwright`, `.launch(`, `puppeteer.launch`,
+   `webdriver.`) inline, or runs a script file written in the build that does. v1's "playwright/puppeteer/selenium/chromium" also caught
+   `python3 -c "import playwright"` probes, which launch nothing.
+2. browser_launched = "yes" only with positive evidence: the result has no failure marker AND shows one of the script's own print() strings.
+   Failure markers added to v1's list: Playwright's missing-browser banner ("playwright install", "Looks like Playwright") and a non-zero
+   "Exit code N". The quoted error is the most specific one in the build: an "Executable doesn't exist" line first, then the banner,
+   then others.
+3. Code fix, consistent with v1's wording: text after the last call of the initial creating run (a session that ends inside that run) is
+   FINAL REPLY, not first pass.

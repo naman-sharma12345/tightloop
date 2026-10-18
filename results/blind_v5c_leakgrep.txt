@@ -1,0 +1,23 @@
+/home/user/tab/files/tl_blind/v5c/viewer.zip
+hint lines left (all labels): 0 ; per-label strip counts not printed (they would hint at the mapping)
+dir bookmarks/A: 0 hits
+dir bookmarks/B: 0 hits
+dir bookmarks/C: 0 hits
+dir bookmarks/D: 0 hits
+dir bookmarks/E: 0 hits
+dir expenses/A: 0 hits
+dir expenses/B: 0 hits
+dir expenses/C: 0 hits
+dir expenses/D: 0 hits
+dir expenses/E: 0 hits
+dir expenses/F: 0 hits
+dir expenses/G: 0 hits
+dir kanban/A: 0 hits
+dir kanban/B: 0 hits
+dir kanban/C: 0 hits
+dir kanban/D: 0 hits
+dir kanban/E: 0 hits
+LEAK GREP build dirs: 0 hits over 17 dirs
+LEAK GREP zip listing+entries: 0 hits over 55 entries (viewer.zip)
+LEAK GREP unzipped tree: 0 hits over 55 files
+zip entries with a non-fixed timestamp: 0; .git entries: 0

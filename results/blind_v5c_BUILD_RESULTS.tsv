@@ -1,0 +1,11 @@
+build	start_utc	end_utc	input	output	cache_read	cache_write	cost_weighted	checks_passed	checks_total	status	df_mib_after	usage_source
+v5c-kanban-1	2026-10-18T21:41:04Z	2026-10-18T21:43:14Z	8	15405	110435	42759	141525.25	10	10	OK	5000	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-bookmarks-2	2026-10-18T21:44:40Z	2026-10-18T21:47:14Z	8	19456	124713	26625	143040.55	20	20	OK	4997	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-expenses-3	2026-10-18T21:49:03Z	2026-10-18T21:51:50Z	14	19556	279861	27622	160307.6	25	25	OK	4997	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-kanban-3	2026-10-18T21:53:12Z	2026-10-18T21:54:50Z	10	12513	155799	20660	103979.9	9	10	OK	4996	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-bookmarks-3	2026-10-18T21:57:18Z	2026-10-18T21:59:40Z	12	17706	224475	25511	142878.25	20	20	OK	4995	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+ponytail-expenses-rerun	2026-10-18T22:01:29Z	2026-10-18T22:03:12Z	14	12260	246732	21649	113048.45	25	25	OK	4995	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-expenses-2	2026-10-18T22:04:34Z	2026-10-18T22:08:33Z	6	28520	75494	35228	194190.4	25	25	OK	4994	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-kanban-2	2026-10-18T22:09:55Z	2026-10-18T22:11:53Z	14	14316	240322	22586	123858.7	10	10	OK	4989	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-bookmarks-1	2026-10-18T22:13:16Z	2026-10-18T22:16:00Z	14	20108	280133	28243	163871.05	20	20	OK	4986	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
+v5c-expenses-1	2026-10-18T22:17:49Z	2026-10-18T22:20:13Z	6	18164	76220	26034	130990.5	25	25	OK	4980	harness: claude CLI stream-json final result event parsed by runner.launch (driver row), not the agent's own report
