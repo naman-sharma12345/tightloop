@@ -1,0 +1,10 @@
+fd-01: no-skill 83521.35, ponytail 73896.85, tightloop-v3 93968.6, tightloop-v4 40214.85
+  ratio vs no-skill: ponytail 0.8847659909711708, tightloop-v3 1.1250847837109912, tightloop-v4 0.4814918580698228; v4/ponytail 0.5442024930697316
+gin-01: no-skill 62860.85, ponytail 34231.35, tightloop-v3 60965.95, tightloop-v4 33954.75
+  ratio vs no-skill: ponytail 0.5445575425722051, tightloop-v3 0.969855641468418, tightloop-v4 0.5401573475382532; v4/ponytail 0.9919196876547376
+gin-02: no-skill 43210.65, ponytail 38251.3, tightloop-v3 58479.7, tightloop-v4 36193.85
+  ratio vs no-skill: ponytail 0.885228525837959, tightloop-v3 1.3533631176573366, tightloop-v4 0.8376141067074899; v4/ponytail 0.9462122855955222
+median cost-weighted ratio ponytail / no-skill: 0.8847659909711708 over 3 tasks
+median cost-weighted ratio tightloop-v3 / no-skill: 1.1250847837109912 over 3 tasks
+median cost-weighted ratio tightloop-v4 / no-skill: 0.5401573475382532 over 3 tasks
+median cost-weighted ratio tightloop-v4 / ponytail: 0.9462122855955222 over 3 tasks

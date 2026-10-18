@@ -174,3 +174,39 @@ v4 against ponytail, per task: input+output fd-01 1970 vs 1982, gin-01 1516 vs 1
 Lazy phase files (v4): phases/fail.md read 0 times and phases/risky.md read 0 times on all 3 tasks (also 0 on every other arm). v4 gate.sh runs: fd-01 2 (3302 bytes output), gin-01 1 (1039 B), gin-02 1 (1469 B); gate runs are inside v4's tool calls and tokens. Whether the split saved anything is not measured: the 1871 bytes of phase text were never loaded, but no arm with them folded into the core was run, so there is no comparison row.
 
 Caveats: no-skill ran first in each task and paid the most cache_creation on fd-01 (37989) and gin-01 (34323), an order effect that is logged, not corrected. gin-01 used the hidden-patch fallback on all 4 arms (recovery_test.go agent lines dropped: no-skill +20, ponytail +18, v3 +22, v4 +19). Agent test renamed before grading on every fd-01 and gin-01 row (hidden-test name collision); none on gin-02.
+
+## Pass 2 addendum (Naman via Pally, after the pass-2 commit ac0ee1f): reporting and analysis only
+No runner, harness or grader change. The rows are the same 12.
+
+1. Cost-weighted tokens (analysis only, results/analysis/cost_weighted.py; output in cost_weighted_output.txt).
+   Weights relative to input = 1: input 1, output 5, cache_read 0.1, cache_creation 1.25.
+   cost_weighted = input*1 + output*5 + cache_read*0.1 + cache_creation*1.25
+   - fd-01: v4/no-skill 0.4814918580698228, v4/ponytail 0.5442024930697316
+   - gin-01: v4/no-skill 0.5401573475382532, v4/ponytail 0.9919196876547376
+   - gin-02: v4/no-skill 0.8376141067074899, v4/ponytail 0.9462122855955222
+   - medians: v4/no-skill 0.5401573475382532; v4/ponytail 0.9462122855955222; ponytail/no-skill 0.8847659909711708; v3/no-skill 1.1250847837109912
+   - Caveat: cache_creation carries weight 1.25 and no-skill ran first on each task, so it paid the most cache_creation on fd-01 (37989) and gin-01 (34323). That order effect pushes every arm's cost-weighted ratio down; it is logged, not corrected.
+   40% target (median ratio at or below 0.4) for v4: missed on all three numbers: in+out 0.7215611613517373, in+out+cache_read 0.7663169273814066, cost-weighted 0.5401573475382532.
+
+2. Phase files (kept, not cut): fail.md and risky.md were read 0 times on gin-02 as on fd-01 and gin-01, by every arm. No pass-2 row failed. The harness does not classify "risky code", and no row read risky.md. Would-be saving if they were dropped or never shipped: fail.md 970 bytes, risky.md 901 bytes (1871 bytes). They are not in the system prompt, so today they cost nothing unless read.
+
+3. v4 gate.sh runs, from the session transcripts:
+   - fd-01 (2 runs, 3302 B total): run 1 came in the same Bash call as the fix (python edit of src/main.rs + test, then gate) -> GATE PASS. Run 2 came after a second edit that only moved a 3-line comment ("Start with the cheap check: ...") to the function it describes; no code or test line changed. So run 2 was a recheck after an edit, but the edit was comment-only: a full gate rerun (revert, FAIL, PASS) for a cosmetic change. The agent piped the gate through grep GATE, so its visible output was one line.
+   - gin-01 (1 run, 1039 B): the fix and test edit and the gate in one Bash call -> GATE PASS; no second run.
+   - gin-02 (1 run, 1469 B): same shape as gin-01.
+
+4. Time: cov_c (Kimo, headless chrome) ran beside every pass-2 session and could not be paused, so wall time on all 12 pass-2 rows is "overlapped, not comparable". Tokens, turns and tool calls stand.
+
+Final pass-2 table:
+- fd-01 no-skill: PASS | in+out+cache_read 202445 | in+out 3234 | cost-weighted 83521.35 | in 14 out 3220 cache_read 199211 cache_creation 37989 | time 109.84 s (overlapped, not comparable) | turns 7 | tool calls 6 | rename yes | fallback no | diff +25/-5 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- fd-01 ponytail: PASS | in+out+cache_read 167918 | in+out 1982 | cost-weighted 73896.85 | in 12 out 1970 cache_read 165936 cache_creation 37953 | time 87.21 s (overlapped, not comparable) | turns 6 | tool calls 5 | rename yes | fallback no | diff +43/-29 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- fd-01 tightloop-v3: PASS | in+out+cache_read 465642 | in+out 4246 | cost-weighted 93968.60 | in 24 out 4222 cache_read 461396 cache_creation 21356 | time 121.44 s (overlapped, not comparable) | turns 13 | tool calls 12 | rename yes | fallback no | diff +43/-29 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- fd-01 tightloop-v4: PASS | in+out+cache_read 154831 | in+out 1970 | cost-weighted 40214.85 | in 10 out 1960 cache_read 152861 cache_creation 12095 | time 83.0 s (overlapped, not comparable) | turns 5 | tool calls 4 | rename yes | fallback no | diff +21/-4 | gate_runs 2 (3302 B) | fail.md 0 risky.md 0
+- gin-01 no-skill: PASS | in+out+cache_read 96942 | in+out 2101 | cost-weighted 62860.85 | in 8 out 2093 cache_read 94841 cache_creation 34323 | time 28.49 s (overlapped, not comparable) | turns 4 | tool calls 3 | rename yes | fallback yes (dropped recovery_test.go +20/-0) | diff +26/-3 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-01 ponytail: PASS | in+out+cache_read 123355 | in+out 1534 | cost-weighted 34231.35 | in 8 out 1526 cache_read 121821 cache_creation 11529 | time 24.2 s (overlapped, not comparable) | turns 4 | tool calls 3 | rename yes | fallback yes (dropped recovery_test.go +18/-0) | diff +22/-1 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-01 tightloop-v3: PASS | in+out+cache_read 253006 | in+out 2949 | cost-weighted 60965.95 | in 14 out 2935 cache_read 250057 cache_creation 17017 | time 48.75 s (overlapped, not comparable) | turns 8 | tool calls 7 | rename yes | fallback yes (dropped recovery_test.go +22/-0) | diff +27/-0 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-01 tightloop-v4: PASS | in+out+cache_read 121996 | in+out 1516 | cost-weighted 33954.75 | in 8 out 1508 cache_read 120480 cache_creation 11487 | time 20.39 s (overlapped, not comparable) | turns 4 | tool calls 3 | rename yes | fallback yes (dropped recovery_test.go +19/-0) | diff +22/-0 | gate_runs 1 (1039 B) | fail.md 0 risky.md 0
+- gin-02 no-skill: PASS | in+out+cache_read 157260 | in+out 2516 | cost-weighted 43210.65 | in 10 out 2506 cache_read 154744 cache_creation 12157 | time 55.62 s (overlapped, not comparable) | turns 5 | tool calls 4 | rename no | fallback no | diff +29/-2 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-02 ponytail: PASS | in+out+cache_read 155867 | in+out 1829 | cost-weighted 38251.30 | in 10 out 1819 cache_read 154038 cache_creation 10994 | time 28.85 s (overlapped, not comparable) | turns 5 | tool calls 4 | rename no | fallback no | diff +16/-2 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-02 tightloop-v3: PASS | in+out+cache_read 249653 | in+out 2771 | cost-weighted 58479.70 | in 14 out 2757 cache_read 246882 cache_creation 15994 | time 36.56 s (overlapped, not comparable) | turns 8 | tool calls 7 | rename no | fallback no | diff +16/-2 | gate_runs 0 (0 B) | fail.md 0 risky.md 0
+- gin-02 tightloop-v4: PASS | in+out+cache_read 120511 | in+out 1965 | cost-weighted 36193.85 | in 8 out 1957 cache_read 118546 cache_creation 11637 | time 26.83 s (overlapped, not comparable) | turns 4 | tool calls 3 | rename no | fallback no | diff +15/-1 | gate_runs 1 (1469 B) | fail.md 0 risky.md 0
