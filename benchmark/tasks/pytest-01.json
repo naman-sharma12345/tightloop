@@ -1,0 +1,18 @@
+{
+  "name": "pytest-01",
+  "kind": "bugfix",
+  "source": "https://github.com/pytest-dev/pytest",
+  "license": "MIT",
+  "license_commit": "3fa8d9b15b733aadb8a043cca3e98447804e1f28",
+  "license_note": "re-read at fix commit 3fa8d9b15: LICENSE=MIT",
+  "commit": "3fa8d9b15b733aadb8a043cca3e98447804e1f28",
+  "start_commit": "e6d8374449d0862093295f131b21a0eb2ca9526b",
+  "instruction": "Fix off-by-one in trailing assertion diff skipping (#14637) (#14639)",
+  "hidden_tests": [
+    "test_text_skipping_trailing_when_prefix_differs"
+  ],
+  "hidden_patch": "patches/pytest-01.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "pytest testing/test_assertion.py::test_text_skipping_trailing_when_prefix_differs"
+}
