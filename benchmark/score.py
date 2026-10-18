@@ -72,7 +72,7 @@ def table(rows, label):
             print(f"{arm} token ratio vs no-skill: no complete pairs")
 
 
-ARMS = ("no-skill", "ponytail", "tightloop", "tightloop-v3", "tightloop-v4", "tightloop-v4a")
+ARMS = ("no-skill", "ponytail", "tightloop", "tightloop-v3", "tightloop-v4", "tightloop-v4a", "tightloop-v4b")
 
 
 def load_rows_jsonl(path: Path):
@@ -148,7 +148,7 @@ def main_jsonl(rows_path: Path, holdout) -> int:
     rows = load_rows_jsonl(rows_path)
     superseded = [r for r in rows if str(r.get("status", "")).startswith("superseded")]
     if superseded:
-        print(f"--- excluded, superseded ({len(superseded)} rows; redone, kept for the record) ---")
+        print(f"--- excluded, superseded ({len(superseded)} rows; kept for the record, EXCLUDED from every median, ratio and pass rate) ---")
         for r in superseded:
             print(f"{r['task']} {r['arm']} run{r.get('run')}: result={r.get('result')} "
                   f"status={r.get('status')}")

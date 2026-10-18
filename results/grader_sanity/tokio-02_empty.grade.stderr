@@ -1,0 +1,62 @@
+    Updating crates.io index
+     Locking 197 packages to highest compatible versions
+      Adding criterion v0.5.1 (available: v0.8.2)
+      Adding hashbrown v0.14.5 (available: v0.17.1)
+      Adding http v0.2.12 (available: v1.5.0)
+      Adding minicov v0.3.8 (available: v0.3.9)
+      Adding mio v0.8.11 (available: v1.2.4)
+      Adding mio-aio v0.7.0 (available: v2.0.0)
+      Adding mockall v0.11.4 (available: v0.15.0)
+      Adding nix v0.27.1 (available: v0.31.3)
+      Adding rand v0.8.8 (available: v0.10.3)
+      Adding rand_chacha v0.3.1 (available: v0.10.0)
+      Adding socket2 v0.5.10 (available: v0.6.5)
+      Adding syn v2.0.119 (available: v3.0.9)
+      Adding windows-sys v0.48.0 (available: v0.61.2)
+ Downloading crates ...
+  Downloaded async-stream-impl v0.3.6
+  Downloaded difflib v0.4.0
+  Downloaded downcast v0.11.0
+  Downloaded async-stream v0.3.6
+  Downloaded bytes v1.12.1
+  Downloaded futures-channel v0.3.34
+  Downloaded float-cmp v0.9.0
+  Downloaded futures-core v0.3.34
+  Downloaded normalize-line-endings v0.3.0
+  Downloaded ppv-lite86 v0.2.21
+  Downloaded lazy_static v1.5.1
+  Downloaded predicates-tree v1.0.13
+  Downloaded futures v0.3.34
+  Downloaded futures-io v0.3.34
+  Downloaded rand_chacha v0.3.1
+  Downloaded futures-executor v0.3.34
+  Downloaded futures-sink v0.3.34
+  Downloaded futures-task v0.3.34
+  Downloaded memoffset v0.9.1
+  Downloaded predicates-core v1.0.10
+  Downloaded futures-macro v0.3.34
+  Downloaded termtree v0.5.1
+  Downloaded pin-project-lite v0.2.17
+  Downloaded predicates v2.1.5
+  Downloaded fragile v2.1.0
+  Downloaded rand_core v0.6.4
+  Downloaded slab v0.4.12
+  Downloaded getrandom v0.2.17
+  Downloaded mockall_derive v0.11.4
+  Downloaded fastrand v2.5.0
+  Downloaded unicode-ident v1.0.27
+  Downloaded mockall v0.11.4
+  Downloaded getrandom v0.4.3
+  Downloaded socket2 v0.5.10
+  Downloaded rand v0.8.8
+  Downloaded futures-util v0.3.34
+  Downloaded nix v0.27.1
+  Downloaded syn v1.0.109
+  Downloaded syn v3.0.9
+  Downloaded zerocopy v0.8.63
+  Downloaded rustix v1.1.5
+  Downloaded libc v0.2.191
+error: specification `tokio` is ambiguous
+help: re-run this command with one of the following specifications
+  tokio@1.35.1
+  tokio@1.53.3
