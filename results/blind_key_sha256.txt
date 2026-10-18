@@ -1,5 +1,8 @@
-Blind app bake-off: sealed label->arm key
-file: KEY.json (kept privately by Tab until Naman has picked all 3 apps)
+Blind app bake-off: sealed files (both kept privately by Tab, outside the repo, until Naman has picked all 3 apps)
+file: KEY.json (label -> arm key)
 sha256: 2597e7e6401a598ad61f50183dbb4f9dc54685de8fa6d86ebca9e5b9cd851e5d
-committed: 2026-10-18T17:32:08Z
-The key itself is withheld until the picks are in; it will be committed in results/blind_picks.md and must hash to the value above.
+committed: 2026-10-18T17:32:09Z (first commit 65f5453; unchanged since)
+file: METRICS.json (per app/label tokens, time, turns, tool calls, smoke and basic-task results)
+sha256: 6b61c4eb47d80b634632d4b17ea4935988d357bfc1f28d8c466daf2482d07572
+committed: 2026-10-18T17:40:29Z
+Neither file is in the repo and neither may change after this commit. Both will be published with results/blind_picks.md after the picks and must hash to the values above.
