@@ -1,0 +1,19 @@
+{
+  "name": "vue-02",
+  "kind": "bugfix",
+  "source": "https://github.com/vuejs/core",
+  "license": "MIT",
+  "license_commit": "a7513a1a3ed411ccd90bf135c6cba9c9cb2ef10b",
+  "license_note": "re-read at fix commit a7513a1a3: LICENSE=MIT",
+  "commit": "a7513a1a3ed411ccd90bf135c6cba9c9cb2ef10b",
+  "start_commit": "b6191cbf95c680e076164a319dd987a14de658c1",
+  "instruction": "fix(runtime-core): avoid re-fetching resource props with unchanged values (#15105)",
+  "hidden_tests": [
+    "does not re-write unchanged resource props when hydrating",
+    "still patches resource props when server and client values differ"
+  ],
+  "hidden_patch": "patches/vue-02.patch",
+  "holdout": false,
+  "status": "UNPROVEN",
+  "check_command": "npx vitest run packages/runtime-core/__tests__/hydration.spec.ts -t 'does not re-write unchanged resource props when hydrating|still patches resource props when server and client values differ'"
+}
