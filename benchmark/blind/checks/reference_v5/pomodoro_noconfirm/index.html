@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pomodoro</title><style>
+:root{--bg:#1c1a26;--surface:#26233a;--text:#f4f4f5;--muted:#a1a1aa;--border:#3f3b56;--accent:#f43f5e;--short:#22d3ee;--long:#a3e635}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+h1{font-size:24px;font-weight:600;margin:0}h2{font-size:16px;font-weight:600;margin:0 0 8px}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px;background:var(--surface);min-width:0}
+textarea{height:auto;padding:8px 12px}
+button{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 14px;background:var(--surface);cursor:pointer}
+button:hover{filter:brightness(.96)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.muted{color:var(--muted)}.empty{color:var(--muted);padding:24px;text-align:center}
+.err{color:#dc2626;font-size:14px;min-height:20px}
+
+main{max-width:1120px;margin:0 auto;padding:32px 16px;display:grid;grid-template-columns:1fr 360px;gap:24px}
+h1{grid-column:1/-1}.timer{padding:32px;text-align:center}
+.tabs{display:inline-flex;gap:8px;margin-bottom:16px}.tabs button[aria-selected=true]{border-color:var(--mc);color:var(--mc)}
+#mode{--mc:var(--accent)}#mode[data-mode=short]{--mc:var(--short)}#mode[data-mode=long]{--mc:var(--long)}
+#time{font-size:96px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:2px;margin:8px 0 24px;color:var(--mc)}
+.ctl{display:flex;gap:8px;justify-content:center}.ctl button{min-width:96px}
+details{margin-top:24px;text-align:left}summary{cursor:pointer;color:var(--muted)}
+.set{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.set label{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+.tasks{padding:16px}#task-form{display:flex;gap:8px;margin-bottom:8px}#task-input{flex:1}
+ul{list-style:none;margin:0;padding:0}.task{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+.task:hover{background:#2f2b45}.task.active{border-color:var(--accent)}.task-name{flex:1;overflow-wrap:anywhere}
+.count{font-variant-numeric:tabular-nums;min-width:24px;text-align:right}.task .delete{height:28px;padding:0 8px;font-size:12px}
+.hist{grid-column:1/-1;padding:16px}.hhead{display:flex;justify-content:space-between;align-items:center}
+#history{display:flex;flex-wrap:wrap;gap:8px}#history li{padding:4px 10px;border-radius:999px;font-size:13px;border:1px solid var(--border)}
+#history li[data-mode=focus]{color:var(--accent)}#history li[data-mode=short]{color:var(--short)}#history li[data-mode=long]{color:var(--long)}
+@media(max-width:820px){main{grid-template-columns:1fr}.timer{padding:16px}#time{font-size:64px}.set{grid-template-columns:1fr}.tabs{flex-wrap:wrap;justify-content:center}}
+</style></head><body><main>
+<h1>Pomodoro</h1>
+<section class="timer card"><div id="mode" data-mode="focus"><div class="tabs" role="tablist">
+<button role="tab" data-m="focus">Focus</button><button role="tab" data-m="short">Short break</button><button role="tab" data-m="long">Long break</button></div>
+<div id="time">25:00</div></div>
+<div class="ctl"><button id="start" class="primary">Start</button><button id="pause">Pause</button><button id="reset">Reset</button></div>
+<details open><summary>Settings (minutes)</summary><div class="set">
+<label>Focus<input id="focus-min" type="number" min="1" step="1"></label><label>Short break<input id="short-min" type="number" min="1" step="1"></label><label>Long break<input id="long-min" type="number" min="1" step="1"></label></div></details></section>
+<section class="tasks card"><h2>Tasks</h2><form id="task-form"><input id="task-input" placeholder="What are you working on?" aria-label="New task"><button class="primary">Add</button></form>
+<p class="muted" id="active-l" style="font-size:13px;margin:0 0 8px"></p><ul id="tasks"></ul></section>
+<section class="hist card"><div class="hhead"><h2>Session history</h2><button id="clear-history">Clear history</button></div><ul id="history"></ul></section>
+</main><script>
+const KEY='pomodoro.v1',$=s=>document.querySelector(s);
+let S=Object.assign({set:{focus:25,short:5,long:15},tasks:[],active:null,history:[],focusDone:0},JSON.parse(localStorage.getItem(KEY)||'{}'));
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+let mode='focus',remaining=S.set.focus*60000,endAt=null,timer=null;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+function show(){const s=Math.max(0,Math.ceil(remaining/1000));$('#time').textContent=pad(Math.floor(s/60))+':'+pad(s%60);$('#mode').dataset.mode=mode;
+ document.querySelectorAll('[data-m]').forEach(b=>b.setAttribute('aria-selected',b.dataset.m===mode));
+ $('#start').disabled=!!endAt;$('#pause').disabled=!endAt;document.title=$('#time').textContent+' · Pomodoro'}
+function tick(){if(!endAt)return;remaining=endAt-Date.now();if(remaining<=0)finish();show()}
+function finish(){const done=mode;S.history.unshift({mode:done,at:new Date().toISOString()});
+ if(done==='focus'){S.focusDone++;const t=S.tasks.find(x=>x.id===S.active);if(t)t.count++;mode=S.focusDone%4===0?'long':'short'}else mode='focus';
+ remaining=S.set[mode]*60000;endAt=Date.now()+remaining;save();renderLists()}
+function start(){if(endAt)return;endAt=Date.now()+remaining;timer=setInterval(tick,250);show()}
+function pause(){if(!endAt)return;remaining=endAt-Date.now();endAt=null;clearInterval(timer);show()}
+function reset(){endAt=null;clearInterval(timer);remaining=S.set[mode]*60000;show()}
+function setMode(m){endAt=null;clearInterval(timer);mode=m;remaining=S.set[m]*60000;show()}
+function renderLists(){const T=$('#tasks');
+ T.innerHTML=S.tasks.length?S.tasks.map(t=>`<li class="task${t.id===S.active?' active':''}" data-id="${t.id}" tabindex="0"><span class="task-name">${esc(t.name)}</span><span class="count" title="Pomodoros done">${t.count}</span><button class="delete" aria-label="Delete task">Delete</button></li>`).join(''):'<li class="empty">No tasks yet. Add one and click it to focus on it.</li>';
+ const a=S.tasks.find(x=>x.id===S.active);$('#active-l').textContent=a?'Working on: '+a.name:'Click a task to make it active.';
+ $('#history').innerHTML=S.history.length?S.history.map(h=>`<li data-mode="${h.mode}">${{focus:'Focus',short:'Short break',long:'Long break'}[h.mode]} · ${new Date(h.at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</li>`).join(''):'<li class="empty" style="border:0">Finished sessions will show up here.</li>';
+ $('#clear-history').disabled=!S.history.length}
+$('#start').onclick=start;$('#pause').onclick=pause;$('#reset').onclick=reset;
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+[['focus','#focus-min'],['short','#short-min'],['long','#long-min']].forEach(([k,id])=>{const i=$(id);i.value=S.set[k];
+ i.addEventListener('input',()=>{const v=parseInt(i.value,10);if(!(v>=1))return;S.set[k]=v;save();if(!endAt&&mode===k){remaining=v*60000;show()}})});
+$('#task-form').addEventListener('submit',e=>{e.preventDefault();const n=$('#task-input').value.trim();if(!n)return;const t={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:n,count:0};S.tasks.push(t);if(!S.active)S.active=t.id;$('#task-input').value='';save();renderLists()});
+$('#tasks').addEventListener('click',e=>{const li=e.target.closest('.task');if(!li)return;const t=S.tasks.find(x=>x.id===li.dataset.id);
+ if(e.target.closest('.delete')){{S.tasks=S.tasks.filter(x=>x!==t);if(S.active===t.id)S.active=null;save();renderLists()}return}
+ S.active=t.id;save();renderLists()});
+$('#tasks').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('task'))e.target.click()});
+$('#clear-history').onclick=()=>{if(confirm('Clear the whole session history?')){S.history=[];save();renderLists()}};
+remaining=S.set.focus*60000;show();renderLists();
+</script></body></html>

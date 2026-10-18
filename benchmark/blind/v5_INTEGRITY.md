@@ -84,3 +84,61 @@ version material, hint-line check, leak grep (leakgrep_r2.py) over the 45 blinde
 tree, fixed zip timestamps, no .git. Viewer: the round-2 viewer unchanged (page ids habits-1 ... pomodoro-3; its grid has 4 columns,
 so the 5th panel wraps to a second row). Dry run on 45 fake builds: 0 / 0 / 0 hits, exit 0 (results/blind_v5_pack_dryrun.txt).
 pack_v5.py sha256 b0f05e6196aa37c0b36cdb56f70825d004e5ee0c3f13be2dbecd5c2432c9d575; pack_dryrun_v5.sh sha256 5e51d87d2ba6956abba6b3b4f497441fcc25b4b90afaeed0a66d4a13e94c9122.
+
+## 5. Checker (benchmark/blind/checks/check_app_v5.py)
+
+Written by worker 87fab574, blind to the v5 skill files: it never opened benchmark/arms/tightloop-v5*, benchmark/design/ or .claude/skills.
+The specs (section 1) were written from the round-2 specs' shape only and reported at 20:07:17Z. Disclosure: from about 20:08Z the box's own
+process listings showed running round-2 build command lines (spec + appended arm skill text) to every worker on the box, this one included;
+that came after the specs were final. The checker and references are hidden-side and never reach a build.
+
+Same CLI and output as check_app.py (helpers copied, check_app.py neither imported nor edited):
+`check_app_v5.py <habits|recipes|pomodoro> <app_dir> <screenshot.png> <out.json> [zip] [port]`.
+Page runs on Playwright's fake clock at 2026-03-18 12:00 UTC (timezone UTC); pomodoro's clock is paused and moves only by clock.run_for,
+Math.random / crypto.randomUUID are seeded per page load, so timer checks, the button replay and the demo screenshot are deterministic.
+Checks: ids, functional flow per spec, native confirm cancel/OK, every visible button acts (pomodoro: compared with a replay without the click),
+375 px no horizontal scroll, reload persistence, a keyboard-typed value change, no external requests, no console/page errors, 1280x800 screenshot.
+
+Full sha256:
+- benchmark/blind/checks/check_app_v5.py 809d4d34c0344bc630990a92e6742d71ae08748565c351b9efc2a6925889f5ae
+- benchmark/blind/checks/selftest_v5.sh 859212cfdb6b4632c9714f1b49498425809584c4e1e88ae093370d9f9df0874a
+- results/blind_v5_selftest.txt 9a5e4eef710ff7b0da772d2935a0257eed9c643a34973cf85a6d9ff777ebc3ce
+- benchmark/blind/checks/reference_v5/habits/index.html 342150c262c7c9c58f24361ddbd121e6f00c41975dcd8a21ffe7f12884f4fac2
+- benchmark/blind/checks/reference_v5/habits_deadbtn/index.html 044ed7daac44d13456be5336b638e4d7f7c347624697d2a0f4e97644be36762c
+- benchmark/blind/checks/reference_v5/habits_noconfirm/index.html 2ef0256c27beee0003a10527dd085f731c60d24328a5c76ab553b08df85fa50b
+- benchmark/blind/checks/reference_v5/habits_overflow/index.html c781e99c04bce5eae0198054368218b1466644c50da211646e89a68f390c8487
+- benchmark/blind/checks/reference_v5/habits_streakwrong/index.html d77b3dedc8a377fd09edb570e813a069c6659e1978e3c3cb290f17cb7277cb37
+- benchmark/blind/checks/reference_v5/pomodoro/index.html e54143c512da7695fd8603c837ace9aea46ade2beee6488d724bd1414a108af9
+- benchmark/blind/checks/reference_v5/pomodoro_deadbtn/index.html 484ac79d92093f76f8f883034e2f567973ae73d887c2e779cadf6c36766c546a
+- benchmark/blind/checks/reference_v5/pomodoro_noconfirm/index.html 3c013b271e6c38f13d370f185c32b2dc29aab48874d667beab7f166a6d4bed78
+- benchmark/blind/checks/reference_v5/pomodoro_nocount/index.html fa8bbb2375b9464abc54a1bac07165ecc57e48bb2c3df7ca8011c853af3b5c38
+- benchmark/blind/checks/reference_v5/pomodoro_overflow/index.html 86720ed9f7e4f2580db6fa5664b09124b6e7cd76bd3fde537c79ae521f9ff87a
+- benchmark/blind/checks/reference_v5/recipes/index.html f0a1b7a6e69315f4d91f084f763e39190eeb12ac2c2fd6ea9a7cafbbadc8e488
+- benchmark/blind/checks/reference_v5/recipes_deadbtn/index.html fd614ab57e85b5eea98b75fa09d38761f0cd65305db5121a93fffe9e06d81db8
+- benchmark/blind/checks/reference_v5/recipes_noconfirm/index.html f2a709e8a4b07925b343271b5ae8b50e38ae935b4aedaa486f1d95b7c2376dc6
+- benchmark/blind/checks/reference_v5/recipes_noscale/index.html 65947490653c4b8bbe8df0a87107324efe1c4934add72d8dfd578fed49294a56
+- benchmark/blind/checks/reference_v5/recipes_overflow/index.html e1a8138d515087c7785587fda12e4d03eb052760d5c0f866c1d3213977385256
+
+Self-test (`bash benchmark/blind/checks/selftest_v5.sh`, 3 runs at a time, each nice -n 19 + timeout -k 5 240), run after the round-2 builds ended:
+
+```
+PASS  habits                 reference 20/20  failed=none
+PASS  habits_deadbtn         control   19/20  failed=['every visible button changes page state']  dead_buttons=['Export']
+PASS  habits_noconfirm       control   19/20  failed=['delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  habits_overflow        control   19/20  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[720, 375]
+PASS  habits_streakwrong     control   19/20  failed=['streak = consecutive done days ending today (or yesterday): 2, then 3 with today']
+PASS  pomodoro               reference 29/29  failed=none
+PASS  pomodoro_deadbtn       control   28/29  failed=['every visible button changes page state']  dead_buttons=['Long break']
+PASS  pomodoro_noconfirm     control   28/29  failed=['task delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  pomodoro_nocount       control   28/29  failed=["a finished focus adds 1 to the active task's .count only"]
+PASS  pomodoro_overflow      control   28/29  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[760, 375]
+PASS  recipes                reference 24/24  failed=none
+PASS  recipes_deadbtn        control   23/24  failed=['every visible button changes page state']  dead_buttons=['Print']
+PASS  recipes_noconfirm      control   23/24  failed=['delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  recipes_noscale        control   23/24  failed=["typing servings 6 then 2 rescales (300/0.75/3/2.25, 100/0.25/1/0.75; 'salt to taste' unchanged)"]
+PASS  recipes_overflow       control   23/24  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[640, 375]
+SELFTEST OK: 15 apps
+```
+Not fully deterministic / limits: habits' clock runs (not paused) from the fixed start, so only the date is fixed; a build whose DOM is not
+replay-deterministic falls back to a before/after comparison in the pomodoro button check (recorded as replay_nondeterministic); under
+heavy box load the slowest pomodoro control took 179 s of the 240 s budget.

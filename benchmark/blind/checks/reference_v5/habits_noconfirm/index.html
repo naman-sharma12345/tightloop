@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Habits</title><style>
+:root{--bg:#f5f7fb;--surface:#fff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--accent:#7c3aed}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 -apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
+h1{font-size:24px;font-weight:600;margin:0}h2{font-size:16px;font-weight:600;margin:0 0 8px}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 12px;background:var(--surface);min-width:0}
+textarea{height:auto;padding:8px 12px}
+button{height:38px;border:1px solid var(--border);border-radius:8px;padding:0 14px;background:var(--surface);cursor:pointer}
+button:hover{filter:brightness(.96)}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.muted{color:var(--muted)}.empty{color:var(--muted);padding:24px;text-align:center}
+.err{color:#dc2626;font-size:14px;min-height:20px}
+
+main{max-width:880px;margin:0 auto;padding:32px 16px}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.weeknav{display:flex;align-items:center;gap:8px}
+form{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}form #habit-name{flex:1 1 200px}
+.habit{display:grid;grid-template-columns:1fr auto 72px;align-items:center;gap:16px;padding:16px;margin-bottom:8px}
+.hn{display:flex;align-items:center;gap:8px;min-width:0}.dot{width:12px;height:12px;border-radius:50%;flex:none}
+.habit-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acts{display:flex;gap:4px}.acts button{height:30px;padding:0 8px;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(7,36px);gap:6px;text-align:center}
+.grid .lbl{font-size:12px;color:var(--muted)}
+.day{width:36px;height:36px;border-radius:50%;padding:0;font-size:12px;color:var(--muted)}
+.day.done{background:var(--c);border-color:var(--c);color:#fff}
+.streakbox{text-align:right}.streak{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.rename{height:30px;width:100%}
+@media(max-width:640px){.habit{grid-template-columns:1fr auto}.grid{grid-column:1/-1;grid-row:2;grid-template-columns:repeat(7,1fr)}.day{width:100%;max-width:40px;justify-self:center}}
+</style></head><body><main>
+<header><h1>Habits</h1><div class="weeknav"><button id="prev-week" aria-label="Previous week">‹</button><span id="range" class="muted"></span><button id="next-week" aria-label="Next week">›</button></div></header>
+<form id="habit-form" class="card" style="padding:16px"><input id="habit-name" placeholder="New habit, e.g. Read 20 pages" aria-label="Habit name">
+<select id="habit-color" aria-label="Colour"><option value="teal">Teal</option><option value="amber">Amber</option><option value="rose">Rose</option><option value="sky">Sky</option><option value="lime">Lime</option><option value="violet">Violet</option></select>
+<button class="primary" type="submit">Add habit</button></form>
+<section id="list"></section></main>
+<script>
+const COL={teal:'#14b8a6',amber:'#f59e0b',rose:'#f43f5e',sky:'#0ea5e9',lime:'#84cc16',violet:'#8b5cf6'};
+const KEY='habits.v1';let S=JSON.parse(localStorage.getItem(KEY)||'{"habits":[]}');let off=0,renaming=null;
+const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const pad=n=>String(n).padStart(2,'0');const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const today=()=>{const d=new Date();d.setHours(12,0,0,0);return d};
+function streak(h){let d=today();if(!h.done[iso(d)])d=addDays(d,-1);let n=0;while(h.done[iso(d)]){n++;d=addDays(d,-1)}return n}
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function render(){
+ const end=addDays(today(),-7*off),days=[...Array(7)].map((_,i)=>addDays(end,i-6));
+ document.getElementById('range').textContent=days[0].toLocaleDateString('en-US',{month:'short',day:'numeric'})+' – '+days[6].toLocaleDateString('en-US',{month:'short',day:'numeric'});
+ document.getElementById('next-week').disabled=off===0;
+ const L=document.getElementById('list');
+ if(!S.habits.length){L.innerHTML='<div class="card empty">No habits yet. Add one above and tick off today.</div>';return}
+ L.innerHTML=S.habits.map(h=>`<div class="habit card" data-id="${h.id}" data-color="${h.color}" style="--c:${COL[h.color]}">
+ <div class="hn"><span class="dot" style="background:${COL[h.color]}"></span>${renaming===h.id?`<input class="rename" value="${esc(h.name)}" aria-label="Rename">`:`<span class="habit-name">${esc(h.name)}</span>`}
+ <span class="acts"><button class="edit" aria-label="Rename">Rename</button><button class="delete" aria-label="Delete">Delete</button></span></div>
+ <div class="grid">${days.map(d=>`<span class="lbl">${'SMTWTFS'[d.getDay()]}</span>`).join('')}${days.map(d=>{const k=iso(d),on=!!h.done[k];return `<button class="day${on?' done':''}" data-date="${k}" aria-pressed="${on}" title="${k}">${d.getDate()}</button>`}).join('')}</div>
+ <div class="streakbox"><div class="streak">${streak(h)}</div><div class="muted" style="font-size:12px">day streak</div></div></div>`).join('');
+ const r=L.querySelector('.rename');if(r){r.focus();r.select()}
+}
+document.getElementById('habit-form').addEventListener('submit',e=>{e.preventDefault();const i=document.getElementById('habit-name'),n=i.value.trim();if(!n)return;
+ S.habits.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),name:n,color:document.getElementById('habit-color').value,done:{}});i.value='';save();render()});
+document.getElementById('prev-week').onclick=()=>{off++;render()};
+document.getElementById('next-week').onclick=()=>{if(off>0){off--;render()}};
+const L=document.getElementById('list');
+L.addEventListener('click',e=>{const row=e.target.closest('.habit');if(!row)return;const h=S.habits.find(x=>x.id===row.dataset.id);
+ if(e.target.closest('.day')){const k=e.target.closest('.day').dataset.date;if(k>iso(today()))return;if(h.done[k])delete h.done[k];else h.done[k]=1;save();render()}
+ else if(e.target.closest('.delete')){{S.habits=S.habits.filter(x=>x!==h);save();render()}}
+ else if(e.target.closest('.edit')){renaming=h.id;render()}});
+L.addEventListener('keydown',e=>{if(!e.target.classList.contains('rename'))return;const h=S.habits.find(x=>x.id===e.target.closest('.habit').dataset.id);
+ if(e.key==='Enter'){const v=e.target.value.trim();if(v)h.name=v;renaming=null;save();render()}else if(e.key==='Escape'){renaming=null;render()}});
+render();
+</script></body></html>
