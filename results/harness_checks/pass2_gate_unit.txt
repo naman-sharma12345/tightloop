@@ -1,0 +1,30 @@
+tightloop-v4 gate.sh unit check (throwaway repos under /tmp, no agent).
+Go repo (bug a-b, fix a+b, new TestAdd), Rust crate (same bug), stub cargo for the rustfmt case because rustfmt is NOT installed on this box's toolchain (gate then prints "format unchecked: rustfmt is not installed", never a pass claim).
+== go pass
+prove ok: test fails without the change (exit 1). Last lines:
+test ok:
+GATE PASS
+== go fmt fail
+FORMAT: run gofmt -w m.go
+GATE FAIL
+== kill -9 mid-prove
+after kill: m.go says: func Add(a, b int) int { return a - b }   backup: files tree 
+== next gate run
+restored files left by an interrupted gate run
+prove ok: test fails without the change (exit 1). Last lines:
+GATE PASS
+m.go now: func Add(a, b int) int { return a + b }
+ls: cannot access '.git/tightloop-gate': No such file or directory
+== rust fmt
+prove ok: test fails without the change (exit 101). Last lines:
+test ok:
+GATE PASS
+prove ok: test fails without the change (exit 101). Last lines:
+GATE PASS
+(Both real-Rust runs above printed "format unchecked: rustfmt is not installed"; the grep above hides that line. The first had unformatted `a+b`.)
+Rust with a stub `cargo fmt` reporting "Diff in .../src/lib.rs": FORMAT: run rustfmt on src/lib.rs / GATE FAIL.
+Bug found and fixed while testing: restoring the backup with cp -p kept the old mtime, so cargo reused the build of the reverted file and the PASS run failed; restore now touches the file (runner restore uses os.utime too).
+
+Runner check (stub claude on PATH, task gin-02, arm tightloop-v4): the stub edits response_writer.go, starts gate.sh with a slow test, kill -9's its process group mid-prove. Stub saw: {"after_kill_has_stub_change": false, "backup_exists": true} (fix reverted, backup left in .git/tightloop-gate).
+Row: result=invalid status="invalid-harness (gate killed mid-revert; files restored, not graded)" note="gate killed mid-revert: .git/tightloop-gate/ was left behind; restored ['response_writer.go'] before diffing, row not graded"; diff after restore contains the stub's change (+2/-0).
+Counts from the stub's stream: phase_reads={'fail.md': 1, 'risky.md': 1} (a Read of phases/fail.md and a Bash cat of phases/risky.md), gate_runs=1, gate_output_bytes=10 (bytes of that Bash call's tool_result), tool_calls=3.

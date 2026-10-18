@@ -180,6 +180,30 @@ def skill_folder(arm, ponytail_text):
                 files[".claude/skills/tightloop/" + rel] = (fh.read(), os.stat(p).st_mode & 0o777)
     return files
 
+def restore_gate_backup(wt):
+    """tightloop-v4's gate.sh backs up the source files it reverts in
+    .git/tightloop-gate/ (files = list, tree/ = copies) and restores them on
+    exit. If a session ended with that dir present (the gate was killed
+    mid-revert), restore the files the same way and return their list; the
+    row is then marked invalid-harness and not graded. Same check on every arm."""
+    gd = run(["git", "rev-parse", "--absolute-git-dir"], cwd=wt).stdout.strip()
+    bk = os.path.join(gd, "tightloop-gate") if gd else None
+    if not bk or not os.path.isdir(bk):
+        return []
+    restored = []
+    lst = os.path.join(bk, "files")
+    if os.path.isfile(lst):
+        with open(lst) as fh:
+            for f in [x for x in fh.read().split("\n") if x]:
+                src = os.path.join(bk, "tree", f)
+                if os.path.isfile(src):
+                    os.makedirs(os.path.dirname(os.path.join(wt, f)) or wt, exist_ok=True)
+                    shutil.copy2(src, os.path.join(wt, f))
+                    os.utime(os.path.join(wt, f))  # newer than any build of the reverted copy
+                    restored.append(f)
+    shutil.rmtree(bk, ignore_errors=True)
+    return restored or ["(backup dir without files)"]
+
 def install_skill(files, wt):
     """Write the arm's skill folder into the checkout and git-exclude it
     (.git/info/exclude), so it is never part of the agent's diff, the rename
@@ -274,6 +298,7 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
          "cache_read": UNMEASURED, "cache_creation": UNMEASURED,
          "tool_calls_main": UNMEASURED, "tool_calls_by_name": UNMEASURED,
          "skills_listed": UNMEASURED,
+         "phase_reads": UNMEASURED, "gate_runs": UNMEASURED, "gate_output_bytes": UNMEASURED,
          "agent": f"{cli} {cli_version(cli)}",
          "wall_seconds": round(wall, 2), "timed_out": rc is None,
          "infra_error": None, "loadavg_start": load0, "loadavg_end": load1,
@@ -310,12 +335,34 @@ def launch(cli, prompt, skill, cwd, timeout_s, log_path, watch_lock=None, watch_
             by_name = {}
             for nm, _ in uses.values():
                 by_name[nm] = by_name.get(nm, 0) + 1
+            # per tool_use: its input text; per tool_result: its content bytes
+            inputs, results = {}, {}
+            for e in evs:
+                if not isinstance(e, dict):
+                    continue
+                for c in (e.get("message") or {}).get("content") or []:
+                    if not isinstance(c, dict):
+                        continue
+                    if c.get("type") == "tool_use" and e.get("type") == "assistant":
+                        inputs[c["id"]] = json.dumps(c.get("input"))
+                    elif c.get("type") == "tool_result" and e.get("type") == "user":
+                        cont = c.get("content")
+                        if isinstance(cont, list):
+                            cont = "".join(x.get("text", "") for x in cont if isinstance(x, dict))
+                        results[c.get("tool_use_id")] = len(str(cont or "").encode())
+            phase_reads = {}
+            for ph in ("phases/fail.md", "phases/risky.md"):
+                phase_reads[ph.split("/")[1]] = sum(1 for i in inputs.values() if ph in i)
+            gate_ids = [k for k, i in inputs.items()
+                        if uses.get(k, ("",))[0] == "Bash" and "tightloop/gate.sh" in i]
             init = [e for e in evs if isinstance(e, dict) and e.get("type") == "system"
                     and e.get("subtype") == "init"]
             m.update({"tool_calls": len(uses),
                       "tool_calls_main": sum(1 for _, par in uses.values() if par is None),
                       "tool_calls_by_name": by_name,
-                      "skills_listed": (init[0].get("skills", UNMEASURED) if init else UNMEASURED)})
+                      "skills_listed": (init[0].get("skills", UNMEASURED) if init else UNMEASURED),
+                      "phase_reads": phase_reads, "gate_runs": len(gate_ids),
+                      "gate_output_bytes": sum(results.get(k, 0) for k in gate_ids)})
             u = d.get("usage", {})
             m.update({
                 "input": u.get("input_tokens", UNMEASURED),
@@ -637,6 +684,7 @@ def main():
                         while lock_busy(a.wait_lock) and time.time() - w0 < a.wait_lock_max:
                             time.sleep(5)
                         lock_wait = round(time.time() - w0, 1)
+                    gate_killed = []
                     try:
                         prompt = strip_pr_refs(task["instruction"])
                         if task.get("kind") == "app" and task.get("spec"):
@@ -647,6 +695,7 @@ def main():
                                         watch_lock=a.wait_lock, watch_cwd=a.overlap_cwd,
                                         watch_cmd=a.overlap_cmd)
                         note = None
+                        gate_killed = restore_gate_backup(wt)
                         diff_added, diff_deleted = save_diff(wt, os.path.join(diffs, tag + ".diff"))
                         renamed = []
                         reset = []
@@ -656,6 +705,10 @@ def main():
                         elif m["infra_error"]:
                             result, diffstat = "invalid", "grader not run"
                             note = m["infra_error"]
+                        elif gate_killed:
+                            result, diffstat = "invalid", "grader not run"
+                            note = ("gate killed mid-revert: .git/tightloop-gate/ was left behind; "
+                                    f"restored {gate_killed} before diffing, row not graded")
                         else:
                             if task.get("kind") != "app":
                                 renamed = rename_colliding_tests(task, wt)
@@ -689,6 +742,8 @@ def main():
                            "overlap": m["overlap"], "overlap_samples": m["overlap_samples"],
                            "lock_samples": m["lock_samples"], "lock_wait_seconds": lock_wait,
                            "pause_wait_seconds": pause_wait,
+                           "phase_reads": m["phase_reads"], "gate_runs": m["gate_runs"],
+                           "gate_output_bytes": m["gate_output_bytes"],
                            "agent_diff_lines": diff_added + diff_deleted,
                            "agent_diff_added": diff_added, "agent_diff_deleted": diff_deleted,
                            "rename_applied": "yes" if renamed else "no",
@@ -706,6 +761,8 @@ def main():
                                + (["hidden patch did not apply to the agent's tree; its files were "
                                    "restored to the start commit before applying it"]
                                   if reset else []))}
+                    if gate_killed:
+                        row["status"] = "invalid-harness (gate killed mid-revert; files restored, not graded)"
                     out.write(json.dumps(row) + "\n")
                     out.flush()
                     print(f"{tid} {arm} run{i+1}: {result} "

@@ -111,3 +111,12 @@ Arms: no-skill, ponytail, tightloop-v3, tightloop-v4 (all 4 back to back per tas
 Comparability: the first-pass rows (no-skill, ponytail, and v3 as "tightloop") ran without the skill folder in the checkout and with --output-format json. They are NOT directly comparable to pass-2 rows. v3 is rerun under the pass-2 harness, so all 4 pass-2 arms are same-harness. First-pass rows stay in rows.jsonl untouched.
 
 Defect score: unmeasured. MEASURE.md describes a reviewer agent, but the harness has none; a concrete reviewer proposal waits for Naman's OK.
+
+## Pass 2 harness addendum (2026-10-18 ~14:55Z, before any tightloop-v4 session)
+
+- Gate backup check, same on every arm: after each session and before diffing, the runner looks for .git/tightloop-gate/ (left only if v4's gate.sh was killed mid-revert). If present it restores those files, marks the row invalid-harness ("gate killed mid-revert") and does not grade it.
+- Per row, from the stream-json events: phase_reads (tool calls whose input names phases/fail.md or phases/risky.md, Read or Bash), gate_runs (Bash tool calls running tightloop/gate.sh) and gate_output_bytes (bytes of those calls' tool results).
+- gate.sh runs are counted in tool_calls: each Bash tool_use that runs gate.sh is one distinct tool_use id, so it is one tool call; its output is a tool result, which enters the session's context, so it is inside the session's tokens.
+- Environment fact: rustfmt is not installed on this box's Rust toolchain, so on fd tasks v4's gate prints "format unchecked" for .rs files (it never claims a pass). Not installed mid-pass, to keep the environment the same for all arms; a candidate for a later pass.
+- Unit checks: results/harness_checks/pass2_gate_unit.txt (gate cases, the kill -9 case, the runner's restore + invalid-harness flag).
+- Pass-2 fd-01 no-skill, ponytail and tightloop-v3 rows were run under f93099f before this addendum. The addendum changes only the post-session backup check (no effect when no backup exists) and adds counts, so those rows are unaffected; their phase/gate counts are 0 by construction (they cannot run v4's gate).
