@@ -1,0 +1,18 @@
+{
+  "name": "pydantic-03",
+  "kind": "bugfix",
+  "source": "https://github.com/pydantic/pydantic",
+  "license": "MIT",
+  "license_commit": "66251f8e98ca0ad2840509ff359f90f344345df8",
+  "license_note": "re-read at fix commit 66251f8e9: LICENSE=MIT",
+  "commit": "66251f8e98ca0ad2840509ff359f90f344345df8",
+  "start_commit": "c28c0c6c5e69e77f9e38e79b033246e5aa9b8d45",
+  "instruction": "Fix incorrect subclass check for secretstr (#6730)",
+  "hidden_tests": [
+    "test_secretstr_subclass"
+  ],
+  "hidden_patch": "patches/pydantic-03.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "pytest tests/test_types.py::test_secretstr_subclass"
+}
