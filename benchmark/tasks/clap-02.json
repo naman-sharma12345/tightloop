@@ -1,0 +1,18 @@
+{
+  "name": "clap-02",
+  "kind": "bugfix",
+  "source": "https://github.com/clap-rs/clap",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "86bf68064570607b7b5cfd13c48d104eb2dbbe47",
+  "license_note": "re-read at fix commit 86bf68064: LICENSE-MIT=MIT,LICENSE-APACHE=Apache-2.0",
+  "commit": "86bf68064570607b7b5cfd13c48d104eb2dbbe47",
+  "start_commit": "b0199dc297fb03b7c94f19d965bfc9b33290b38f",
+  "instruction": "fix(man): Rename crate to match style",
+  "hidden_tests": [
+    "render_manpage"
+  ],
+  "hidden_patch": "patches/clap-02.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p clap_mangen --test generate render_manpage"
+}
