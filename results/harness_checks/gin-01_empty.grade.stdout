@@ -1,0 +1,20 @@
+--- FAIL: TestPanicWithAbortHandler (0.00s)
+    recovery_test.go:163: 
+        	Error Trace:	/tmp/tlw-jqdw2vjz/recovery_test.go:163
+        	Error:      	Not equal: 
+        	            	expected: 204
+        	            	actual  : 500
+        	Test:       	TestPanicWithAbortHandler
+    recovery_test.go:166: 
+        	Error Trace:	/tmp/tlw-jqdw2vjz/recovery_test.go:166
+        	Error:      	"\n\n\x1b[31m2026/10/18 14:12:30 [Recovery] 2026/10/18 - 14:12:30 panic recovered:\nnet/http: abort Handler\n/tmp/tlw-jqdw2vjz/recovery_test.go:158 (0xf63304)\n\tTestPanicWithAbortHandler.func1: panic(http.ErrAbortHandler)\n/tmp/tlw-jqdw2vjz/context.go:199 (0xee157e)\n\t(*Context).Next: c.handlers[c.index](c)\n/tmp/tlw-jqdw2vjz/recovery.go:92 (0xf57450)\n\tCustomRecoveryWithWriter.func1: c.Next()\n/tmp/tlw-jqdw2vjz/context.go:199 (0xee157e)\n\t(*Context).Next: c.handlers[c.index](c)\n/tmp/tlw-jqdw2vjz/gin.go:722 (0xeee13a)\n\t(*Engine).handleHTTPRequest: c.Next()\n/tmp/tlw-jqdw2vjz/gin.go:672 (0xeedabb)\n\t(*Engine).ServeHTTP: engine.handleHTTPRequest(c)\n/tmp/tlw-jqdw2vjz/routes_test.go:31 (0xf45c08)\n\tPerformRequest: r.ServeHTTP(w, req)\n/tmp/tlw-jqdw2vjz/recovery_test.go:161 (0xf405ef)\n\tTestPanicWithAbortHandler: w := PerformRequest(router, http.MethodGet, \"/recovery\")\n/home/user/go-dist/go/src/testing/testing.go:2195 (0x5620c9)\n\ttRunner: fn(t)\n/home/user/go-dist/go/src/runtime/asm_amd64.s:1264 (0x49a5a0)\n\tgoexit: BYTE\t$0x90\t// NOP\n\x1b[0m\n" should not contain "panic recovered"
+        	Test:       	TestPanicWithAbortHandler
+FAIL
+FAIL	github.com/gin-gonic/gin	0.007s
+ok  	github.com/gin-gonic/gin/binding	0.006s [no tests to run]
+?   	github.com/gin-gonic/gin/codec/json	[no test files]
+ok  	github.com/gin-gonic/gin/ginS	0.009s [no tests to run]
+ok  	github.com/gin-gonic/gin/internal/bytesconv	0.003s [no tests to run]
+ok  	github.com/gin-gonic/gin/internal/fs	0.009s [no tests to run]
+ok  	github.com/gin-gonic/gin/render	0.005s [no tests to run]
+FAIL

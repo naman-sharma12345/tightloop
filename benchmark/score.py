@@ -133,6 +133,13 @@ def table_jsonl(rows, label):
 
 def main_jsonl(rows_path: Path, holdout) -> int:
     rows = load_rows_jsonl(rows_path)
+    superseded = [r for r in rows if str(r.get("status", "")).startswith("superseded")]
+    if superseded:
+        print(f"--- excluded, superseded ({len(superseded)} rows; redone, kept for the record) ---")
+        for r in superseded:
+            print(f"{r['task']} {r['arm']} run{r.get('run')}: result={r.get('result')} "
+                  f"status={r.get('status')}")
+        rows = [r for r in rows if r not in superseded]
     harness_bad = [r for r in rows if str(r.get("status", "")).startswith("invalid-harness")]
     if harness_bad:
         print(f"--- excluded, invalid-harness ({len(harness_bad)} rows; not in pass rate or ratios) ---")
@@ -141,7 +148,7 @@ def main_jsonl(rows_path: Path, holdout) -> int:
                   f"status={r.get('status')}")
         rows = [r for r in rows if r not in harness_bad]
     print(f"rows counted: {len(rows)} (from {rows_path.name}, {len(harness_bad)} invalid-harness "
-          f"excluded); not pass/fail: {sum(r.get('result') not in ('pass', 'fail') for r in rows)}")
+          f"and {len(superseded)} superseded excluded); not pass/fail: {sum(r.get('result') not in ('pass', 'fail') for r in rows)}")
     if not rows:
         print("no runs yet - results pending")
         return 0

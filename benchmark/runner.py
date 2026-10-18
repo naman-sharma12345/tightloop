@@ -336,7 +336,7 @@ def rename_colliding_tests(task, wt):
                 fh.write("\n".join(content))
     return done
 
-def grade(task, wt, timeout_s, log_path):
+def grade(task, wt, timeout_s, log_path, reset):
     if task.get("kind") == "app":
         tdir = os.path.join(ROOT, "apps", task["name"], "tests")
         for f in os.listdir(tdir):
@@ -349,12 +349,42 @@ def grade(task, wt, timeout_s, log_path):
         patch = os.path.join(ROOT, "tasks", task["hidden_patch"])
         r = run(["git", "apply", "--whitespace=nowarn", patch], cwd=wt)
         if r.returncode != 0:
-            return "invalid", "hidden patch did not apply: " + r.stderr.strip()[:200]
+            # Same rule on every arm, only when the hidden patch does not apply
+            # to the agent's tree: the files the hidden patch touches (its test
+            # files) are restored to the start commit, dropping the agent's own
+            # edits in those files only, and the patch is applied again. The
+            # agent's raw diff was already saved; what was dropped is logged.
+            first_err = r.stderr.strip()[:200]
+            files = hidden_patch_files(patch, wt)
+            for f in files:
+                n = run(["git", "diff", "--numstat", "HEAD", "--", f], cwd=wt).stdout.split()
+                tracked = run(["git", "cat-file", "-e", "HEAD:" + f], cwd=wt).returncode == 0
+                if tracked:
+                    run(["git", "checkout", "HEAD", "--", f], cwd=wt)
+                elif os.path.exists(os.path.join(wt, f)):
+                    os.remove(os.path.join(wt, f))
+                reset.append({"file": f,
+                              "agent_lines_added": int(n[0]) if n and n[0].isdigit() else 0,
+                              "agent_lines_deleted": int(n[1]) if len(n) > 1 and n[1].isdigit() else 0})
+            r = run(["git", "apply", "--whitespace=nowarn", patch], cwd=wt)
+            if r.returncode != 0:
+                return "invalid", ("hidden patch did not apply, even after restoring its files: "
+                                   + r.stderr.strip()[:200] + " (first error: " + first_err + ")")
     stat = git("diff", "--shortstat", cwd=wt) or "0 changed"
     rc, _, _ = run_logged(task["check_command"], wt, timeout_s, log_path, shell=True)
     if rc is None:
         return "timeout", stat
     return ("pass" if rc == 0 else "fail"), stat
+
+def hidden_patch_files(patch, wt):
+    """Paths the hidden patch touches, from git's own reading of it."""
+    out = run(["git", "apply", "--numstat", "-z", patch], cwd=wt).stdout
+    files = []
+    for rec in [x for x in out.split("\0") if x]:
+        parts = rec.split("\t")
+        if len(parts) >= 3 and parts[2]:
+            files.append(parts[2])
+    return sorted(set(files))
 
 def tool_versions():
     v = {}
@@ -369,7 +399,7 @@ def tool_versions():
 
 def harness_commit():
     r = run(["git", "rev-parse", "HEAD"], cwd=ROOT)
-    dirty = run(["git", "status", "--porcelain", "--", "."], cwd=ROOT).stdout.strip()
+    dirty = run(["git", "status", "--porcelain", "--untracked-files=no", "--", "."], cwd=ROOT).stdout.strip()
     return (r.stdout.strip() or "unknown") + (" (+uncommitted changes)" if dirty else "")
 
 def free_mib(path):
@@ -509,6 +539,7 @@ def main():
                         note = None
                         diff_lines = save_diff(wt, os.path.join(diffs, tag + ".diff"))
                         renamed = []
+                        reset = []
                         if m["timed_out"]:
                             result, diffstat = "timeout", "session timed out; grader not run"
                             note = f"session exceeded {a.timeout}s"
@@ -519,7 +550,7 @@ def main():
                             if task.get("kind") != "app":
                                 renamed = rename_colliding_tests(task, wt)
                             result, diffstat = grade(task, wt, a.grade_timeout,
-                                                     os.path.join(logs, tag + ".grade"))
+                                                     os.path.join(logs, tag + ".grade"), reset)
                             if result == "timeout":
                                 note = f"grader exceeded {a.grade_timeout}s"
                     finally:
@@ -549,8 +580,15 @@ def main():
                            "diff_file": os.path.join("diffs", tag + ".diff"),
                            "free_mib_start": free_start,
                            "logs": os.path.join("logs", tag + ".*"),
-                           "status": ("ok, agent test renamed before grading (hidden-test name collision)"
-                                      if renamed else "ok")}
+                           "hidden_patch_fallback": "yes" if reset else "no",
+                           "reset_files": reset,
+                           "status": "; ".join(
+                               ["ok"]
+                               + (["agent test renamed before grading (hidden-test name collision)"]
+                                  if renamed else [])
+                               + (["hidden patch did not apply to the agent's tree; its files were "
+                                   "restored to the start commit before applying it"]
+                                  if reset else []))}
                     out.write(json.dumps(row) + "\n")
                     out.flush()
                     print(f"{tid} {arm} run{i+1}: {result} "
