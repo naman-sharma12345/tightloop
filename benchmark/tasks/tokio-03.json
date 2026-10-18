@@ -1,0 +1,18 @@
+{
+  "name": "tokio-03",
+  "kind": "bugfix",
+  "source": "https://github.com/tokio-rs/tokio",
+  "license": "MIT",
+  "license_commit": "d1b789f33aa9d2bbca84f24b810235a10b149e92",
+  "license_note": "re-read at fix commit d1b789f33: LICENSE=MIT",
+  "commit": "d1b789f33aa9d2bbca84f24b810235a10b149e92",
+  "start_commit": "22862739dddd49a94065aa7a917cde2dc8a3f6bc",
+  "instruction": "rt: fix new yield_now behavior with block_in_place (#5251)",
+  "hidden_tests": [
+    "yield_after_block_in_place"
+  ],
+  "hidden_patch": "patches/tokio-03.patch",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "check_command": "cargo test -p tokio --test rt_threaded yield_after_block_in_place"
+}
