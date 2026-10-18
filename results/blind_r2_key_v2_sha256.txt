@@ -1,0 +1,9 @@
+Blind app bake-off, round 2: sealed label key, VERSION 2 (reseal). Committed before any round-2 build.
+sha256(KEY_v2.json) = fd1d6896f82f74afb087dddbb69c9716ca2418c5fceba30b47cd5940a742b04c
+Made by benchmark/blind/make_key_r2.py (sha256 5ebf7d8b823c39b0f74f07397750c68cb82f63d928e5418628ab83d0cb4c85fd): seed from secrets.randbits(63) (os.urandom), never printed;
+4 versions (no-skill, ponytail, tightloop-v4, tightloop-v4c) shuffled independently per app (bookmarks, expenses, kanban) -> labels A-D.
+The script printed only the sha256 above. The key (label -> version per app, with its seed) is withheld until the reveal, then
+committed verbatim and must hash to the value above.
+Replaces key v1 (sha256 2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433, results/blind_r2_key_sha256.txt):
+VOID since 2026-10-18T19:06Z because its seed was printed once in an agent session transcript at 2026-10-18T18:26:32Z.
+0 builds existed. Details in benchmark/blind/r2_INTEGRITY.md (next commit).
