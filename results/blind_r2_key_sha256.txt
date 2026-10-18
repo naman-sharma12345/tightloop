@@ -1,0 +1,6 @@
+Blind app bake-off, round 2: sealed label key.
+sha256(KEY.json) = 2fa05c9609411681d61c4eede6c0b29a5a451733a4b14a051eb5a48a47ba0433
+Committed before any round-2 build. Apps: bookmarks, expenses, kanban; labels A-D, shuffled independently per app with a
+seeded RNG (seed recorded inside the key). Versions: no-skill, ponytail, tightloop-v4, tightloop-v4c.
+The key itself (label -> version per app) is withheld until the picks are in; it will be committed verbatim at reveal
+and must hash to the value above. Specs fixed at main 3e86a804b8d5a8291485187d5a3b0268f602845d.
