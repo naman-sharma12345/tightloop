@@ -1,0 +1,18 @@
+{
+  "name": "fd-03",
+  "kind": "bugfix",
+  "source": "https://github.com/sharkdp/fd",
+  "license": "MIT OR Apache-2.0",
+  "license_commit": "ee5332d0d365a16b3d58a1120127ed1df12bc2fe",
+  "license_note": "LICENSE-MIT re-read at the fix commit; still MIT",
+  "commit": "ee5332d0d365a16b3d58a1120127ed1df12bc2fe",
+  "start_commit": "ba2dde80f37214e050a684ee3093db8b7f595ff4",
+  "instruction": "fix: --print0 now works with --exec",
+  "hidden_patch": "patches/fd-03.patch",
+  "hidden_tests": [
+    "test_exec_nulls"
+  ],
+  "check_command": "cargo test --test tests test_exec_nulls",
+  "holdout": true,
+  "status": "UNPROVEN"
+}
