@@ -1,32 +1,29 @@
 # tightloop
 
-A skill for Claude Code and Codex that makes a coding agent work like a senior
-maintainer: contract first, cheap recon, design before code, proof before fix,
-thin slices, a separate skeptic pass, and a hard ship gate. It also cuts
-wasted tokens from over-reading, noisy output and re-reading.
+A skill for Claude Code and Codex that makes a coding agent push less code,
+and only code it has proven: the smallest change, a test that fails without
+it, a ship gate script, and a short skeptic read of the diff, in few tool
+calls. The core is about 2 KB; heavier steps live in files the agent reads
+only when it needs them.
 
 ## Install
 
-Claude Code:
+Claude Code: copy the folder `.claude/skills/tightloop/` (SKILL.md,
+gate.sh, phases/) into your project's `.claude/skills/`.
 
-- Copy `.claude/skills/tightloop/SKILL.md` into your project's `.claude/skills/tightloop/`.
-- Copy `.claude/agents/scout.md` and `.claude/agents/skeptic.md` into your project's `.claude/agents/`.
-- Add `.tightloop/` to your project's `.gitignore`.
+Codex: copy `AGENTS.md` to your project's root and the same
+`.claude/skills/tightloop/` folder (AGENTS.md calls its gate.sh and
+phases/ by that path).
 
-Codex:
-
-- Copy `AGENTS.md` to your project's root. Run the Scout and Skeptic roles as
-  separate passes yourself (Skeptic reads only the diff).
+The previous version (v3) is kept, unchanged, at
+`benchmark/arms/tightloop-v3/SKILL.md`; `.claude/agents/` belongs to v3.
 
 ## Status
 
-Benchmark state: **pipeline verified, real numbers pending.** The harness,
-grader and controller are proven end to end (pipeline check with a stub
-solver; fixtures in `benchmark/tests/`). No real benchmark run has happened
-yet, so this repository contains **no gain percentage of any kind** - none
-will appear until it is computed from a real run.
-
-The first run covers 5 tasks: fd-01, fd-02, fd-03, gin-01, gin-02.
+Benchmark state: **v4 numbers pending.** The first pass (v3, n=1 per arm,
+3 counted tasks) is in `results/RESULTS.md` as raw rows, losses included.
+This repository contains **no gain percentage of any kind**; none will
+appear until it is computed from measured rows.
 
 Method and formulas are pinned in `benchmark/MEASURE.md`; the holdout split,
 pass/fail rules and run protocol are frozen in `benchmark/FREEZE.md`. Only
