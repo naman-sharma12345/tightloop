@@ -1,0 +1,48 @@
+08:16:22Z plan (build ids) ['appv2-no-skill-habits-1', 'appv2-no-skill-invoice-1', 'appv2-no-skill-trip-1', 'appv2-no-skill-invoice-2', 'appv2-no-skill-trip-2', 'appv2-no-skill-habits-2', 'appv2-no-skill-trip-3', 'appv2-no-skill-habits-3', 'appv2-no-skill-invoice-3'] arm no-skill order file ORDER_v2.3.json done 0
+08:16:22Z clear; settling 60 s so a waiting pass-3 session shows itself first
+08:17:26Z isolation appv2-no-skill-habits-1 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-yiqgi1qx'] ok True
+08:17:26Z start appv2-no-skill-habits-1 attempt 1 wt /tmp/tlb-yiqgi1qx waited 60.2 df 4626
+08:27:38Z audit appv2-no-skill-habits-1 attempt 1 {'hits': 0, 'terms': []}
+08:28:22Z row appv2-no-skill-habits-1 in+out 60409 cw 596348.95 turns 27 wall 612.07 checks 1 / 2 test_files [] overlap clean
+08:28:22Z clear; settling 60 s so a waiting pass-3 session shows itself first
+08:29:25Z isolation appv2-no-skill-invoice-1 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-btom2wac'] ok True
+08:29:25Z start appv2-no-skill-invoice-1 attempt 1 wt /tmp/tlb-btom2wac waited 60.2 df 4623
+08:46:29Z audit appv2-no-skill-invoice-1 attempt 1 {'hits': 0, 'terms': []}
+08:47:31Z row appv2-no-skill-invoice-1 in+out 102548 cw 929478.15 turns 28 wall 1024.34 checks 1 / 2 test_files [] overlap clean
+08:47:31Z clear; settling 60 s so a waiting pass-3 session shows itself first
+08:48:34Z isolation appv2-no-skill-trip-1 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-62tz4qqe'] ok True
+08:48:34Z start appv2-no-skill-trip-1 attempt 1 wt /tmp/tlb-62tz4qqe waited 60.2 df 4620
+09:01:16Z audit appv2-no-skill-trip-1 attempt 1 {'hits': 0, 'terms': []}
+09:02:07Z row appv2-no-skill-trip-1 in+out 82670 cw 719493.7 turns 24 wall 761.12 checks 1 / 2 test_files [] overlap clean
+09:02:07Z clear; settling 60 s so a waiting pass-3 session shows itself first
+09:03:10Z isolation appv2-no-skill-invoice-2 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-dm8znurc'] ok True
+09:03:10Z start appv2-no-skill-invoice-2 attempt 1 wt /tmp/tlb-dm8znurc waited 60.2 df 4616
+09:18:15Z audit appv2-no-skill-invoice-2 attempt 1 {'hits': 0, 'terms': []}
+09:18:35Z row appv2-no-skill-invoice-2 in+out 102981 cw 877047.6 turns 22 wall 904.29 checks 2 / 2 test_files [] overlap clean
+09:18:35Z clear; settling 60 s so a waiting pass-3 session shows itself first
+09:19:38Z isolation appv2-no-skill-trip-2 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-na_jlv__'] ok True
+09:19:38Z start appv2-no-skill-trip-2 attempt 1 wt /tmp/tlb-na_jlv__ waited 60.2 df 4613
+09:38:18Z audit appv2-no-skill-trip-2 attempt 1 {'hits': 0, 'terms': []}
+09:39:09Z row appv2-no-skill-trip-2 in+out 106550 cw 1059801.6 turns 35 wall 1119.37 checks 1 / 2 test_files [] overlap clean
+09:39:09Z clear; settling 60 s so a waiting pass-3 session shows itself first
+09:40:12Z isolation appv2-no-skill-habits-2 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-2s8wb4xf'] ok True
+09:40:12Z start appv2-no-skill-habits-2 attempt 1 wt /tmp/tlb-2s8wb4xf waited 60.2 df 4610
+09:51:27Z audit appv2-no-skill-habits-2 attempt 1 {'hits': 0, 'terms': []}
+09:51:59Z row appv2-no-skill-habits-2 in+out 59410 cw 486596.85 turns 17 wall 674.82 checks 1 / 2 test_files [] overlap clean
+09:51:59Z clear; settling 60 s so a waiting pass-3 session shows itself first
+09:53:03Z isolation appv2-no-skill-trip-3 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-wumm10qi'] ok True
+09:53:03Z start appv2-no-skill-trip-3 attempt 1 wt /tmp/tlb-wumm10qi waited 60.2 df 4608
+10:07:21Z audit appv2-no-skill-trip-3 attempt 1 {'hits': 0, 'terms': []}
+10:08:12Z row appv2-no-skill-trip-3 in+out 92938 cw 858594.75 turns 31 wall 857.35 checks 1 / 2 test_files [] overlap clean
+10:08:12Z clear; settling 60 s so a waiting pass-3 session shows itself first
+10:09:15Z isolation appv2-no-skill-habits-3 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-_uqvwqx5'] ok True
+10:09:15Z start appv2-no-skill-habits-3 attempt 1 wt /tmp/tlb-_uqvwqx5 waited 60.2 df 4603
+10:19:51Z audit appv2-no-skill-habits-3 attempt 1 {'hits': 0, 'terms': []}
+10:20:22Z row appv2-no-skill-habits-3 in+out 66243 cw 604873.2 turns 25 wall 635.48 checks 1 / 2 test_files [] overlap clean
+10:20:22Z clear; settling 60 s so a waiting pass-3 session shows itself first
+10:21:25Z isolation appv2-no-skill-invoice-3 attempt 1 workspace files 0 [] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-mls5i3fv'] ok True
+10:21:25Z start appv2-no-skill-invoice-3 attempt 1 wt /tmp/tlb-mls5i3fv waited 60.2 df 4601
+10:35:21Z audit appv2-no-skill-invoice-3 attempt 1 {'hits': 0, 'terms': []}
+10:35:34Z row appv2-no-skill-invoice-3 in+out 90946 cw 868566.45 turns 36 wall 835.17 checks 2 / 2 test_files [] overlap clean
+10:35:34Z ALL DONE no-skill 9 of 9
+10:35:34Z run end (after the last no-skill build); the hold is root's to remove
