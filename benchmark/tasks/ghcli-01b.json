@@ -1,0 +1,19 @@
+{
+  "name": "ghcli-01b",
+  "kind": "feature",
+  "source": "https://github.com/cli/cli",
+  "license": "MIT",
+  "license_commit": "221e12681ec03ed17ebf473d354d5d66797b5bc5",
+  "license_note": "LICENSE re-read live at the fix commit before vendoring: MIT",
+  "commit": "221e12681ec03ed17ebf473d354d5d66797b5bc5",
+  "start_commit": "92561b6aad6988bf6e98d5ffe2bdf1425b9c74c1",
+  "instruction": "In package pkg/cmd/issue/artifact/shared (results.go), add an exported function with this exact signature: func PrintUnchanged(ios *iostreams.IOStreams, r Result, message, reason string). It prints the line for an artifact the command did not change because it already was as asked. When stdout is not a terminal, it writes one piped result line on stdout with status \"skipped\", the artifact Number and Name columns, and the reason, in the same shared column format as PrintSuccess/PrintSkip/PrintFailure (\"skipped\\t<Number>\\t<Name>\\t\\t<reason>\"). When stdout is a terminal, stdout stays empty and it writes \"! <message>\" on stderr using the color scheme's warning icon (yellow \"!\" when color is enabled). It is not a failure: the command still exits 0.",
+  "hidden_patch": "patches/ghcli-01b.patch",
+  "hidden_tests": [
+    "TestPrintUnchanged"
+  ],
+  "check_command": "go test -run TestPrintUnchanged ./pkg/cmd/issue/artifact/shared/",
+  "holdout": true,
+  "status": "UNPROVEN",
+  "supersedes": "ghcli-01 (instruction underspecified the required signature; 9/9 rows failed, excluded per holdout/LABELS.tsv)"
+}
