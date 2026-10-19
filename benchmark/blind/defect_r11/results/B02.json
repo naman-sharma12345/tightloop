@@ -1,0 +1,364 @@
+{
+ "label": "B02",
+ "spec": "habits",
+ "setup": [
+  "Swim: saved spin value now 2",
+  "Gym: saved ",
+  "Stretch: saved ",
+  "Floss: saved ",
+  "2026-10-06 Swim clicked",
+  "2026-10-07 Swim clicked",
+  "2026-10-13 Swim clicked",
+  "2026-10-13 Stretch clicked",
+  "2026-10-14 Swim clicked",
+  "2026-10-14 Stretch clicked",
+  "2026-10-15 Stretch clicked",
+  "2026-10-16 Gym clicked",
+  "2026-10-16 Stretch clicked",
+  "2026-10-17 Stretch clicked",
+  "2026-10-18 Stretch clicked",
+  "2026-10-19 Gym clicked",
+  "2026-10-20 Swim clicked",
+  "2026-10-20 Stretch clicked",
+  "2026-10-20 Floss clicked",
+  "2026-10-21 Gym clicked",
+  "2026-10-21 Stretch clicked",
+  "2026-10-21 Swim clicked",
+  "22 Stretch clicked",
+  "22 Floss clicked"
+ ],
+ "export_path": "/tmp/dr11dl_8rytvfc1/kept-habits-2026-10-22.json",
+ "items": {
+  "H35": {
+   "auto": null,
+   "ev": "first load: Skip to Today | Kept | Habit tracker | Undo | New habit | N |  | TODAY |  | Thursday, 22 October |  | No habits yet |  | Start with something small you\u2019d like to do regularly. It will show up here each day it\u2019s due. |  | Add your first habit | Backup |  | Save everything as a JSON file, or import one. Imported habits merge by name and"
+  },
+  "H11": {
+   "auto": null,
+   "ev": "Stretch (daily; 13-18, 20-22 Oct checked) streaks Current streak 3 days Best streak 6 days 12 weeks 9 check-ins; expected current 3 best 6"
+  },
+  "H12": {
+   "auto": null,
+   "ev": "Gym (Mon/Wed/Fri; Fri16 Mon19 Wed21) streaks Current streak 3 days Best streak 3 days 12 weeks 3 check-ins; expected current 3"
+  },
+  "H13": {
+   "auto": null,
+   "ev": "Swim (2/week; 6+7, 13+14, 20 Oct): on Wed 21 before check Current streak 2 weeks Best streak 2 weeks 12 weeks 5 check-ins; after check Wed 21 Current streak 3 weeks Best streak 3 weeks 12 weeks 6 check-ins; on Thu 22 Current streak 3 weeks Best streak 3 weeks 12 weeks 6 check-ins; expected 2 then 3 (weeks)"
+  },
+  "H03": {
+   "auto": true,
+   "ev": "habits ['Swim', 'Gym', 'Stretch', 'Floss']->['Swim', 'Gym', 'Stretch', 'Floss']; errors [(\"''\", ['Give your habit a name.']), (\"'   '\", ['Give your habit a name.'])]"
+  },
+  "H01": {
+   "auto": true,
+   "ev": "add Read daily -> Read: saved ; due today ['Stretch', 'Floss', 'Read']"
+  },
+  "H05": {
+   "auto": null,
+   "ev": "colour choices 6; Walk added with 2nd colour -> shown colour Ocean\n\u00b7\nEvery day"
+  },
+  "H02": {
+   "auto": null,
+   "ev": "\"  Walk  \" saved as ['Walk']; 60-char present True; 61-char field value len 61, errors ['Keep the name to 60 characters or fewer (it\u2019s 61 now).'], 61-char saved False"
+  },
+  "H04": {
+   "auto": true,
+   "ev": "habits 7->7; errors [('read', ['You already have a habit called \u201cRead\u201d. Try a different name.']), (' READ ', ['You already have a habit called \u201cRead\u201d. Try a different name.'])]"
+  },
+  "H06": {
+   "auto": null,
+   "ev": "zero weekdays: errors ['Pick at least one day.'], NoDays saved False; Gym in due False, in not-due True; due ['Stretch', 'Floss', 'Read', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA']; not due ['Swim', 'Gym']"
+  },
+  "H07": {
+   "auto": null,
+   "ev": "N=0/8 attempts [(0, 'spin value now 0', ['Choose a whole number from 1 to 7.']), (8, 'spin value now 8', ['Choose a whole number from 1 to 7.'])]; saved N0 False N8 False; Swim 2/week was saved in setup (True)"
+  },
+  "H08": {
+   "auto": true,
+   "ev": "after check Read done=True"
+  },
+  "H09": {
+   "auto": true,
+   "ev": "after second click done=False"
+  },
+  "H10": {
+   "auto": null,
+   "ev": "Gym (not due Thu) listed in not-due True; check registered False->True"
+  },
+  "H14": {
+   "auto": null,
+   "ev": "84 cells, 81 enabled; first [['Mon 3 Aug: not done', False, False]], last enabled [['Thu 22 Oct: not done', False, False]], after [['Fri 23 Oct: upcoming', True, False], ['Sat 24 Oct: upcoming', True, False], ['Sun 25 Oct: upcoming', True, False]]"
+  },
+  "H16": {
+   "auto": null,
+   "ev": "future cells ['Fri 23 Oct: upcoming', 'Sat 24 Oct: upcoming', 'Sun 25 Oct: upcoming']; click on first future -> disabled; cells after ['Fri 23 Oct: upcoming']"
+  },
+  "H15": {
+   "auto": null,
+   "ev": "Stretch before Current streak 3 days Best streak 6 days 12 weeks 9 check-ins; click Mon 19 Oct -> clicked, streaks Current streak 10 days Best streak 10 days 12 weeks 10 check-ins, label Mon 19 Oct: done; click again -> clicked, streaks Current streak 3 days Best streak 6 days 12 weeks 9 check-ins, label Mon 19 Oct: not done; expected 10/10 then 3/6"
+  },
+  "H17": {
+   "auto": null,
+   "ev": "labels: done cell Tue 20 Oct: done; not-done cell Mon 19 Oct: not done; toggled Mon 19 Oct: done"
+  },
+  "H19": {
+   "auto": null,
+   "ev": "Floss daily (20,22 Oct) Current streak 1 day Best streak 1 day 12 weeks 2 check-ins; after edit to Tue+Thu (saved) Current streak 2 days Best streak 2 days 12 weeks 2 check-ins; expected 1 then 2"
+  },
+  "H18": {
+   "auto": null,
+   "ev": "edit -> saved; names ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA']; colour Plum\n\u00b7\nWeekdays; schedule text Plum\n\u00b7\nWeekdays"
+  },
+  "H20": {
+   "auto": true,
+   "ev": "archived: due ['Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'], archived ['Walk']; restored: due ['Stretch', 'Floss', 'Read more', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'], archived []"
+  },
+  "H22": {
+   "auto": null,
+   "ev": "check: True->undo False toast \"Undone: Checked \u201cWalk\u201d for today\"; uncheck: False->undo True toast \"Undone: Unchecked \u201cWalk\u201d for today\"; edit: True->undo Walk back True toast \"Undone: Edited \u201cWalk\u201d\"; archive: ['Walk']->undo archived [], due has Walk True toast \"Undone: Archived \u201cWalk\u201d\"; delete: present after delete False -> undo present True toast \"Undone: Deleted \u201cWalk\u201d\""
+  },
+  "H25": {
+   "auto": null,
+   "ev": "toasts: ['Undone: Checked \u201cWalk\u201d for today', 'Undone: Unchecked \u201cWalk\u201d for today', 'Undone: Edited \u201cWalk\u201d', 'Undone: Archived \u201cWalk\u201d', 'Undone: Deleted \u201cWalk\u201d']"
+  },
+  "H23": {
+   "auto": true,
+   "ev": "check Walk True; Ctrl+Z -> done False"
+  },
+  "H24": {
+   "auto": true,
+   "ev": "done cells after 11 toggles 11; after 10 undos 1; after 11th undo 1"
+  },
+  "H26": {
+   "auto": null,
+   "ev": "7 rows; focus Stretch -ArrowDown-> Floss -ArrowDown-> Read more -ArrowUp-> Floss"
+  },
+  "H27": {
+   "auto": null,
+   "ev": "focused Floss: done True -Space-> False -Space-> True"
+  },
+  "H28": {
+   "auto": true,
+   "ev": "\"n\" opens add form True; \"N\" opens True; typing nnn in name field gives \"nnn\""
+  },
+  "H21": {
+   "auto": true,
+   "ev": "dismiss -> Walk present True; accept -> present False; confirm dialogs total 3"
+  },
+  "H29": {
+   "auto": true,
+   "ev": "export file kept-habits-2026-10-22.json; parsed True; snippet {\"app\": \"kept\", \"version\": 1, \"exportedAt\": \"2026-10-22T04:30:29.102Z\", \"habits\": [{\"id\": \"hmuw6jucugv3hyp\", \"name\": \"Swim\", \"color\": \"evergreen\", \"schedule\": {\"type\": \"weekly\", \"times\": 2}, \"archived\": false, \"createdAt\": \"2026-10-06\", \"checks\": [\"2026-10-06\", \"2026-10-07\", \"2026-10-13\", \"2026-10-1"
+  },
+  "H30": {
+   "auto": null,
+   "ev": "import msg toast: Imported 7 habits: 1 new, 6 merged / error: ; habits ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'] -> ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Gym 2 Oct label Fri 2 Oct: done; Gym 16 Oct label Fri 16 Oct: done; Yoga 21 Oct Wed 21 Oct: done; Gym count 1"
+  },
+  "H31": {
+   "auto": null,
+   "ev": "bad text -> \"toast:  / error: That file isn\u2019t valid JSON, so nothing was imported.\"; wrong shape -> \"toast:  / error: Nothing was imported. The file doesn\u2019t contain a list of habits.\"; habits unchanged True"
+  },
+  "G06": {
+   "auto": null,
+   "ev": "before reload ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; after ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Stretch Current streak 3 days Best streak 6 days 12 weeks 9 check-ins"
+  },
+  "H33": {
+   "auto": null,
+   "ev": "at 23:59 header \"Thursday, 22 October\"; after running clock to 00:01:10 without reload header \"Friday, 23 October\", Read more done=False"
+  },
+  "H34": {
+   "auto": null,
+   "ev": "due list after rollover (Fri): ['Gym', 'Stretch', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Gym due True"
+  },
+  "H32": {
+   "auto": null,
+   "ev": "checked Read more at 23:59:30 (done=True); after midnight+reload: 22 Oct label Thu 22 Oct: done; 23 Oct label Fri 23 Oct: not done"
+  },
+  "G04": {
+   "auto": null,
+   "ev": "localStorage keys: [\"kept-habit-tracker\"]"
+  },
+  "G15": {
+   "auto": true,
+   "ev": "reduced-motion rule True, has transitions/animations True"
+  },
+  "G18": {
+   "auto": true,
+   "ev": "{\"vars\": 62, \"svg\": 95, \"hover\": true, \"active\": true, \"disabled\": true, \"focus\": true, \"imgs\": []}"
+  },
+  "G16": {
+   "auto": true,
+   "ev": "low-contrast texts at 1280: 0 []"
+  },
+  "G13": {
+   "auto": true,
+   "ev": "unlabelled inputs (main view): [] | in dialog: []"
+  },
+  "G11": {
+   "auto": null,
+   "ev": "40 tab stops: A|Skip to Today ; BUTTON|New habit N ; BUTTON|Gym Mon, Wed, Fri 3 day streak ; BUTTON|Stretch Every day 3 day streak ; BUTTON|Read more Weekdays 1 day streak ; BUTTON|AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Yoga Every day 0 day streak ; BUTTON|Swim 2 times a week \u00b7 2 of 2 this week 3 ; BUTTON|Floss Tue, Thu 2 day streak ; BUTTON|Export JSON ; BUTTON|Import JSON ; BUTTON|Edit Swim ; BUTTON|Archive Swim ; BUTTON|Delete Swim ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit Gym ; BUTTON|Archive Gym ; BUTTON|Delete Gym ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit Stretch ; BUTTON|Archive Stretch ; BUTTON|Delete Stretch ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit Floss ; BUTTON|Archive Floss ; BUTTON|Delete Floss ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit Read more ; BUTTON|Archive Read more ; BUTTON|Delete Read more ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Archive AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Delete AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Fri 23 Oct: not done ; BUTTON|Edit Yoga ; BUTTON|Archive Yoga ; BUTTON|Delete Yoga ; BUTTON|Fri 23 Oct: not done ; <none>"
+  },
+  "G12": {
+   "auto": true,
+   "ev": "checked 15 focused controls; without visible change: []"
+  },
+  "G14": {
+   "auto": null,
+   "ev": "focus outside dialog on 0/30 tab presses; after Escape focus on BUTTON|New habit\nN (opener New habit)"
+  },
+  "G09": {
+   "auto": null,
+   "ev": "['Read: saved ', 'Gym: saved ', 'Read done True', 'edit -> saved', 'heat click -> clicked']"
+  },
+  "G08": {
+   "auto": null,
+   "ev": "375 overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0} (pass needs scrollWidth<=376); see screenshots | dialog overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0}"
+  },
+  "G10": {
+   "auto": true,
+   "ev": "0 controls under 40px at 375: [] | dialog: 0 []"
+  },
+  "G05": {
+   "auto": null,
+   "ev": "pageerrors []; console []; text: Skip to Today | Kept | Habit tracker | Undo | New habit | N |  | Your saved habits couldn\u2019t be read, so Kept started with an empty list. If you have a backup, import it below. |  | TODAY |  | Thursday, 22 October |  | No habits yet |  | Start with something small you\u2019d like to do regularly. It will show up here each day it\u2019s due. |  | Add your first habit | Backup |  | Save everything as a JSON file, or import one. Imported habits merge"
+  },
+  "G01": {
+   "auto": true,
+   "ev": "pageerrors []; console errors []"
+  },
+  "G02": {
+   "auto": true,
+   "ev": "outside requests []"
+  },
+  "G03": {
+   "auto": true,
+   "ev": "HTTP>=400 []"
+  }
+ },
+ "storage_keys": [
+  "kept-habit-tracker"
+ ],
+ "probe1280": {
+  "tag": "1280 filled",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "css": {
+  "reduced": true,
+  "anim": true,
+  "vars": 62,
+  "hover": true,
+  "active": true,
+  "disabled": true,
+  "focus": true,
+  "print": false,
+  "svg": 95,
+  "imgs": []
+ },
+ "tabwalk": [
+  "A|Skip to Today",
+  "BUTTON|New habit N",
+  "BUTTON|Gym Mon, Wed, Fri 3 day streak",
+  "BUTTON|Stretch Every day 3 day streak",
+  "BUTTON|Read more Weekdays 1 day streak",
+  "BUTTON|AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Yoga Every day 0 day streak",
+  "BUTTON|Swim 2 times a week \u00b7 2 of 2 this week 3",
+  "BUTTON|Floss Tue, Thu 2 day streak",
+  "BUTTON|Export JSON",
+  "BUTTON|Import JSON",
+  "BUTTON|Edit Swim",
+  "BUTTON|Archive Swim",
+  "BUTTON|Delete Swim",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit Gym",
+  "BUTTON|Archive Gym",
+  "BUTTON|Delete Gym",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit Stretch",
+  "BUTTON|Archive Stretch",
+  "BUTTON|Delete Stretch",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit Floss",
+  "BUTTON|Archive Floss",
+  "BUTTON|Delete Floss",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit Read more",
+  "BUTTON|Archive Read more",
+  "BUTTON|Delete Read more",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Archive AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Delete AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Fri 23 Oct: not done",
+  "BUTTON|Edit Yoga",
+  "BUTTON|Archive Yoga",
+  "BUTTON|Delete Yoga",
+  "BUTTON|Fri 23 Oct: not done",
+  "<none>"
+ ],
+ "probe1280_dialog": {
+  "tag": "1280 dialog",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375": {
+  "tag": "375 filled",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375_dialog": {
+  "tag": "375 dialog",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "dialogs": [
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all of its check-ins?"
+  ],
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all of its check-ins?"
+  ],
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all of its check-ins?"
+  ]
+ ]
+}

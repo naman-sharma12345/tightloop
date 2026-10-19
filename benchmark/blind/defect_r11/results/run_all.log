@@ -1,0 +1,11 @@
+(node:4168828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+B01 trip 75s main_run_error=None probe_error=None
+B02 habits 62s main_run_error=None probe_error=None
+B03 invoice 78s main_run_error=None probe_error=None
+B04 habits 65s main_run_error=None probe_error=None
+B05 habits 65s main_run_error=None probe_error=None
+B06 invoice 77s main_run_error=None probe_error=None
+B07 invoice 78s main_run_error=None probe_error=None
+B08 trip 76s main_run_error=None probe_error=None
+B09 trip 72s main_run_error=None probe_error=None

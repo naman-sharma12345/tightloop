@@ -1,0 +1,182 @@
+{
+ "label": "B06",
+ "spec": "invoice",
+ "items": {
+  "I01": {
+   "result": "pass"
+  },
+  "I02": {
+   "result": "pass"
+  },
+  "I03": {
+   "result": "pass"
+  },
+  "I04": {
+   "result": "pass"
+  },
+  "I05": {
+   "result": "pass"
+  },
+  "I06": {
+   "result": "pass"
+  },
+  "I07": {
+   "result": "pass"
+  },
+  "I08": {
+   "result": "pass"
+  },
+  "I09": {
+   "result": "pass"
+  },
+  "I10": {
+   "result": "pass"
+  },
+  "I11": {
+   "result": "pass"
+  },
+  "I12": {
+   "result": "pass"
+  },
+  "I13": {
+   "result": "pass"
+  },
+  "I14": {
+   "result": "pass"
+  },
+  "I15": {
+   "result": "pass"
+  },
+  "I16": {
+   "result": "pass"
+  },
+  "I17": {
+   "result": "pass"
+  },
+  "I18": {
+   "result": "pass"
+  },
+  "I19": {
+   "result": "pass"
+  },
+  "I20": {
+   "result": "pass"
+  },
+  "I21": {
+   "result": "pass"
+  },
+  "I22": {
+   "result": "pass"
+  },
+  "I23": {
+   "result": "pass"
+  },
+  "I24": {
+   "result": "pass"
+  },
+  "I25": {
+   "result": "pass"
+  },
+  "I26": {
+   "result": "pass"
+  },
+  "I27": {
+   "result": "pass"
+  },
+  "I28": {
+   "result": "pass"
+  },
+  "I29": {
+   "result": "pass"
+  },
+  "I30": {
+   "result": "pass"
+  },
+  "I31": {
+   "result": "pass"
+  },
+  "I32": {
+   "result": "pass"
+  },
+  "I33": {
+   "result": "pass"
+  },
+  "I34": {
+   "result": "pass"
+  },
+  "I35": {
+   "result": "pass"
+  },
+  "I36": {
+   "result": "pass"
+  },
+  "I37": {
+   "result": "pass"
+  },
+  "I38": {
+   "result": "pass"
+  },
+  "I39": {
+   "result": "pass"
+  },
+  "I40": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "pass"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All 58 items pass. I02: business name on the print view (editor shows client only). I15: duplicate number refused with inline message (number not kept). I28: EUR \"92,02 €\" pass under new erratum I28. I34: buttons/nav hidden, single column, .p-totals break-inside: avoid in @media print. G10: all >= 40 px. Final rerun (all 18 on the final adapters, 20:00-20:23Z): step results and screenshots agree with the first pass; verdict carried over. This file is the WITH-BEFOREPRINT verdict (print probe fires window 'beforeprint' first). Not used in SCORES."
+}

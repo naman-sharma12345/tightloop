@@ -1,0 +1,185 @@
+{
+ "label": "B05",
+ "spec": "invoice",
+ "items": {
+  "I01": {
+   "result": "pass"
+  },
+  "I02": {
+   "result": "pass"
+  },
+  "I03": {
+   "result": "pass"
+  },
+  "I04": {
+   "result": "pass"
+  },
+  "I05": {
+   "result": "pass"
+  },
+  "I06": {
+   "result": "pass"
+  },
+  "I07": {
+   "result": "pass"
+  },
+  "I08": {
+   "result": "pass"
+  },
+  "I09": {
+   "result": "pass"
+  },
+  "I10": {
+   "result": "pass"
+  },
+  "I11": {
+   "result": "pass"
+  },
+  "I12": {
+   "result": "pass"
+  },
+  "I13": {
+   "result": "pass"
+  },
+  "I14": {
+   "result": "pass"
+  },
+  "I15": {
+   "result": "pass"
+  },
+  "I16": {
+   "result": "pass"
+  },
+  "I17": {
+   "result": "pass"
+  },
+  "I18": {
+   "result": "pass"
+  },
+  "I19": {
+   "result": "pass"
+  },
+  "I20": {
+   "result": "pass"
+  },
+  "I21": {
+   "result": "pass"
+  },
+  "I22": {
+   "result": "pass"
+  },
+  "I23": {
+   "result": "pass"
+  },
+  "I24": {
+   "result": "pass"
+  },
+  "I25": {
+   "result": "pass"
+  },
+  "I26": {
+   "result": "pass"
+  },
+  "I27": {
+   "result": "pass"
+  },
+  "I28": {
+   "result": "pass"
+  },
+  "I29": {
+   "result": "pass"
+  },
+  "I30": {
+   "result": "pass"
+  },
+  "I31": {
+   "result": "pass"
+  },
+  "I32": {
+   "result": "pass"
+  },
+  "I33": {
+   "result": "pass"
+  },
+  "I34": {
+   "result": "pass"
+  },
+  "I35": {
+   "result": "pass"
+  },
+  "I36": {
+   "result": "pass"
+  },
+  "I37": {
+   "result": "pass"
+  },
+  "I38": {
+   "result": "pass"
+  },
+  "I39": {
+   "result": "pass"
+  },
+  "I40": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "pass"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "fail",
+   "severity": "minor",
+   "weight": 1,
+   "evidence": "375: brand link 'Folio, go to invoices' 30x40 and the invoice-number row link 90x18 are under 40 px."
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All 40 invoice items pass. I02: business name not in the editor but on the invoice print view (checklist allows editor or print). I15 duplicate kept as flagged draft with message (ERRATA_r11 I15). I28: EUR \"92,02 €\" pass under new erratum I28 (ERRATA_r11_arms.md). I34: print layout from #print-root; .pi-totals has computed break-inside: avoid in print (rule outside @media print but in force when printing); buttons/nav hidden; single column. Final rerun (all 18 on the final adapters, 20:00-20:23Z): step results and screenshots agree with the first pass; verdict carried over. OFFICIAL verdict uses the FROZEN print probe (print media emulated, no beforeprint event), as in the no-skill round. Frozen probe: print items (I02, I34) give the same result as with beforeprint."
+}

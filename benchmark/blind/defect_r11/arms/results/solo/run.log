@@ -1,0 +1,10 @@
+solo frozen-probe reruns, one build per process, nothing else running (ARMS_PRINT_MODE=frozen)
+B02 invoice 78s main_run_error=None probe_error=None
+done B02 rc=0
+/dev/root         26349M 21864M     4213M  84% /
+B06 invoice 77s main_run_error=None probe_error=None
+done B06 rc=0
+/dev/root         26349M 21865M     4212M  84% /
+B12 invoice 78s main_run_error=None probe_error=None
+done B12 rc=0
+/dev/root         26349M 21866M     4211M  84% /

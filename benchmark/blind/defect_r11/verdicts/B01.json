@@ -1,0 +1,161 @@
+{
+ "label": "B01",
+ "spec": "trip",
+ "items": {
+  "T01": {
+   "result": "pass"
+  },
+  "T02": {
+   "result": "pass"
+  },
+  "T03": {
+   "result": "pass"
+  },
+  "T04": {
+   "result": "pass"
+  },
+  "T05": {
+   "result": "pass"
+  },
+  "T06": {
+   "result": "fail",
+   "severity": "major",
+   "weight": 3,
+   "evidence": "10-day trip at 1280: the board scrolls inside (board scrollWidth 2912 > 868) but the PAGE also scrolls sideways (window scrollX reaches 1403, document scrollWidth 2683); same leak at 375 with the 4-day trip (scrollX 604, blank area). Spec: horizontal scroll inside the board."
+  },
+  "T07": {
+   "result": "pass"
+  },
+  "T08": {
+   "result": "pass"
+  },
+  "T09": {
+   "result": "pass"
+  },
+  "T10": {
+   "result": "pass"
+  },
+  "T11": {
+   "result": "pass"
+  },
+  "T12": {
+   "result": "pass"
+  },
+  "T13": {
+   "result": "pass"
+  },
+  "T14": {
+   "result": "pass"
+  },
+  "T15": {
+   "result": "pass"
+  },
+  "T16": {
+   "result": "pass"
+  },
+  "T17": {
+   "result": "pass"
+  },
+  "T18": {
+   "result": "pass"
+  },
+  "T19": {
+   "result": "pass"
+  },
+  "T20": {
+   "result": "pass"
+  },
+  "T21": {
+   "result": "pass"
+  },
+  "T22": {
+   "result": "pass"
+  },
+  "T23": {
+   "result": "pass"
+  },
+  "T24": {
+   "result": "pass"
+  },
+  "T25": {
+   "result": "pass"
+  },
+  "T26": {
+   "result": "pass"
+  },
+  "T27": {
+   "result": "pass"
+  },
+  "T28": {
+   "result": "pass"
+  },
+  "T29": {
+   "result": "pass"
+  },
+  "T30": {
+   "result": "pass"
+  },
+  "T31": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "fail-shared-cause",
+   "counted_on": "T06",
+   "weight": 0,
+   "evidence": "375: page scrolls sideways (doc scrollWidth 979) from the same board-width leak counted on T06; no other clipping/overlap seen in 375 screenshots"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All other items passed per results/B01.json evidence (conflict text \"overlaps Museum 13:00-14:30\", settle-up 2 transfers summing exactly, ics 8 VEVENTs floating local times, undo depth 20 ok)."
+}

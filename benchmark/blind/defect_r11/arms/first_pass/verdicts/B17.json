@@ -1,0 +1,167 @@
+{
+ "label": "B17",
+ "spec": "trip",
+ "items": {
+  "T01": {
+   "result": "pass"
+  },
+  "T02": {
+   "result": "pass"
+  },
+  "T03": {
+   "result": "pass"
+  },
+  "T04": {
+   "result": "pass"
+  },
+  "T05": {
+   "result": "pass"
+  },
+  "T06": {
+   "result": "fail",
+   "severity": "major",
+   "weight": 3,
+   "evidence": "With the 10-day trip at 1280 the board scrolls inside itself (overflow-x: auto on .days, scrollWidth 2992 in 852), but the page scrollWidth is 2879, so the page scrolls too. At 375 the 4-day trip makes the page scroll 688 px. Cause: the absolutely positioned sr-only 'to day N' spans in each Add button use <body> as their offsetParent and escape the board's clip."
+  },
+  "T07": {
+   "result": "pass"
+  },
+  "T08": {
+   "result": "pass"
+  },
+  "T09": {
+   "result": "pass"
+  },
+  "T10": {
+   "result": "pass"
+  },
+  "T11": {
+   "result": "pass"
+  },
+  "T12": {
+   "result": "pass"
+  },
+  "T13": {
+   "result": "pass"
+  },
+  "T14": {
+   "result": "pass"
+  },
+  "T15": {
+   "result": "pass"
+  },
+  "T16": {
+   "result": "pass"
+  },
+  "T17": {
+   "result": "pass"
+  },
+  "T18": {
+   "result": "pass"
+  },
+  "T19": {
+   "result": "pass"
+  },
+  "T20": {
+   "result": "pass"
+  },
+  "T21": {
+   "result": "pass"
+  },
+  "T22": {
+   "result": "pass"
+  },
+  "T23": {
+   "result": "pass"
+  },
+  "T24": {
+   "result": "pass"
+  },
+  "T25": {
+   "result": "pass"
+  },
+  "T26": {
+   "result": "pass"
+  },
+  "T27": {
+   "result": "pass"
+  },
+  "T28": {
+   "result": "pass"
+  },
+  "T29": {
+   "result": "pass"
+  },
+  "T30": {
+   "result": "fail",
+   "severity": "major",
+   "weight": 3,
+   "evidence": "Bad imports show no error. Non-JSON and {\"foo\":1} files leave the data unchanged, but nothing tells the user. showImportError() calls setError('importError'), which writes into '#importError-err', and that element does not exist. #importError and #importErrorEmpty stay empty, and no toast or banner appears (checked directly after the run)."
+  },
+  "T31": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "fail",
+   "severity": "minor",
+   "weight": 1,
+   "evidence": "1280: the search field's magnifier icon (absolute, x 44-62) sits on top of the placeholder/typed text, which starts at x 44 (padding-left 12px). The 'S' of 'Search by title or place' is covered."
+  },
+  "G08": {
+   "result": "fail-shared-cause",
+   "counted_on": "T06",
+   "weight": 0,
+   "evidence": "375: the page scrolls 688 px sideways (scrollWidth 1063; same sr-only cause as T06), and the search icon also overlaps the text (same cause as G07). Both causes are counted elsewhere."
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "The other 29 trip items pass. T18: the cost reopens as \"12.5\" for 12.50, which is the same value. Search-icon overlap was checked on all builds that have a search field; only B17 overlaps."
+}
