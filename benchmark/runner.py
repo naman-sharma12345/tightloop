@@ -30,6 +30,7 @@ ARMS = {
     "tightloop-v5b": os.path.join(ROOT, "arms", "tightloop-v5b"),
     "tightloop-v4c": os.path.join(ROOT, "arms", "tightloop-v4c"), "tightloop-v8": os.path.join(ROOT, "arms", "tightloop-v8"),  # instinct rows: arm folders byte-identical to v6/v8-prep b16a28e
     "tightloop-v10": os.path.join(ROOT, "arms", "tightloop-v10"),  # v10 = v4c with the gate diff echo removed (instinct/PREREG_v10.md)
+    "tightloop-v4c-gfix": os.path.join(ROOT, "arms", "tightloop-v4c-gfix"), "tightloop-v10-gfix": os.path.join(ROOT, "arms", "tightloop-v10-gfix"),  # gatefix: v4c / v10 with gate.sh line 25 anchored (instinct/GATEFIX.md)
 }
 # the v3 arm refuses to run unless its skill text is byte-identical to v3
 TIGHTLOOP_V3_SHA256 = "f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a"
@@ -600,7 +601,7 @@ def main():
               "ponytail": (ponytail_text, ponytail_note)}
     versions = {"no-skill": "n/a", "ponytail": "ponytail " + PONYTAIL_PIN[:12]}
     for arm in ("tightloop-v3", "tightloop-v4", "tightloop-v4a", "tightloop-v4b",
-                "tightloop-v5", "tightloop-v5b", "tightloop-v4c", "tightloop-v8", "tightloop-v10"):
+                "tightloop-v5", "tightloop-v5b", "tightloop-v4c", "tightloop-v8", "tightloop-v10", "tightloop-v4c-gfix", "tightloop-v10-gfix"):
         with open(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"), "rb") as f:
             raw_skill = f.read()
         h = sha256_bytes(raw_skill)

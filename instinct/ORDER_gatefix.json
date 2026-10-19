@@ -1,0 +1,78 @@
+{
+ "pass": "gatefix",
+ "written_utc": "2026-10-19T07:57:53Z",
+ "rule": "strict alternation v4c-gfix, v10-gfix, v4c-gfix, v10-gfix, v4c-gfix, v10-gfix (owner order m:d262995f; no rotation); tokio-02 only; one session per runner.py invocation, go clean -cache before each",
+ "tasks": [
+  "tokio-02"
+ ],
+ "arms": [
+  "tightloop-v4c-gfix",
+  "tightloop-v10-gfix"
+ ],
+ "runs": 3,
+ "holdout": false,
+ "row_file": "gatefix/rows.jsonl",
+ "df_mib_at_write": 4612,
+ "sessions": [
+  {
+   "task": "tokio-02",
+   "run": 1,
+   "arm": "tightloop-v4c-gfix",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 1,
+   "arm": "tightloop-v10-gfix",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 2,
+   "arm": "tightloop-v4c-gfix",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 2,
+   "arm": "tightloop-v10-gfix",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 3,
+   "arm": "tightloop-v4c-gfix",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 3,
+   "arm": "tightloop-v10-gfix",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c-gfix",
+    "tightloop-v10-gfix"
+   ]
+  }
+ ]
+}
