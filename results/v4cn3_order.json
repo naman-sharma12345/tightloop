@@ -1,0 +1,14 @@
+{
+ "round": "v4c-n3",
+ "seed": 3844806013510945557,
+ "order": [
+  "v4cn3-kanban-2",
+  "v4cn3-bookmarks-2",
+  "v4cn3-expenses-3",
+  "v4cn3-expenses-2",
+  "v4cn3-bookmarks-3",
+  "v4cn3-kanban-3"
+ ],
+ "rng": "random.Random(seed).shuffle(build list in make_order_v4cn3.py order: v4cn3-bookmarks-2..3, v4cn3-expenses-2..3, v4cn3-kanban-2..3), seed = secrets.randbits(63)",
+ "created_utc": "2026-10-18T23:26:39Z"
+}

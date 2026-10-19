@@ -1,0 +1,191 @@
+{
+ "app_dir": "/home/user/tab/work/tl_blind_out/appv2/appv2-no-skill-habits-2",
+ "blocked_requests": [],
+ "console_errors": [],
+ "page_errors": [],
+ "dialogs": [
+  {
+   "type": "confirm",
+   "message": "Delete \u201cSample item\u201d and all of its history?",
+   "answer": "OK"
+  }
+ ],
+ "outside_connect": "blocked (OSError)",
+ "seed": {
+  "opened_with_button": "New habit\nN",
+  "form_index": 0,
+  "forms_on_page": 1,
+  "fields_filled": [
+   "text"
+  ],
+  "changed_state": true
+ },
+ "buttons_tested": 25,
+ "buttons": [
+  {
+   "index": 0,
+   "label": "Undo\nCtrl Z",
+   "kind": "undo",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 1,
+   "label": "New habit\nN",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 2,
+   "label": "Sample item\nEvery day\nNot done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 3,
+   "label": "Edit Sample item",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 4,
+   "label": "Archive Sample item",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 5,
+   "label": "Delete Sample item",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 6,
+   "label": "Mon 3 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 7,
+   "label": "Tue 4 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 8,
+   "label": "Wed 5 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 9,
+   "label": "Thu 6 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 10,
+   "label": "Fri 7 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 11,
+   "label": "Sat 8 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 12,
+   "label": "Sun 9 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 13,
+   "label": "Mon 10 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 14,
+   "label": "Tue 11 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 15,
+   "label": "Wed 12 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 16,
+   "label": "Thu 13 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 17,
+   "label": "Fri 14 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 18,
+   "label": "Sat 15 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 19,
+   "label": "Sun 16 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 20,
+   "label": "Mon 17 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 21,
+   "label": "Tue 18 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 22,
+   "label": "Wed 19 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 23,
+   "label": "Thu 20 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 24,
+   "label": "Fri 21 Aug: not done",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": null,
+   "label": null,
+   "kind": "redo",
+   "verdict": "not-applicable",
+   "why": "no such button on the page after the seed"
+  },
+  {
+   "index": null,
+   "label": null,
+   "kind": "export",
+   "verdict": "not-applicable",
+   "why": "no such button on the page after the seed"
+  }
+ ],
+ "buttons_no_effect": []
+}

@@ -1,0 +1,30 @@
+{
+ "app": "trip",
+ "checks": [
+  {
+   "name": "every visible button changes page state",
+   "ok": false
+  },
+  {
+   "name": "no console errors or uncaught page errors",
+   "ok": true
+  }
+ ],
+ "console_errors": [],
+ "page_errors": [],
+ "external_requests": [],
+ "dialogs": [],
+ "dialogs_total": 0,
+ "dialog_counts": {},
+ "buttons_tested": 6,
+ "buttons_no_effect": [
+  "Undo",
+  "Redo"
+ ],
+ "w375_scrollWidth_vs_viewport": [
+  375,
+  375
+ ],
+ "passed": 1,
+ "total": 2
+}

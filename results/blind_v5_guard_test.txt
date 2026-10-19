@@ -1,0 +1,4 @@
+$ python3 benchmark/blind/v5_run/blind_driver_v5.py --guard-test <prep worktree> /home/user/tab/files/tl_blind/v5/START_OK   (2026-10-18 20:15:55Z, round-2 builds running)
+20:15:55Z REFUSED: snapshot has no .snap_commit; START_OK missing; hold file is not ours (root writes 'v5 builds by ...' to it with START_OK); other workers running: blind-driver:3177278,pass3-driver-unpaused:3000934,pass3-driver-unpaused:3000935
+rc=7
+exit 7 = refused (expected: no snapshot commit file, no START_OK, the hold is round 2's, other workers running)

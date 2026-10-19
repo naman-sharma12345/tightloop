@@ -1,0 +1,8 @@
+Arm folder added after the v4c run (root steer, no harness edits): benchmark/arms/tightloop-v11/
+Source: tl_blind_appv2c = git archive of v6/app-harness-v2 commit 40084313a5f127c25a828461d966bd2f989aa710 (copy of v6/v11 28092004).
+Copied 2026-10-19T16:41:55Z by task 8ed78b54, after all 9 tightloop-v4c rows were written and the driver exited. .snap_commit left as is (0a98f76).
+086c908195f5558426858a7968c0b6ce8dce41cc3c3f973968a456abbc65dfd1  benchmark/arms/tightloop-v11/AGENTS.md  mode 644
+398c4f796a8c6fe3d2a680a3d30cf439023a6b29b39dbcc8d3be8090e990fafb  benchmark/arms/tightloop-v11/SKILL.md  mode 644
+11c66f5ca7d6d8600af454ae59c47a3e6fda9f6d92ba7863f2849e917290d850  benchmark/arms/tightloop-v11/gate.sh  mode 755
+b3f2872f3ba4f4b8bd52387b29947c958cbafccc29ad40fb277f6f88e056e026  benchmark/arms/tightloop-v11/agents/scout.md  mode 644
+938e300b75cdf626090fd7c9969b87f4e1aa5791b7b85ff2e858b6cb24670cea  benchmark/arms/tightloop-v11/agents/skeptic.md  mode 644

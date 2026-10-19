@@ -1,0 +1,17 @@
+{
+ "round": "v9",
+ "seed": 4124579294906762684,
+ "order": [
+  "v9-bookmarks-3",
+  "v9-bookmarks-1",
+  "v9-bookmarks-2",
+  "v9-expenses-2",
+  "v9-kanban-3",
+  "v9-expenses-1",
+  "v9-expenses-3",
+  "v9-kanban-2",
+  "v9-kanban-1"
+ ],
+ "rng": "random.Random(seed).shuffle(build list in make_order_v9.py order: v9-bookmarks-1..3, v9-expenses-1..3, v9-kanban-1..3), seed = secrets.randbits(63)",
+ "created_utc": "2026-10-19T00:19:53Z"
+}

@@ -1,0 +1,108 @@
+{
+ "app_dir": "/home/user/tab/work/tl_blind_out/appv2/appv2-no-skill-trip-1",
+ "blocked_requests": [],
+ "console_errors": [],
+ "page_errors": [],
+ "dialogs": [
+  {
+   "type": "confirm",
+   "message": "Delete the trip \u201cSample item\u201d and all of its activities?",
+   "answer": "OK"
+  }
+ ],
+ "outside_connect": "blocked (OSError)",
+ "seed": {
+  "opened_with_button": "New trip",
+  "form_index": 1,
+  "forms_on_page": 2,
+  "fields_filled": [
+   "text",
+   "select",
+   "text"
+  ],
+  "changed_state": true
+ },
+ "buttons_tested": 13,
+ "buttons": [
+  {
+   "index": 0,
+   "label": "Undo",
+   "kind": "undo",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 1,
+   "label": "Redo",
+   "kind": "redo",
+   "undo_clicked_first": true,
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 2,
+   "label": "Import",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 3,
+   "label": "New trip",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 4,
+   "label": "Edit trip",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 5,
+   "label": "Export",
+   "kind": "export",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 6,
+   "label": "Delete trip",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 7,
+   "label": "Add activity",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 8,
+   "label": "Add activity\nto Day 1",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 9,
+   "label": "Add activity\nto Day 2",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 10,
+   "label": "Add activity\nto Day 3",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 11,
+   "label": "Undo",
+   "kind": "undo",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 12,
+   "label": "Dismiss notification",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  }
+ ],
+ "buttons_no_effect": []
+}

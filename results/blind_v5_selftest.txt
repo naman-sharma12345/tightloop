@@ -1,0 +1,16 @@
+PASS  habits                 reference 20/20  failed=none
+PASS  habits_deadbtn         control   19/20  failed=['every visible button changes page state']  dead_buttons=['Export']
+PASS  habits_noconfirm       control   19/20  failed=['delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  habits_overflow        control   19/20  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[720, 375]
+PASS  habits_streakwrong     control   19/20  failed=['streak = consecutive done days ending today (or yesterday): 2, then 3 with today']
+PASS  pomodoro               reference 29/29  failed=none
+PASS  pomodoro_deadbtn       control   28/29  failed=['every visible button changes page state']  dead_buttons=['Long break']
+PASS  pomodoro_noconfirm     control   28/29  failed=['task delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  pomodoro_nocount       control   28/29  failed=["a finished focus adds 1 to the active task's .count only"]
+PASS  pomodoro_overflow      control   28/29  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[760, 375]
+PASS  recipes                reference 24/24  failed=none
+PASS  recipes_deadbtn        control   23/24  failed=['every visible button changes page state']  dead_buttons=['Print']
+PASS  recipes_noconfirm      control   23/24  failed=['delete asks with native confirm(); cancel keeps, OK deletes']
+PASS  recipes_noscale        control   23/24  failed=["typing servings 6 then 2 rescales (300/0.75/3/2.25, 100/0.25/1/0.75; 'salt to taste' unchanged)"]
+PASS  recipes_overflow       control   23/24  failed=['375 px wide: no horizontal page scroll (scrollWidth <= viewport)']  w375=[640, 375]
+SELFTEST OK: 15 apps

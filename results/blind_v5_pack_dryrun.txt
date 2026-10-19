@@ -1,0 +1,10 @@
+$ bash benchmark/blind/v5_run/pack_dryrun_v5.sh   (2026-10-18 ~20:20Z, 45 fake builds, each with a .claude/ folder and NOTES.md to strip; no session)
+LEAK GREP build dirs: 0 hits over 45 dirs
+LEAK GREP zip listing+entries: 0 hits over 49 entries (viewer.zip)
+LEAK GREP unzipped tree: 0 hits over 49 files
+zip entries with a non-fixed timestamp: 0; .git entries: 0
+pack rc=0
+LEAK GREP build dirs: 0 hits over 45 dirs
+LEAK GREP zip listing+entries: 0 hits over 49 entries (viewer.zip)
+LEAK GREP unzipped tree: 0 hits over 49 files
+zip entries with a non-fixed timestamp: 0; .git entries: 0

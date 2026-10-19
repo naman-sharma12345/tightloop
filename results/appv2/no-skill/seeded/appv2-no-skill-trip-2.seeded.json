@@ -1,0 +1,102 @@
+{
+ "app_dir": "/home/user/tab/work/tl_blind_out/appv2/appv2-no-skill-trip-2",
+ "blocked_requests": [],
+ "console_errors": [],
+ "page_errors": [],
+ "dialogs": [
+  {
+   "type": "confirm",
+   "message": "Delete \u201cSample item\u201d? You can undo this afterwards.",
+   "answer": "OK"
+  }
+ ],
+ "outside_connect": "blocked (OSError)",
+ "seed": {
+  "opened_with_button": "New trip",
+  "form_index": 0,
+  "forms_on_page": 1,
+  "fields_filled": [
+   "text",
+   "select",
+   "text"
+  ],
+  "changed_state": true
+ },
+ "buttons_tested": 12,
+ "buttons": [
+  {
+   "index": 0,
+   "label": "Undo Create trip",
+   "kind": "undo",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 1,
+   "label": "Redo",
+   "kind": "redo",
+   "undo_clicked_first": true,
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 2,
+   "label": "Import\na trip from JSON",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 3,
+   "label": "New trip",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 4,
+   "label": "Rename & edit",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 5,
+   "label": "Export .ics",
+   "kind": "export",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 6,
+   "label": "Export JSON",
+   "kind": "export",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 7,
+   "label": "Delete trip",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 8,
+   "label": "Add activity",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 9,
+   "label": "Add activity\nto day 1",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 10,
+   "label": "Add activity\nto day 2",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 11,
+   "label": "Add activity\nto day 3",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  }
+ ],
+ "buttons_no_effect": []
+}
