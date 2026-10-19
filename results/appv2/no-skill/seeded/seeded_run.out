@@ -1,0 +1,9 @@
+appv2-no-skill-habits-1 rc 0 {"seed_changed": true, "tested": 25, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-habits-2 rc 0 {"seed_changed": true, "tested": 25, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-habits-3 rc 0 {"seed_changed": true, "tested": 25, "seeded_fail": ["Undo"], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-invoice-1 rc 0 {"seed_changed": true, "tested": 7, "seeded_fail": ["Skip to content", "Export CSV"], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-invoice-2 rc 0 {"seed_changed": false, "tested": 6, "seeded_fail": ["Export CSV"], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-invoice-3 rc 0 {"seed_changed": false, "tested": 8, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-trip-1 rc 0 {"seed_changed": true, "tested": 13, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-trip-2 rc 0 {"seed_changed": true, "tested": 12, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 
+appv2-no-skill-trip-3 rc 0 {"seed_changed": true, "tested": 12, "seeded_fail": [], "blocked": 0, "outside_connect": "blocked (OSError)"} 

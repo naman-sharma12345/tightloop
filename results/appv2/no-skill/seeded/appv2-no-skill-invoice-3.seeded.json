@@ -1,0 +1,88 @@
+{
+ "app_dir": "/home/user/tab/work/tl_blind_out/appv2/appv2-no-skill-invoice-3",
+ "blocked_requests": [],
+ "console_errors": [],
+ "page_errors": [],
+ "dialogs": [],
+ "outside_connect": "blocked (OSError)",
+ "seed": {
+  "opened_with_button": null,
+  "form_index": null,
+  "fields_filled": [],
+  "changed_state": false,
+  "note": "no form submit changed the state; filled fields on the page and pressed Enter"
+ },
+ "buttons_tested": 8,
+ "buttons": [
+  {
+   "index": 0,
+   "label": "Data",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 1,
+   "label": "Settings",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 2,
+   "label": "Open settings",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 3,
+   "label": "Dismiss message",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 4,
+   "label": "New invoice",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 5,
+   "label": "Dismiss notification",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 6,
+   "label": "Add a client",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": 7,
+   "label": "Business details",
+   "kind": "other",
+   "verdict": "seeded-pass"
+  },
+  {
+   "index": null,
+   "label": null,
+   "kind": "undo",
+   "verdict": "not-applicable",
+   "why": "no such button on the page after the seed"
+  },
+  {
+   "index": null,
+   "label": null,
+   "kind": "redo",
+   "verdict": "not-applicable",
+   "why": "no such button on the page after the seed"
+  },
+  {
+   "index": null,
+   "label": null,
+   "kind": "export",
+   "verdict": "not-applicable",
+   "why": "no such button on the page after the seed"
+  }
+ ],
+ "buttons_no_effect": []
+}
