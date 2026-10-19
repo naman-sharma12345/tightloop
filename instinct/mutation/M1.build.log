@@ -1,0 +1,131 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.26
+   Compiling quote v1.0.47
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling cfg-if v1.0.5
+   Compiling syn v2.0.119
+   Compiling crossbeam-utils v0.8.23
+   Compiling zerocopy v0.8.62
+   Compiling zerocopy-derive v0.8.62
+   Compiling crossbeam-epoch v0.9.21
+   Compiling serde_core v1.0.229
+   Compiling crossbeam-deque v0.8.8
+   Compiling half v2.7.1
+   Compiling syn v3.0.7
+   Compiling serde v1.0.229
+   Compiling rayon-core v1.13.0
+   Compiling zmij v1.0.23
+   Compiling simd-adler32 v0.3.10
+   Compiling adler2 v2.0.1
+   Compiling serde_derive v1.0.229
+   Compiling serde_json v1.0.151
+   Compiling paste v1.0.15
+   Compiling bytemuck v1.25.2
+   Compiling libm v0.2.16
+   Compiling crc32fast v1.5.2
+   Compiling version_check v0.9.5
+   Compiling memchr v2.8.3
+   Compiling pulp v0.22.3
+   Compiling num-complex v0.4.6
+   Compiling num-integer v0.1.47
+   Compiling bitflags v2.13.2
+   Compiling shlex v2.0.1
+   Compiling libc v0.2.190
+   Compiling itoa v1.0.18
+   Compiling find-msvc-tools v0.1.14
+   Compiling either v1.19.0
+   Compiling cc v1.7.0
+   Compiling raw-cpuid v11.6.0
+   Compiling miniz_oxide v0.9.1
+   Compiling ciborium-io v0.2.2
+   Compiling pulp-wasm-simd-flag v0.1.1
+   Compiling clap_lex v1.1.1
+   Compiling strength_reduce v0.2.4
+   Compiling ttf-parser v0.25.1
+   Compiling reborrow v0.5.5
+   Compiling regex-syntax v0.8.11
+   Compiling plotters-backend v0.3.7
+   Compiling zune-core v0.4.12
+   Compiling anstyle v1.0.14
+   Compiling clap_builder v4.6.7
+   Compiling zune-jpeg v0.4.21
+   Compiling plotters-svg v0.3.7
+   Compiling regex-automata v0.4.18
+   Compiling owned_ttf_parser v0.25.1
+   Compiling transpose v0.2.3
+   Compiling ciborium-ll v0.2.2
+   Compiling flate2 v1.1.10
+   Compiling kimo-core v5.0.0 (/tmp/eyes_mut/crates/kimo-core)
+   Compiling itertools v0.10.5
+   Compiling primal-check v0.3.4
+   Compiling miniz_oxide v0.8.9
+   Compiling zune-inflate v0.2.54
+   Compiling weezl v0.1.12
+   Compiling bit_field v0.10.3
+   Compiling quick-error v2.0.1
+   Compiling same-file v1.0.6
+   Compiling ab_glyph_rasterizer v0.1.10
+   Compiling fax v0.2.7
+   Compiling smallvec v1.16.3
+   Compiling lebe v0.5.3
+   Compiling cast v0.3.0
+   Compiling criterion-plot v0.5.0
+   Compiling exr v1.74.2
+   Compiling tiff v0.10.3
+   Compiling ab_glyph v0.2.32
+   Compiling walkdir v2.5.0
+   Compiling rustfft v6.4.1
+   Compiling is-terminal v0.4.17
+   Compiling ciborium v0.2.2
+   Compiling regex v1.13.1
+   Compiling plotters v0.3.7
+   Compiling clap v4.6.7
+   Compiling tinytemplate v1.2.1
+   Compiling rayon v1.12.0
+   Compiling roxmltree v0.21.1
+   Compiling isosurface v0.1.0-alpha.0
+   Compiling oorandom v11.1.5
+   Compiling anes v0.1.6
+   Compiling once_cell v1.21.4
+   Compiling opensubdiv-rs v0.1.3
+crates/kimo-core/src/shards.rs:172:383: warning: unnecessary parentheses around assigned value
+crates/kimo-core/src/render.rs:5:29: warning: unused import: `Stdio`
+crates/kimo-core/src/tracking.rs:2:21: warning: unused import: `prepare`
+crates/kimo-core/src/color/mux.rs:2:49: warning: unused import: `time::Duration`
+crates/kimo-core/src/colortools.rs:69:261: warning: unnecessary parentheses around `if` condition
+crates/kimo-core/src/frosted.rs:13:1: warning: unused doc comment: rustdoc does not generate documentation for macro invocations
+crates/kimo-core/src/render.rs:4:15: warning: unused import: `Read`
+crates/kimo-core/src/render.rs:4:21: warning: unused import: `Write`
+/tmp/eyes_mut/crates/kimo-core/src/ext/contact_sheet.rs:47:18: warning: value assigned to `kf_candidates` is never read: this value is reassigned later and never used
+/tmp/eyes_mut/crates/kimo-core/src/ext/diff_frames.rs:165:9: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/diff_frames.rs:166:9: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/export_job.rs:191:13: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/recipe.rs:34:10: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/refine_matte.rs:22:22: warning: unused variable: `f1`: help: if this is intentional, prefix it with an underscore: `_f1`
+crates/kimo-core/src/paths.rs:35:13: warning: variable does not need to be mutable
+crates/kimo-core/src/paths.rs:36:137: warning: value assigned to `cx` is never read
+crates/kimo-core/src/paths.rs:36:146: warning: value assigned to `cy` is never read
+crates/kimo-core/src/paths.rs:36:155: warning: value assigned to `open` is never read
+crates/kimo-core/src/sfm.rs:406:9: warning: value assigned to `prev` is never read
+crates/kimo-core/src/sfm.rs:416:108: warning: value assigned to `d` is never read
+crates/kimo-core/src/hud.rs:122:9: warning: variable does not need to be mutable
+crates/kimo-core/src/shards.rs:172:104: warning: variable does not need to be mutable
+crates/kimo-core/src/commands/tools_0.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_1.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_3.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_4.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/render.rs:407:10: warning: unused variable: `sd`: help: if this is intentional, prefix it with an underscore: `_sd`
+crates/kimo-core/src/color/denoise.rs:149:14: warning: unused variable: `cur_r`: help: if this is intentional, prefix it with an underscore: `_cur_r`
+crates/kimo-core/src/color/denoise.rs:149:21: warning: unused variable: `ycc_r`: help: if this is intentional, prefix it with an underscore: `_ycc_r`
+crates/kimo-core/src/editorial.rs:299:21: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/editorial.rs:319:44: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/editorial.rs:322:50: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/render.rs:117:8: warning: struct `DecodeProcess` is never constructed
+crates/kimo-core/src/render.rs:376:4: warning: function `transform` is never used
+crates/kimo-core/src/color/printstock.rs:20:14: warning: field `name` is never read
+warning: `kimo-core` (lib) generated 35 warnings (run `cargo fix --lib -p kimo-core` to apply 23 suggestions)
+   Compiling criterion v0.5.1
+    Finished `gate` profile [optimized] target(s) in 12m 20s
+  Executable tests/focus_series.rs (/dev/shm/kimo_mut_target/gate/deps/focus_series-b22a4d50d21e24c9)
+  Executable tests/focus_series_addendum1.rs (/dev/shm/kimo_mut_target/gate/deps/focus_series_addendum1-c412bbb9d54f4cf2)

@@ -12,3 +12,6 @@ wall_comparable (sampler 6735e9c236a1, full sample, 0 hits, no window) stands on
 - holdout/HOLDOUT_MANIFEST.tsv: blob hash of each holdout task file, plus the commit that last touched it.
 - cost_weighted = in + 5*out + 0.1*cache_read + 1.25*cache_write.
 - Defect score per arm: not measured.
+- M2 window by timestamp (2026-10-19T06:28:03Z-06:39:59Z): wall_comparable_m2=false on rows 49, 50, 51, 52, 53, 54, 55, 56 (run interval touches the window; start = agent log mtime - wall_seconds, end = grade log mtime). row 48 interval 06:26:37Z-06:27:29Z: does NOT touch the M2 window (ends 34 s before 06:28:03Z); not flagged. Row 57 starts 06:44:4xZ, after the window.
+- Rows 26, 32 and 34 are "sampler-unverified: tokens and cost_weighted only, wall_comparable=false; raw samples were not kept, so no replay is possible."
+- instinct/mutation/: Kimo focus_series mutation files M1/M2 (byte-for-byte copies) + README.md (Pally m:8bb295db).

@@ -1,0 +1,40 @@
+   Compiling kimo-core v5.0.0 (/tmp/eyes_mut/crates/kimo-core)
+crates/kimo-core/src/shards.rs:172:383: warning: unnecessary parentheses around assigned value
+crates/kimo-core/src/render.rs:5:29: warning: unused import: `Stdio`
+crates/kimo-core/src/tracking.rs:2:21: warning: unused import: `prepare`
+crates/kimo-core/src/color/mux.rs:2:49: warning: unused import: `time::Duration`
+crates/kimo-core/src/colortools.rs:69:261: warning: unnecessary parentheses around `if` condition
+crates/kimo-core/src/frosted.rs:13:1: warning: unused doc comment: rustdoc does not generate documentation for macro invocations
+crates/kimo-core/src/render.rs:4:15: warning: unused import: `Read`
+crates/kimo-core/src/render.rs:4:21: warning: unused import: `Write`
+/tmp/eyes_mut/crates/kimo-core/src/ext/contact_sheet.rs:47:18: warning: value assigned to `kf_candidates` is never read: this value is reassigned later and never used
+/tmp/eyes_mut/crates/kimo-core/src/ext/diff_frames.rs:165:9: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/diff_frames.rs:166:9: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/export_job.rs:191:13: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/recipe.rs:34:10: warning: variable does not need to be mutable
+/tmp/eyes_mut/crates/kimo-core/src/ext/refine_matte.rs:22:22: warning: unused variable: `f1`: help: if this is intentional, prefix it with an underscore: `_f1`
+crates/kimo-core/src/paths.rs:35:13: warning: variable does not need to be mutable
+crates/kimo-core/src/paths.rs:36:137: warning: value assigned to `cx` is never read
+crates/kimo-core/src/paths.rs:36:146: warning: value assigned to `cy` is never read
+crates/kimo-core/src/paths.rs:36:155: warning: value assigned to `open` is never read
+crates/kimo-core/src/sfm.rs:406:9: warning: value assigned to `prev` is never read
+crates/kimo-core/src/sfm.rs:416:108: warning: value assigned to `d` is never read
+crates/kimo-core/src/hud.rs:122:9: warning: variable does not need to be mutable
+crates/kimo-core/src/shards.rs:172:104: warning: variable does not need to be mutable
+crates/kimo-core/src/commands/tools_0.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_1.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_3.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/commands/tools_4.rs:5:21: warning: unused variable: `eff_kinds`: help: if this is intentional, prefix it with an underscore: `_eff_kinds`
+crates/kimo-core/src/render.rs:407:10: warning: unused variable: `sd`: help: if this is intentional, prefix it with an underscore: `_sd`
+crates/kimo-core/src/color/denoise.rs:149:14: warning: unused variable: `cur_r`: help: if this is intentional, prefix it with an underscore: `_cur_r`
+crates/kimo-core/src/color/denoise.rs:149:21: warning: unused variable: `ycc_r`: help: if this is intentional, prefix it with an underscore: `_ycc_r`
+crates/kimo-core/src/editorial.rs:299:21: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/editorial.rs:319:44: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/editorial.rs:322:50: warning: unused variable: `keys`: help: try ignoring the field: `keys: _`
+crates/kimo-core/src/render.rs:117:8: warning: struct `DecodeProcess` is never constructed
+crates/kimo-core/src/render.rs:376:4: warning: function `transform` is never used
+crates/kimo-core/src/color/printstock.rs:20:14: warning: field `name` is never read
+warning: `kimo-core` (lib) generated 35 warnings (run `cargo fix --lib -p kimo-core` to apply 23 suggestions)
+    Finished `gate` profile [optimized] target(s) in 6m 37s
+  Executable tests/focus_series.rs (/dev/shm/kimo_mut_target/gate/deps/focus_series-b22a4d50d21e24c9)
+  Executable tests/focus_series_addendum1.rs (/dev/shm/kimo_mut_target/gate/deps/focus_series_addendum1-c412bbb9d54f4cf2)

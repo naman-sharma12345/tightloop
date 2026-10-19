@@ -1,0 +1,23 @@
+
+running 2 tests
+test addendum1_f4_partial_rect ... F4 split frame 0: {"frame":0,"lap_var":19548.548188,"rects":[{"lap_var":0.0,"tenengrad":0.0},{"lap_var":0.0,"tenengrad":0.0},{"lap_var":0.0,"tenengrad":0.0}],"t":0.0,"tenengrad":211.215823} | rects [{"interior_px":64,"lap_var":{"max":0.0,"median":0.0,"min":0.0},"rect":[150.0,80.0,20.0,20.0],"sharpest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0},"softest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0}},{"interior_px":64,"lap_var":{"max":0.0,"median":0.0,"min":0.0},"rect":[150.0,80.0,10.0,10.0],"sharpest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0},"softest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0}},{"interior_px":64,"lap_var":{"max":0.0,"median":0.0,"min":0.0},"rect":[150.0,80.0,9.0,9.0],"sharpest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0},"softest":{"frame":0,"lap_var":0.0,"t":0.0,"tenengrad":0.0}}]
+F4 ramp frame 0: {"frame":0,"lap_var":39714.636076,"rects":[{"lap_var":40640.625,"tenengrad":427.578057},{"lap_var":40640.625,"tenengrad":427.578057},{"lap_var":40640.625,"tenengrad":427.578057}],"t":0.0,"tenengrad":421.02446} | frame 60: {"frame":60,"lap_var":0.841916,"rects":[{"lap_var":1.359375,"tenengrad":9.589283},{"lap_var":1.359375,"tenengrad":9.589283},{"lap_var":1.359375,"tenengrad":9.589283}],"t":2.5,"tenengrad":3.70943} | rects [{"interior_px":64,"lap_var":{"max":40640.625,"median":69.108398,"min":1.359375},"rect":[150.0,80.0,20.0,20.0],"sharpest":{"frame":0,"lap_var":40640.625,"t":0.0,"tenengrad":427.578057},"softest":{"frame":60,"lap_var":1.359375,"t":2.5,"tenengrad":9.589283}},{"interior_px":64,"lap_var":{"max":40640.625,"median":69.108398,"min":1.359375},"rect":[150.0,80.0,10.0,10.0],"sharpest":{"frame":0,"lap_var":40640.625,"t":0.0,"tenengrad":427.578057},"softest":{"frame":60,"lap_var":1.359375,"t":2.5,"tenengrad":9.589283}},{"interior_px":64,"lap_var":{"max":40640.625,"median":69.108398,"min":1.359375},"rect":[150.0,80.0,9.0,9.0],"sharpest":{"frame":0,"lap_var":40640.625,"t":0.0,"tenengrad":427.578057},"softest":{"frame":60,"lap_var":1.359375,"t":2.5,"tenengrad":9.589283}}]
+F4a: MISS split rect [150,80,20,20]: frame 0 {"lap_var":0.0,"tenengrad":0.0}; 0/0 on all 24 frames true; interior_px 64
+F4b: MISS [150,80,20,20] == [150,80,10,10] == [150,80,9,9] every frame: split true ramp true (72 frames); interior_px split [Number(64), Number(64), Number(64)] ramp [Number(64), Number(64), Number(64)]
+F4c: MISS ramp frames 0-16 rect lap_var 40640.625 tenengrad 427.578057 (same on 0-16 true); whole frame 0 lap_var 39714.636076 tenengrad 421.02446; rect/whole lap_var ratio 1.0233
+
+thread 'addendum1_f4_partial_rect' (3852895) panicked at crates/kimo-core/tests/focus_series_addendum1.rs:50:5:
+MISSES: ["F4a", "F4b", "F4c"]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+test addendum1_r3b_real_clip ... R3b series: [{"frame":239,"lap_var":5.188023,"t":9.958333,"tenengrad":3.13249},{"frame":240,"lap_var":102.764846,"t":10.0,"tenengrad":10.995101}]
+R3b: HIT frames [239, 240]; 239 5.188023 240 102.764846; 240 > 239 true; ratio 19.808094 (2 dp 19.81)
+ok
+
+failures:
+
+failures:
+    addendum1_f4_partial_rect
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 17.57s
+
