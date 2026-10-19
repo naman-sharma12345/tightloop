@@ -1,0 +1,18 @@
+{
+  "name": "ghcli-01",
+  "kind": "feature",
+  "source": "https://github.com/cli/cli",
+  "license": "MIT",
+  "license_commit": "221e12681ec03ed17ebf473d354d5d66797b5bc5",
+  "license_note": "LICENSE re-read live at the fix commit before vendoring: MIT",
+  "commit": "221e12681ec03ed17ebf473d354d5d66797b5bc5",
+  "start_commit": "92561b6aad6988bf6e98d5ffe2bdf1425b9c74c1",
+  "instruction": "Add a shared result line for unchanged artifacts",
+  "hidden_patch": "patches/ghcli-01.patch",
+  "hidden_tests": [
+    "TestPrintUnchanged"
+  ],
+  "check_command": "go test -run TestPrintUnchanged ./pkg/cmd/issue/artifact/shared/",
+  "holdout": true,
+  "status": "UNPROVEN"
+}
