@@ -1,0 +1,18 @@
+{
+  "name": "gin-04",
+  "kind": "feature",
+  "source": "https://github.com/gin-gonic/gin",
+  "license": "MIT",
+  "license_commit": "dbd8a2515093ad47cadc5c1fface89861a0b765c",
+  "license_note": "LICENSE re-read live at the fix commit before vendoring: MIT",
+  "commit": "dbd8a2515093ad47cadc5c1fface89861a0b765c",
+  "start_commit": "b7d6308bcc84066df79a047ae363a6120fe87808",
+  "instruction": "feat: added AbortWithStatusPureJSON() in Context (#4290)",
+  "hidden_patch": "patches/gin-04.patch",
+  "hidden_tests": [
+    "TestContextAbortWithStatusPureJSON"
+  ],
+  "check_command": "go test -run TestContextAbortWithStatusPureJSON ./...",
+  "holdout": true,
+  "status": "UNPROVEN"
+}
