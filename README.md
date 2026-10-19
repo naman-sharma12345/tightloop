@@ -7,15 +7,17 @@
 tightloop is a small skill for coding agents. It is one short `SKILL.md` plus a gate
 script that keeps the agent in a tight loop: look once, write once, run one check,
 fix only what failed, stop. In our benchmark the 1.0 default built the same three
-apps with **31% fewer cost-weighted tokens than an agent with no skill**, and 21%
-fewer than the previous version (v4c). Defect scores stayed near zero for every
-version, though not lower than no-skill. Details and caveats below.
+apps at **~31% lower token cost than an agent with no skill** (cost-weighted, summed
+over 9 builds) and ~21% lower than the previous version (v4c). Counting input+output
+tokens alone, it is ~8% less than no-skill (0-20% per app); most of the saving is in
+cache reads. Defect scores stayed near zero for every version, though not lower than
+no-skill. [What's counted](#whats-counted) and the caveats are below.
 
 **1.0 ships two versions:**
 
 | | what it is | pick it when |
 |---|---|---|
-| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. About 300 tokens. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the fewest tokens |
+| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. About 300 tokens. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest token cost |
 | **v4c** (classic) | [`classic/v4c/`](classic/v4c/), opt-in. A 3-call loop that always adds a test that fails without the change. | you want a test with every change |
 
 ## Install
@@ -88,20 +90,45 @@ at a time: 27 builds, 0 retries, 0 voids.
 ### Tokens
 
 <p align="center">
-  <img src="docs/assets/chart_tokens.png" alt="Cost-weighted tokens per spec: v11 lowest on all three specs" width="100%">
+  <img src="docs/assets/chart_tokens.png" alt="Cost-weighted tokens per spec, median of 3: v11 lowest on all three specs" width="100%">
 </p>
+
+### What's counted
+
+> [!NOTE]
+> - **Token cost** is cost-weighted: `input + 5 × output + 0.1 × cache_read + 1.25 × cache_write`,
+>   per build, from the agent CLI's own final usage report as the harness recorded it.
+>   `input` is only the uncached input (tens of tokens per build); almost every prompt
+>   token is billed as a cache read or a cache write.
+> - **Totals** (7.00M / 6.13M / 4.82M, and the ~31% and ~21%) are **sums over the 9 builds**
+>   of each version. **Per-spec numbers are medians of 3 builds.** No means are used.
+> - **Input+output alone** is a much smaller gap: v11 is ~8% below no-skill summed over
+>   9 builds (703k vs 765k), 0-20% per app. Most of the saving is cache reads: the median
+>   v11 build read about 20k tokens from cache, the median no-skill build about 1.8M.
+>
+> | spec (median of 3) | no-skill | v4c (classic) | v11 (default) |
+> |---|---:|---:|---:|
+> | habits: input+output | 60.4k | 65.8k | 60.2k |
+> | habits: cost-weighted | 596k | 520k | 420k |
+> | invoice: input+output | 102.5k | 110.3k | 87.2k |
+> | invoice: cost-weighted | 877k | 854k | 589k |
+> | trip: input+output | 92.9k | 90.5k | 73.9k |
+> | trip: cost-weighted | 859k | 656k | 516k |
+> | **sum of 9: input+output** | 765k | 789k | 703k |
+> | **sum of 9: cost-weighted** | 7.00M | 6.13M | 4.82M |
 
 Cost-weighted tokens, median of 3 builds:
 
 | spec | no-skill | v4c (classic) | v11 (default) |
 |---|---:|---:|---:|
-| habits | 596k | 520k | **420k** |
-| invoice | 877k | 854k | **589k** |
-| trip | 859k | 656k | **516k** |
-| **total, 9 builds** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
+| habits | 596k | 520k | **420k** (-30%) |
+| invoice | 877k | 854k | **589k** (-33%) |
+| trip | 859k | 656k | **516k** (-40%) |
+| **sum, 9 builds** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
 
-v11 is the cheapest on all 3 specs. Cost-weighted = input + 5 × output + 0.1 × cache
-read + 1.25 × cache write. Per-build rows, min-max ranges and wall times:
+v11 has the lowest token cost on all 3 specs (percentages are against no-skill). On
+input+output alone it is 0.3% lower on habits, 15% on invoice and 20% on trip. Per-build
+rows, min-max ranges and wall times:
 [`results/appv2/compare/TABLE_r11_3arms.md`](results/appv2/compare/TABLE_r11_3arms.md).
 
 ### Defects
@@ -170,9 +197,10 @@ What this says, honestly:
 
 v4c was tightloop's best version before 1.0 and stays available as an opt-in mode in
 [`classic/v4c/`](classic/v4c/). It finishes a change in 3 tool calls and always adds a
-test that fails without the change, proven by its gate. It cost about 27% more
-cost-weighted tokens than v11 in the app benchmark (6.13M vs 4.82M over 9 builds), and
-had lower defect medians on habits and invoice. Install it in place of the default, not
+test that fails without the change, proven by its gate. In the app benchmark v11's
+token cost was ~21% lower than v4c's (cost-weighted, summed over 9 builds: 4.82M vs
+6.13M; input+output alone ~11% lower, 703k vs 789k), and v4c had lower defect medians
+on habits and invoice. Install it in place of the default, not
 beside it: [`classic/v4c/README.md`](classic/v4c/README.md).
 
 ## History

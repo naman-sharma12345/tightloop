@@ -1,5 +1,6 @@
 """Draws docs/assets/chart_tokens.png and chart_defects.png for the README.
-Data: tokens from results/appv2/*/BUILD_RESULTS.tsv (cost_weighted, median per spec);
+Data: tokens from results/appv2/*/BUILD_RESULTS.tsv (cost_weighted, median of 3 per spec;
+the y-axis says so);
 defects from benchmark/blind/defect_r11/SCORES_r11_ns.jsonl and arms/SCORES_r11_arms.jsonl
 (weighted_score, median per spec) after the label reveal. Numbers are typed in below so the
 chart does not need the sealed key. Run: python docs/assets/make_charts.py"""
@@ -37,10 +38,10 @@ def base(title, lines):
     return fig, ax
 
 
-def finish(fig, ax, top, path):
+def finish(fig, ax, top, path, left=0.07):
     ax.set_xticks(np.arange(3))
     ax.set_xticklabels(SPECS, fontsize=11)
-    fig.subplots_adjust(left=0.07, right=0.98, top=top, bottom=0.17)
+    fig.subplots_adjust(left=left, right=0.98, top=top, bottom=0.17)
     fig.legend(handles=[mp.Patch(color=c, label=k) for k, c in COL.items()], loc="lower center", ncol=3,
                frameon=False, fontsize=9.5, bbox_to_anchor=(0.5, 0.0), labelcolor=FG)
     fig.savefig(path, facecolor=BG)
@@ -48,9 +49,10 @@ def finish(fig, ax, top, path):
 
 
 x, w = np.arange(3), 0.26
-fig, ax = base("Tokens per app build (lower is better)",
-               ["Cost-weighted tokens, median of 3 builds per spec. Totals over 9 builds: "
-                "no-skill 7.00M, v4c 6.13M (88%), v11 4.82M (69%)."])
+fig, ax = base("Token cost per app build (lower is better)",
+               ["Cost-weighted = input + 5×output + 0.1×cache read + 1.25×cache write. Bars: median of 3 builds.",
+                "Sums over 9 builds: no-skill 7.00M, v4c 6.13M (88%), v11 4.82M (69%). "
+                "Input+output alone: v11 is 8% below no-skill."])
 for i, (k, v) in enumerate(TOKENS_K.items()):
     bars = ax.bar(x + (i - 1) * w, v, w * 0.92, color=COL[k], zorder=3)
     for r, val in zip(bars, v):
@@ -59,7 +61,8 @@ for i, (k, v) in enumerate(TOKENS_K.items()):
 ax.set_ylim(0, 1000)
 ax.set_yticks([0, 250, 500, 750, 1000])
 ax.set_yticklabels(["0", "250k", "500k", "750k", "1M"], fontsize=8.5)
-finish(fig, ax, 0.82, os.path.join(OUT, "chart_tokens.png"))
+ax.set_ylabel("cost-weighted tokens (median of 3)", fontsize=9, color=MUTED)
+finish(fig, ax, 0.79, os.path.join(OUT, "chart_tokens.png"), left=0.11)
 
 fig, ax = base("Defect score per app build (lower is better)",
                ["Frozen weighted defect count (blocker 10, major 3, minor 1), median of 3 blind-scored builds.",
