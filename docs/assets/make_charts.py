@@ -1,6 +1,7 @@
 """Draws docs/assets/chart_tokens.png and chart_defects.png for the README.
-Data: tokens from results/appv2/*/BUILD_RESULTS.tsv (cost_weighted, median of 3 per spec;
-the y-axis says so);
+Data: tokens from results/appv2/*/BUILD_RESULTS.tsv (input + output, where input is the
+uncached input only; median of 3 per spec; the y-axis says so. The footer also gives the
+cost-weighted sums so both numbers stay traceable);
 defects from benchmark/blind/defect_r11/SCORES_r11_ns.jsonl and arms/SCORES_r11_arms.jsonl
 (weighted_score, median per spec) after the label reveal. Numbers are typed in below so the
 chart does not need the sealed key. Run: python docs/assets/make_charts.py"""
@@ -15,7 +16,9 @@ OUT = os.path.dirname(os.path.abspath(__file__))
 BG, FG, MUTED, GRID, MINT, WARN = "#0a0e17", "#e6edf3", "#8b949e", "#1a2130", "#3ddc97", "#f0883e"
 COL = {"no-skill": "#3b4350", "v4c (classic)": "#8b949e", "v11 (default)": MINT}
 SPECS = ["habits", "invoice", "trip"]
-TOKENS_K = {"no-skill": [596, 877, 859], "v4c (classic)": [520, 854, 656], "v11 (default)": [420, 589, 516]}
+# input+output per build, median of 3 (raw tokens)
+TOKENS_IO = {"no-skill": [60409, 102548, 92938], "v4c (classic)": [65802, 110308, 90540],
+             "v11 (default)": [60236, 87249, 73934]}
 DEFECT_MEDIAN = {"no-skill": [0, 1, 1], "v4c (classic)": [0, 1, 3], "v11 (default)": [1, 3, 1]}
 MAJORS = {"no-skill": [0, 0, 1], "v4c (classic)": [0, 1, 3], "v11 (default)": [0, 2, 1]}
 plt.rcParams.update({"font.family": ["Inter", "DejaVu Sans"], "text.color": FG, "xtick.color": FG,
@@ -49,19 +52,20 @@ def finish(fig, ax, top, path, left=0.07):
 
 
 x, w = np.arange(3), 0.26
-fig, ax = base("Token cost per app build (lower is better)",
-               ["Cost-weighted = input + 5×output + 0.1×cache read + 1.25×cache write. Bars: median of 3 builds.",
-                "Sums over 9 builds: no-skill 7.00M, v4c 6.13M (88%), v11 4.82M (69%). "
-                "Input+output alone: v11 is 8% below no-skill."])
-for i, (k, v) in enumerate(TOKENS_K.items()):
+fig, ax = base("Input+output tokens per app build (median of 3)",
+               ["Input+output summed over 9 builds: no-skill 765k, v4c 789k, v11 703k (8% below no-skill).",
+                "Cost-weighted sums over 9 builds: no-skill 7.00M, v4c 6.13M, v11 4.82M "
+                "(formula in the README)."])
+for i, (k, v) in enumerate(TOKENS_IO.items()):
     bars = ax.bar(x + (i - 1) * w, v, w * 0.92, color=COL[k], zorder=3)
     for r, val in zip(bars, v):
-        ax.text(r.get_x() + r.get_width() / 2, val + 12, f"{val}k", ha="center", va="bottom", fontsize=8.5,
-                color=MINT if k.startswith("v11") else FG, fontweight="bold" if k.startswith("v11") else "normal")
-ax.set_ylim(0, 1000)
-ax.set_yticks([0, 250, 500, 750, 1000])
-ax.set_yticklabels(["0", "250k", "500k", "750k", "1M"], fontsize=8.5)
-ax.set_ylabel("cost-weighted tokens (median of 3)", fontsize=9, color=MUTED)
+        ax.text(r.get_x() + r.get_width() / 2, val + 1500, f"{val / 1000:.1f}k", ha="center", va="bottom",
+                fontsize=8.5, color=MINT if k.startswith("v11") else FG,
+                fontweight="bold" if k.startswith("v11") else "normal")
+ax.set_ylim(0, 125000)
+ax.set_yticks([0, 25000, 50000, 75000, 100000, 125000])
+ax.set_yticklabels(["0", "25k", "50k", "75k", "100k", "125k"], fontsize=8.5)
+ax.set_ylabel("input+output tokens (median of 3)", fontsize=9, color=MUTED)
 finish(fig, ax, 0.79, os.path.join(OUT, "chart_tokens.png"), left=0.11)
 
 fig, ax = base("Defect score per app build (lower is better)",

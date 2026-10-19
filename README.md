@@ -11,7 +11,7 @@ apps with **~8% fewer input+output tokens than an agent with no skill** (765k vs
 summed over 9 builds; n=3 per app; invoice 15%, trip 20%; habits was 0.3%,
 so the 8% comes from invoice and trip) and at **~31% lower cost** (cost-weighted tokens,
 summed over 9 builds); against the previous
-version (v4c) it was ~11% fewer input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
+version (v4c) it was ~11% fewer input+output tokens and ~21% lower cost (cost-weighted). Most of the cost saving is cache reads,
 because v11 makes far fewer model calls ([where the saving comes from](#where-the-saving-comes-from)).
 Quality: no quality loss detected on the 0-10 score; blind defect points were 7 vs 15, mostly minor (no-skill vs v11, total over 9 builds).
 On the 0-10 score no-skill scored 9.2, near the top, so it can only catch a large drop.
@@ -94,7 +94,7 @@ at a time: 27 builds, 0 retries, 0 voids.
 ### Tokens
 
 <p align="center">
-  <img src="docs/assets/chart_tokens.png" alt="Cost-weighted tokens per spec, median of 3: v11 lowest on all three specs" width="100%">
+  <img src="docs/assets/chart_tokens.png" alt="Input+output tokens per app build, median of 3, for no-skill, v4c and v11" width="100%">
 </p>
 
 ### What's counted
@@ -105,7 +105,7 @@ at a time: 27 builds, 0 retries, 0 voids.
 >   `input` is only the uncached input (tens of tokens per build); almost every prompt
 >   token is billed as a cache read or a cache write.
 > - **Totals** (765k / 789k / 703k input+output, 7.00M / 6.13M / 4.82M cost-weighted, and the
->   ~8%, ~31% and ~21%) are **sums over the 9 builds**
+>   ~8% input+output, ~31% and ~21% cost-weighted) are **sums over the 9 builds**
 >   of each version. **Per-spec numbers are medians of 3 builds.** No means are used.
 > - **Input+output alone** is a much smaller gap: v11 is ~8% below no-skill summed over
 >   9 builds (703k vs 765k; habits 0.3%, invoice 15%, trip 20%; n=3 per app). Habits was 0.3%, so the 8% comes from invoice and trip. Most of the
@@ -130,7 +130,7 @@ Cost-weighted tokens, median of 3 builds:
 | habits | 596k | 520k | **420k** (-30%) |
 | invoice | 877k | 854k | **589k** (-33%) |
 | trip | 859k | 656k | **516k** (-40%) |
-| **sum, 9 builds** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
+| **sum, 9 builds (cost-weighted)** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
 
 On input+output tokens alone, v11 is 0.3% lower than no-skill on habits, 15% on invoice
 and 20% on trip (~8% summed over 9 builds). Habits was 0.3%, so the 8% comes from invoice and trip. On cost (the table above, percentages against no-skill) it is the lowest
@@ -144,7 +144,7 @@ Every model call re-reads the whole conversation so far, mostly from cache. A no
 build made a median of 22 model calls (over its 9 builds: 138 shell commands, 63 file
 reads, 27 file writes); a v11 build made 2, because it writes every file in one shell
 call and stops. The largest context in a build is similar (median 131k vs 107k tokens),
-so the gap is the number of calls. **This comes from the skill, not the run setup.**
+so the gap is the number of calls. **Most of this comes from the skill (fewer calls).**
 The arms ran in separate blocks of the day, not alternating, so a rerun that alternates them is still an open check.
 
 | per build, median of 9 | no-skill | v4c (classic) | v11 (default) |
