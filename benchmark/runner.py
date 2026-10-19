@@ -556,6 +556,10 @@ def main():
     ap.add_argument("--cli", choices=["claude", "codex"], required=True)
     ap.add_argument("--tasks", nargs="+", required=True)
     ap.add_argument("--runs", type=int, default=1)
+    ap.add_argument("--rotate", action="store_true",
+                    help="rotate arm order per repeat: shift (2*task_index + run_index) mod "
+                    "number_of_arms (the pre-registered pass-3 shift rule); default off keeps "
+                    "the fixed ARMS order")
     ap.add_argument("--out", default="results")
     ap.add_argument("--timeout", type=int, default=1800, help="seconds per session")
     ap.add_argument("--grade-timeout", type=int, default=900, help="seconds per grader run")
@@ -669,17 +673,30 @@ def main():
                                  f"that lock is free (waited up to {a.wait_lock_max}s, not held); "
                                  "per row: loadavg_start, loadavg_end, lock_busy_during "
                                  "(sampled about every 30 s), lock_wait_seconds")
+    if a.rotate:
+        env["arm_order"] = ("rotated per repeat: shift (2*task_index + run_index) mod number_of_arms "
+                            "(the pre-registered pass-3 shift rule); rows are appended to rows.jsonl "
+                            "in execution order, so a row's position is its line number within its task")
+    else:
+        env["arm_order"] = "fixed ARMS order (no rotation)"
     with open(os.path.join(a.out, "environment.json"), "w") as f:
         json.dump(env, f, indent=2)
     rows = os.path.join(a.out, "rows.jsonl")
     models_seen = set()
     stopped = None
     with open(rows, "a") as out:
-        for task in tasks:
+        arm_list = [x for x in ARMS if x in a.arms]
+        for t_idx, task in enumerate(tasks):
             tid = task["name"]
-            for arm in [x for x in ARMS if x in a.arms]:
+            if a.rotate and len(arm_list) > 1:
+                seq = [(arm, i) for i in range(a.runs)
+                       for arm in (arm_list[(2 * t_idx + i) % len(arm_list):]
+                                   + arm_list[:(2 * t_idx + i) % len(arm_list)])]
+            else:
+                seq = [(arm, i) for arm in arm_list for i in range(a.runs)]
+            for arm, i in seq:
                 skill, arm_note = skills[arm]
-                for i in range(a.runs):
+                if True:
                     if a.min_free_mib and free_mib(a.out) < a.min_free_mib:
                         stopped = (f"DISK STOP {free_mib(a.out)} MiB free before "
                                    f"{tid}/{arm}/run{i+1}")
