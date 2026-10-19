@@ -9,8 +9,8 @@ script that keeps the agent in a tight loop: look once, write once, run one chec
 fix only what failed, stop. In our benchmark the 1.0 default built the same three
 apps with **~8% fewer input+output tokens than an agent with no skill** (habits 0.3%,
 invoice 15%, trip 20%; n=3 per app; 765k vs 703k summed over 9 builds) and at
-**~31% lower cost** (cost-weighted tokens, summed over 9 builds); against the previous version (v4c) it was ~11% fewer
-input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
+**~31% lower cost** (cost-weighted tokens, summed over 9 builds); against the previous
+version (v4c) it was ~11% fewer input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
 because v11 makes far fewer model calls ([where the saving comes from](#where-the-saving-comes-from)).
 No quality loss detected on a saturated 0-10 scale (no-skill scored 9.2). On the blind
 defect count, scores stayed near zero for every version, though not lower than no-skill.
@@ -20,7 +20,7 @@ defect count, scores stayed near zero for every version, though not lower than n
 
 | | what it is | pick it when |
 |---|---|---|
-| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. 104 words. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest cost |
+| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. 104 words (661 bytes). Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest cost |
 | **v4c** (classic) | [`classic/v4c/`](classic/v4c/), opt-in. A 3-call loop that always adds a test that fails without the change. | you want a test with every change |
 
 ## Install
@@ -99,7 +99,7 @@ at a time: 27 builds, 0 retries, 0 voids.
 ### What's counted
 
 > [!NOTE]
-> - **Token cost** is cost-weighted: `input + 5 × output + 0.1 × cache_read + 1.25 × cache_write`,
+> - **Cost** is cost-weighted usage: `input + 5 × output + 0.1 × cache_read + 1.25 × cache_write`,
 >   per build, from the agent CLI's own final usage report as the harness recorded it.
 >   `input` is only the uncached input (tens of tokens per build); almost every prompt
 >   token is billed as a cache read or a cache write.
