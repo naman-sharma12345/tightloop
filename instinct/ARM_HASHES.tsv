@@ -1,0 +1,15 @@
+# instinct rows: arm-file sha256 header, written before run 1
+# arms delivered by runner.py (rotate-flag 07ddf789 + the 2-line arm registration in instinct/runner_2line.diff): --append-system-prompt with SKILL.md text, plus the arm folder copied into the checkout (git-excluded)
+no-skill	(no skill text, no files)
+ponytail	SKILL.md @ ponytail 09c434ab73ca	3496 B	9badd22a32e19cb884e46dfa8d3aae82bb81dfa5484105b8b4f0262df823a509
+v4c	benchmark/arms/tightloop-v4c/SKILL.md	978 B	6c2683f102ddbb000b779a9aefe2367b8342f1253b66c8fe6056b3561b2cf7e7
+v4c	benchmark/arms/tightloop-v4c/gate.sh	3608 B	fe7b3e514126bdcfb9ef4509d66a77216de77d7fcd3dfe13cce19f60cf8a3979
+v4c	benchmark/arms/tightloop-v4c/phases/fail.md	970 B	ff125c13dd9a0b44b251fa62150388576dba53c95d57b28e8fe157fcb57549d7
+v4c	benchmark/arms/tightloop-v4c/phases/risky.md	901 B	0c437f10a70275f98d0143d7ba143deb21269f871203bb86dd5b13ec7347ae15
+v8	benchmark/arms/tightloop-v8/SKILL.md	1139 B	10f98337ec7382d8fd45d3b47705c6ff69975b1d1d75c7a1ce9bc1645f31a256
+v8	benchmark/arms/tightloop-v8/gate.sh	3608 B	fe7b3e514126bdcfb9ef4509d66a77216de77d7fcd3dfe13cce19f60cf8a3979
+v8	benchmark/arms/tightloop-v8/phases/fail.md	970 B	ff125c13dd9a0b44b251fa62150388576dba53c95d57b28e8fe157fcb57549d7
+v8	benchmark/arms/tightloop-v8/phases/risky.md	901 B	0c437f10a70275f98d0143d7ba143deb21269f871203bb86dd5b13ec7347ae15
+# source of v4c and v8 files: byte-identical to v6/v8-prep b16a28e (and to the work trees tl_v8 / tl_v9)
+runner.py	benchmark/runner.py after the 2-line arm registration	024b69b9b29fbfef55a6ddd80bca49c038782f4b6f8d613c7fab73ec2bd4269c
+# runner.py at rotate-flag 07ddf789 before the edit: 707807528fd48858ecd411fee14a95f86c3758579005082da0477a3f443a5964; the edit = instinct/runner_2line.diff (owner GO m:7b890de8)

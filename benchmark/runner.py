@@ -28,6 +28,7 @@ ARMS = {
     "tightloop-v5": os.path.join(ROOT, "arms", "tightloop-v5"),
     # v5b = v5 with no screenshot and a lower-thinking instruction (pre-registered in A1)
     "tightloop-v5b": os.path.join(ROOT, "arms", "tightloop-v5b"),
+    "tightloop-v4c": os.path.join(ROOT, "arms", "tightloop-v4c"), "tightloop-v8": os.path.join(ROOT, "arms", "tightloop-v8"),  # instinct rows: arm folders byte-identical to v6/v8-prep b16a28e
 }
 # the v3 arm refuses to run unless its skill text is byte-identical to v3
 TIGHTLOOP_V3_SHA256 = "f83ba03a192729f84e8d448680fa69dcadf41483f9ae056e6bba7dfc19d1bd6a"
@@ -598,7 +599,7 @@ def main():
               "ponytail": (ponytail_text, ponytail_note)}
     versions = {"no-skill": "n/a", "ponytail": "ponytail " + PONYTAIL_PIN[:12]}
     for arm in ("tightloop-v3", "tightloop-v4", "tightloop-v4a", "tightloop-v4b",
-                "tightloop-v5", "tightloop-v5b"):
+                "tightloop-v5", "tightloop-v5b", "tightloop-v4c", "tightloop-v8"):
         with open(os.path.join(os.path.normpath(ARMS[arm]), "SKILL.md"), "rb") as f:
             raw_skill = f.read()
         h = sha256_bytes(raw_skill)

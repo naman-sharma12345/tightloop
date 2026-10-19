@@ -1,0 +1,218 @@
+{
+ "pass": "holdout",
+ "written_utc": "2026-10-19T05:00:23Z",
+ "rule": "runner.py --rotate: per repeat shift (2*task_index + run_index) mod number_of_arms over the ARMS order ['no-skill', 'ponytail', 'v4c']",
+ "tasks": [
+  "ghcli-01",
+  "gin-04"
+ ],
+ "arms": [
+  "no-skill",
+  "ponytail",
+  "tightloop-v4c"
+ ],
+ "runs": 3,
+ "holdout": true,
+ "row_file": "holdout/rows.jsonl",
+ "df_mib_at_write": 4716,
+ "sessions": [
+  {
+   "task": "ghcli-01",
+   "run": 1,
+   "arm": "no-skill",
+   "position": 1,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 1,
+   "arm": "ponytail",
+   "position": 2,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 1,
+   "arm": "tightloop-v4c",
+   "position": 3,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 2,
+   "arm": "ponytail",
+   "position": 1,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 2,
+   "arm": "tightloop-v4c",
+   "position": 2,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 2,
+   "arm": "no-skill",
+   "position": 3,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 3,
+   "arm": "tightloop-v4c",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 3,
+   "arm": "no-skill",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "ghcli-01",
+   "run": 3,
+   "arm": "ponytail",
+   "position": 3,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 1,
+   "arm": "tightloop-v4c",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 1,
+   "arm": "no-skill",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 1,
+   "arm": "ponytail",
+   "position": 3,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 2,
+   "arm": "no-skill",
+   "position": 1,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 2,
+   "arm": "ponytail",
+   "position": 2,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 2,
+   "arm": "tightloop-v4c",
+   "position": 3,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 3,
+   "arm": "ponytail",
+   "position": 1,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 3,
+   "arm": "tightloop-v4c",
+   "position": 2,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "gin-04",
+   "run": 3,
+   "arm": "no-skill",
+   "position": 3,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  }
+ ]
+}
