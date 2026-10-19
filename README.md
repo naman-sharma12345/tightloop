@@ -7,19 +7,20 @@
 tightloop is a small skill for coding agents. It is one short `SKILL.md` plus a gate
 script that keeps the agent in a tight loop: look once, write once, run one check,
 fix only what failed, stop. In our benchmark the 1.0 default built the same three
-apps with **~8% fewer input+output tokens than an agent with no skill** (0-20% per app;
-765k vs 703k summed over 9 builds) and at **~31% lower cost** (cost-weighted tokens,
-summed over 9 builds); against the previous version (v4c) it was ~11% fewer
+apps with **~8% fewer input+output tokens than an agent with no skill** (habits 0.3%,
+invoice 15%, trip 20%; n=3 per app; 765k vs 703k summed over 9 builds) and at
+**~31% lower cost** (cost-weighted tokens, summed over 9 builds); against the previous version (v4c) it was ~11% fewer
 input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
 because v11 makes far fewer model calls ([where the saving comes from](#where-the-saving-comes-from)).
-Defect scores stayed near zero for every version, though not lower than no-skill.
+No quality loss detected on a saturated 0-10 scale (no-skill scored 9.2). On the blind
+defect count, scores stayed near zero for every version, though not lower than no-skill.
 [What's counted](#whats-counted) and the caveats are below.
 
 **1.0 ships two versions:**
 
 | | what it is | pick it when |
 |---|---|---|
-| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. 104 words, about 300 tokens. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest cost |
+| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. 104 words. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest cost |
 | **v4c** (classic) | [`classic/v4c/`](classic/v4c/), opt-in. A 3-call loop that always adds a test that fails without the change. | you want a test with every change |
 
 ## Install
@@ -106,12 +107,9 @@ at a time: 27 builds, 0 retries, 0 voids.
 >   ~8%, ~31% and ~21%) are **sums over the 9 builds**
 >   of each version. **Per-spec numbers are medians of 3 builds.** No means are used.
 > - **Input+output alone** is a much smaller gap: v11 is ~8% below no-skill summed over
->   9 builds (703k vs 765k), 0-20% per app. Most of the cost saving is cache reads: the
->   median v11 build read 20.2k tokens from cache, the median no-skill build 1.81M
+>   9 builds (703k vs 765k; habits 0.3%, invoice 15%, trip 20%; n=3 per app). Most of the
+>   cost saving is cache reads: the median v11 build read 20.2k tokens from cache, the median no-skill build 1.81M
 >   ([why](#where-the-saving-comes-from)).
-> - **Skill size:** v11's `SKILL.md` is 104 words. In the build logs, the first model call of
->   every v11 build is 290-299 tokens longer than the no-skill build on the same spec
->   (v4c: 433-435), counted by the agent's own usage report. So "about 300 tokens".
 >
 > | spec (median of 3) | no-skill | v4c (classic) | v11 (default) |
 > |---|---:|---:|---:|
@@ -195,8 +193,8 @@ What this says, honestly:
 - **v11 is worse than v4c on habits and invoice and better on trip.** On habits each v11
   build has one minor defect (small tap targets, clipped labels). On invoice, two v11
   builds fail the official print check (a major each). On trip, v4c has 3 majors and v11 has 1.
-- **The scale is near zero for every version** (medians 0 to 3), so on quality this is
-  close to a tie. Neither skill beat no-skill on defects in this round.
+- **The scale is near zero for every version** (medians 0 to 3), so this count separates
+  the versions poorly. Neither skill beat no-skill on defects in this round.
 - **The sideways-scroll major shows up in both skills** (one v11 build, two v4c
   builds), from one root cause: hidden screen-reader labels escape the trip board's
   clip. Because it is spread across versions we treat it as a harness or viewport
