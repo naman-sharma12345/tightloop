@@ -1,0 +1,14 @@
+{
+ "model": "claude-opus-5-5",
+ "baseline_no_skill": 112,
+ "arms": {
+  "tightloop-v4c": {
+   "bytes": 978,
+   "raw_delta": 424
+  },
+  "tightloop-v11": {
+   "bytes": 661,
+   "raw_delta": 288
+  }
+ }
+}
