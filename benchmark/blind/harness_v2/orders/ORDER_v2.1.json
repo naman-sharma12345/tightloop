@@ -1,0 +1,339 @@
+{
+ "name": "APP HARNESS v2 rerun queue",
+ "order_version": 1,
+ "written_utc": "2026-10-19T08:00:02Z",
+ "status": "NOT RUN. Runs only on root's GO, one driver run per arm, in the order below. STOP after each arm and report.",
+ "binding": [
+  "Pally m:de7a935c: frozen harness stays frozen; prompt() + browser fixes in a separate versioned harness; no-skill first in the rerun queue at n=3; then v4c n=3; then v11. Comparisons use crash-free tokens only.",
+  "Naman m:b6bb09d4 (via root steer 07:44Z): the baseline is no-skill n=3 on the 3 NEW harder specs that worker 2c1c5668 commits on v6/v11, not on kanban/bookmarks/expenses. After the no-skill baseline, no spec commits except the too-easy tighten rule (Naman m:037936c8: if no-skill lands above 7/10 the spec is tightened before v11 runs). Then v4c n=3, then v11 n=3."
+ ],
+ "order": [
+  "1. no-skill n=3 on habits, invoice, trip (9 builds) = the baseline, then the blind 0-10 judge on them (rubric committed first, v11 prereg)",
+  "2. tightloop-v4c n=3 (9 builds)",
+  "3. tightloop-v11 n=3 (9 builds), only once its arm folder (benchmark/arms/tightloop-v11 from v6/v11) is on top of this harness and root says GO"
+ ],
+ "specs": {
+  "source": "v6/v11 commit 28092004a6d9b50ee8c252653a22c0613d9eb458 (worker 2c1c5668, v11 prereg), copied byte for byte to the same paths on this branch",
+  "habits": {
+   "path": "benchmark/blind/specs/r11/habits.md",
+   "sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  "invoice": {
+   "path": "benchmark/blind/specs/r11/invoice.md",
+   "sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  "trip": {
+   "path": "benchmark/blind/specs/r11/trip.md",
+   "sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  "rule": "After the no-skill baseline, no spec commits except the too-easy tighten rule (if no-skill lands above 7/10 the spec is tightened before v11 runs, per the v11 prereg). A tightened spec is a new ORDER_v2.<n>.json with the new sha256; this file is never edited."
+ },
+ "rotation": "run 1: habits, invoice, trip; run 2: invoice, trip, habits; run 3: trip, habits, invoice (same for every arm)",
+ "commands": [
+  "python3 /home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/blind_driver_v2.py no-skill",
+  "python3 /home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/blind_driver_v2.py tightloop-v4c",
+  "python3 /home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/blind_driver_v2.py tightloop-v11"
+ ],
+ "quality": "blind judge 0-10 per axis (design, look, function with every feature clicked, polish, code quality), rubric committed before any build (v11 prereg); check_app_v2.py smoke checks are recorded beside it",
+ "queue": [
+  {
+   "seq": 1,
+   "arm": "no-skill",
+   "app": "habits",
+   "run": 1,
+   "build": "appv2-no-skill-habits-1",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 2,
+   "arm": "no-skill",
+   "app": "invoice",
+   "run": 1,
+   "build": "appv2-no-skill-invoice-1",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 3,
+   "arm": "no-skill",
+   "app": "trip",
+   "run": 1,
+   "build": "appv2-no-skill-trip-1",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 4,
+   "arm": "no-skill",
+   "app": "invoice",
+   "run": 2,
+   "build": "appv2-no-skill-invoice-2",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 5,
+   "arm": "no-skill",
+   "app": "trip",
+   "run": 2,
+   "build": "appv2-no-skill-trip-2",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 6,
+   "arm": "no-skill",
+   "app": "habits",
+   "run": 2,
+   "build": "appv2-no-skill-habits-2",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 7,
+   "arm": "no-skill",
+   "app": "trip",
+   "run": 3,
+   "build": "appv2-no-skill-trip-3",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 8,
+   "arm": "no-skill",
+   "app": "habits",
+   "run": 3,
+   "build": "appv2-no-skill-habits-3",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 9,
+   "arm": "no-skill",
+   "app": "invoice",
+   "run": 3,
+   "build": "appv2-no-skill-invoice-3",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 10,
+   "arm": "tightloop-v4c",
+   "app": "habits",
+   "run": 1,
+   "build": "appv2-tightloop-v4c-habits-1",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 11,
+   "arm": "tightloop-v4c",
+   "app": "invoice",
+   "run": 1,
+   "build": "appv2-tightloop-v4c-invoice-1",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 12,
+   "arm": "tightloop-v4c",
+   "app": "trip",
+   "run": 1,
+   "build": "appv2-tightloop-v4c-trip-1",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 13,
+   "arm": "tightloop-v4c",
+   "app": "invoice",
+   "run": 2,
+   "build": "appv2-tightloop-v4c-invoice-2",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 14,
+   "arm": "tightloop-v4c",
+   "app": "trip",
+   "run": 2,
+   "build": "appv2-tightloop-v4c-trip-2",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 15,
+   "arm": "tightloop-v4c",
+   "app": "habits",
+   "run": 2,
+   "build": "appv2-tightloop-v4c-habits-2",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 16,
+   "arm": "tightloop-v4c",
+   "app": "trip",
+   "run": 3,
+   "build": "appv2-tightloop-v4c-trip-3",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 17,
+   "arm": "tightloop-v4c",
+   "app": "habits",
+   "run": 3,
+   "build": "appv2-tightloop-v4c-habits-3",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 18,
+   "arm": "tightloop-v4c",
+   "app": "invoice",
+   "run": 3,
+   "build": "appv2-tightloop-v4c-invoice-3",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 19,
+   "arm": "tightloop-v11",
+   "app": "habits",
+   "run": 1,
+   "build": "appv2-tightloop-v11-habits-1",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 20,
+   "arm": "tightloop-v11",
+   "app": "invoice",
+   "run": 1,
+   "build": "appv2-tightloop-v11-invoice-1",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 21,
+   "arm": "tightloop-v11",
+   "app": "trip",
+   "run": 1,
+   "build": "appv2-tightloop-v11-trip-1",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 22,
+   "arm": "tightloop-v11",
+   "app": "invoice",
+   "run": 2,
+   "build": "appv2-tightloop-v11-invoice-2",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  },
+  {
+   "seq": 23,
+   "arm": "tightloop-v11",
+   "app": "trip",
+   "run": 2,
+   "build": "appv2-tightloop-v11-trip-2",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 24,
+   "arm": "tightloop-v11",
+   "app": "habits",
+   "run": 2,
+   "build": "appv2-tightloop-v11-habits-2",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 25,
+   "arm": "tightloop-v11",
+   "app": "trip",
+   "run": 3,
+   "build": "appv2-tightloop-v11-trip-3",
+   "spec": "benchmark/blind/specs/r11/trip.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "4158176e37737a6bcb14d219383c25e479d3a22aafd3ad3fc997269adb2b395d"
+  },
+  {
+   "seq": 26,
+   "arm": "tightloop-v11",
+   "app": "habits",
+   "run": 3,
+   "build": "appv2-tightloop-v11-habits-3",
+   "spec": "benchmark/blind/specs/r11/habits.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "cff54483ed0314d5b6dcd9d7fd0d8a3b15eb08465451352475bce863de5b608d"
+  },
+  {
+   "seq": 27,
+   "arm": "tightloop-v11",
+   "app": "invoice",
+   "run": 3,
+   "build": "appv2-tightloop-v11-invoice-3",
+   "spec": "benchmark/blind/specs/r11/invoice.md",
+   "spec_commit": "28092004a6d9b50ee8c252653a22c0613d9eb458",
+   "spec_branch": "v6/v11",
+   "spec_sha256": "7b6d1ac8ecdba5de250ddcabd1c7d31ea5bbc5569a466637331687a4ed37331b"
+  }
+ ],
+ "checker_note": "check_app_v2.py has no app-specific checks for habits/invoice/trip; it records its generic checks (every button acts, no console/page errors, 375 px width) and the dialog log. Quality is the blind judge's 0-10 per axis.",
+ "after_queue": "v4c, v8 and v9 r2-era outputs rescored with rescore_v2.py (v1 and v2 scores side by side), no new builds."
+}

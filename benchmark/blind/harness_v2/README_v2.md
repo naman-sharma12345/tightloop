@@ -46,6 +46,7 @@ See selftest/SELFTEST_v2.txt for the full output. Summary:
 ## Running it later (root's GO only)
 1. git archive the v6/app-harness-v2 commit into /home/user/tab/work/tl_blind_appv2 and write its .snap_commit.
 2. root writes /home/user/tab/files/tl_blind/appv2/START_OK and the hold /home/user/tab/work/tl_appv2_state/hold ("appv2").
-3. a new ORDER_v2.<n>.json pins the 3 new specs (copied into benchmark/blind/specs/v11/, path + v6/v11 commit + sha256).
+3. orders/ORDER_v2.1.json already pins the 3 new specs habits/invoice/trip (copied byte for byte from v6/v11 2809200 to
+   benchmark/blind/specs/r11/, path + commit + sha256). The baseline is no-skill on these, not on kanban/bookmarks/expenses.
 4. python3 /home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/blind_driver_v2.py no-skill   (9 builds)
    then tightloop-v4c (9 builds), then tightloop-v11 once its arm folder is committed on top of this branch.
