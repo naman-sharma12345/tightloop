@@ -1,0 +1,185 @@
+{
+ "label": "B03",
+ "spec": "invoice",
+ "items": {
+  "I01": {
+   "result": "pass"
+  },
+  "I02": {
+   "result": "pass"
+  },
+  "I03": {
+   "result": "pass"
+  },
+  "I04": {
+   "result": "pass"
+  },
+  "I05": {
+   "result": "pass"
+  },
+  "I06": {
+   "result": "pass"
+  },
+  "I07": {
+   "result": "pass"
+  },
+  "I08": {
+   "result": "pass"
+  },
+  "I09": {
+   "result": "pass"
+  },
+  "I10": {
+   "result": "pass"
+  },
+  "I11": {
+   "result": "pass"
+  },
+  "I12": {
+   "result": "pass"
+  },
+  "I13": {
+   "result": "pass"
+  },
+  "I14": {
+   "result": "pass"
+  },
+  "I15": {
+   "result": "pass"
+  },
+  "I16": {
+   "result": "pass"
+  },
+  "I17": {
+   "result": "pass"
+  },
+  "I18": {
+   "result": "pass"
+  },
+  "I19": {
+   "result": "pass"
+  },
+  "I20": {
+   "result": "pass"
+  },
+  "I21": {
+   "result": "pass"
+  },
+  "I22": {
+   "result": "pass"
+  },
+  "I23": {
+   "result": "pass"
+  },
+  "I24": {
+   "result": "pass"
+  },
+  "I25": {
+   "result": "pass"
+  },
+  "I26": {
+   "result": "pass"
+  },
+  "I27": {
+   "result": "pass"
+  },
+  "I28": {
+   "result": "pass"
+  },
+  "I29": {
+   "result": "pass"
+  },
+  "I30": {
+   "result": "pass"
+  },
+  "I31": {
+   "result": "pass"
+  },
+  "I32": {
+   "result": "pass"
+  },
+  "I33": {
+   "result": "pass"
+  },
+  "I34": {
+   "result": "pass"
+  },
+  "I35": {
+   "result": "pass"
+  },
+  "I36": {
+   "result": "pass"
+  },
+  "I37": {
+   "result": "pass"
+  },
+  "I38": {
+   "result": "pass"
+  },
+  "I39": {
+   "result": "pass"
+  },
+  "I40": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "pass"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "fail",
+   "severity": "minor",
+   "weight": 1,
+   "evidence": "375: invoice-number links in the list (the control that opens an invoice) measure 84x32 px, under the 40 px target"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All spec items passed: exact math $92.02 with $1.01 half-away line, JPY \u00a54,072, CSV header exact with quoted \"Acme, Inc.\", paid read-only + reopen, used-client delete refused inline. I15 duplicate number kept as a flagged draft with an inline error (see ERRATA I15)."
+}

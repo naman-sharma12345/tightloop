@@ -1,0 +1,173 @@
+{
+ "label": "B05",
+ "spec": "habits",
+ "items": {
+  "H01": {
+   "result": "pass"
+  },
+  "H02": {
+   "result": "pass"
+  },
+  "H03": {
+   "result": "pass"
+  },
+  "H04": {
+   "result": "pass"
+  },
+  "H05": {
+   "result": "pass"
+  },
+  "H06": {
+   "result": "pass"
+  },
+  "H07": {
+   "result": "pass"
+  },
+  "H08": {
+   "result": "pass"
+  },
+  "H09": {
+   "result": "pass"
+  },
+  "H10": {
+   "result": "pass"
+  },
+  "H11": {
+   "result": "pass"
+  },
+  "H12": {
+   "result": "pass"
+  },
+  "H13": {
+   "result": "pass"
+  },
+  "H14": {
+   "result": "pass"
+  },
+  "H15": {
+   "result": "pass"
+  },
+  "H16": {
+   "result": "pass"
+  },
+  "H17": {
+   "result": "pass"
+  },
+  "H18": {
+   "result": "pass"
+  },
+  "H19": {
+   "result": "pass"
+  },
+  "H20": {
+   "result": "pass"
+  },
+  "H21": {
+   "result": "pass"
+  },
+  "H22": {
+   "result": "pass"
+  },
+  "H23": {
+   "result": "pass"
+  },
+  "H24": {
+   "result": "pass"
+  },
+  "H25": {
+   "result": "pass"
+  },
+  "H26": {
+   "result": "pass"
+  },
+  "H27": {
+   "result": "pass"
+  },
+  "H28": {
+   "result": "pass"
+  },
+  "H29": {
+   "result": "pass"
+  },
+  "H30": {
+   "result": "pass"
+  },
+  "H31": {
+   "result": "pass"
+  },
+  "H32": {
+   "result": "pass"
+  },
+  "H33": {
+   "result": "pass"
+  },
+  "H34": {
+   "result": "pass"
+  },
+  "H35": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "pass"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [
+  {
+   "severity": "minor",
+   "weight": 1,
+   "evidence": "Edit dialog: the first mouse click on a schedule option (e.g. \"Times a week\") is ignored while the name text is pre-selected (pointerdown/mousedown reach the radio, no click); a second click or the keyboard works. Reproduced with real mouse events; the add dialog is fine."
+  }
+ ],
+ "note": "All 53 listed items passed."
+}

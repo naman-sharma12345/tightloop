@@ -1,0 +1,9 @@
+{"label": "B01", "spec": "trip", "items_tested": 49, "items_passed": 47, "blocker": 0, "major": 1, "minor": 0, "weighted_score": 3, "unlisted_score": 0}
+{"label": "B02", "spec": "habits", "items_tested": 53, "items_passed": 53, "blocker": 0, "major": 0, "minor": 0, "weighted_score": 0, "unlisted_score": 0}
+{"label": "B03", "spec": "invoice", "items_tested": 58, "items_passed": 57, "blocker": 0, "major": 0, "minor": 1, "weighted_score": 1, "unlisted_score": 0}
+{"label": "B04", "spec": "habits", "items_tested": 53, "items_passed": 53, "blocker": 0, "major": 0, "minor": 0, "weighted_score": 0, "unlisted_score": 0}
+{"label": "B05", "spec": "habits", "items_tested": 53, "items_passed": 53, "blocker": 0, "major": 0, "minor": 0, "weighted_score": 0, "unlisted_score": 1}
+{"label": "B06", "spec": "invoice", "items_tested": 58, "items_passed": 57, "blocker": 0, "major": 0, "minor": 1, "weighted_score": 1, "unlisted_score": 0}
+{"label": "B07", "spec": "invoice", "items_tested": 58, "items_passed": 58, "blocker": 0, "major": 0, "minor": 0, "weighted_score": 0, "unlisted_score": 0}
+{"label": "B08", "spec": "trip", "items_tested": 49, "items_passed": 48, "blocker": 0, "major": 0, "minor": 1, "weighted_score": 1, "unlisted_score": 0}
+{"label": "B09", "spec": "trip", "items_tested": 49, "items_passed": 48, "blocker": 0, "major": 0, "minor": 1, "weighted_score": 1, "unlisted_score": 0}
