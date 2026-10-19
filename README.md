@@ -7,13 +7,14 @@
 tightloop is a small skill for coding agents. It is one short `SKILL.md` plus a gate
 script that keeps the agent in a tight loop: look once, write once, run one check,
 fix only what failed, stop. In our benchmark the 1.0 default built the same three
-apps with **~8% fewer input+output tokens than an agent with no skill** (habits 0.3%,
-invoice 15%, trip 20%; n=3 per app; 765k vs 703k summed over 9 builds) and at
-**~31% lower cost** (cost-weighted tokens, summed over 9 builds); against the previous
+apps with **~8% fewer input+output tokens than an agent with no skill** (765k vs 703k
+summed over 9 builds; n=3 per app; invoice 15%, trip 20%; habits was 0.3%,
+so the 8% comes from invoice and trip) and at **~31% lower cost** (cost-weighted tokens,
+summed over 9 builds); against the previous
 version (v4c) it was ~11% fewer input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
 because v11 makes far fewer model calls ([where the saving comes from](#where-the-saving-comes-from)).
-No quality loss detected on a saturated 0-10 scale (no-skill scored 9.2). On the blind
-defect count, scores stayed near zero for every version, though not lower than no-skill.
+Quality: no quality loss detected on the 0-10 score; blind defect points were 7 vs 15, mostly minor (no-skill vs v11, total over 9 builds).
+On the 0-10 score no-skill scored 9.2, near the top, so it can only catch a large drop.
 [What's counted](#whats-counted) and the caveats are below.
 
 **1.0 ships two versions:**
@@ -107,7 +108,7 @@ at a time: 27 builds, 0 retries, 0 voids.
 >   ~8%, ~31% and ~21%) are **sums over the 9 builds**
 >   of each version. **Per-spec numbers are medians of 3 builds.** No means are used.
 > - **Input+output alone** is a much smaller gap: v11 is ~8% below no-skill summed over
->   9 builds (703k vs 765k; habits 0.3%, invoice 15%, trip 20%; n=3 per app). Most of the
+>   9 builds (703k vs 765k; habits 0.3%, invoice 15%, trip 20%; n=3 per app). Habits was 0.3%, so the 8% comes from invoice and trip. Most of the
 >   cost saving is cache reads: the median v11 build read 20.2k tokens from cache, the median no-skill build 1.81M
 >   ([why](#where-the-saving-comes-from)).
 >
@@ -132,7 +133,7 @@ Cost-weighted tokens, median of 3 builds:
 | **sum, 9 builds** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
 
 On input+output tokens alone, v11 is 0.3% lower than no-skill on habits, 15% on invoice
-and 20% on trip. On cost (the table above, percentages against no-skill) it is the lowest
+and 20% on trip (~8% summed over 9 builds). Habits was 0.3%, so the 8% comes from invoice and trip. On cost (the table above, percentages against no-skill) it is the lowest
 on all 3 specs. Per-build
 rows, min-max ranges and wall times:
 [`results/appv2/compare/TABLE_r11_3arms.md`](results/appv2/compare/TABLE_r11_3arms.md).
@@ -144,6 +145,7 @@ build made a median of 22 model calls (over its 9 builds: 138 shell commands, 63
 reads, 27 file writes); a v11 build made 2, because it writes every file in one shell
 call and stops. The largest context in a build is similar (median 131k vs 107k tokens),
 so the gap is the number of calls. **This comes from the skill, not the run setup.**
+The arms ran in separate blocks of the day, not alternating, so a rerun that alternates them is still an open check.
 
 | per build, median of 9 | no-skill | v4c (classic) | v11 (default) |
 |---|---:|---:|---:|
@@ -188,7 +190,7 @@ Lower is better.
 | trip | 1 | 3 | **1** |
 | **total, 9 builds** | **7 (1 major)** | 16 (4 majors) | 15 (3 majors) |
 
-What this says, honestly:
+What this says, honestly: no quality loss detected on the 0-10 score; blind defect points were 7 vs 15, mostly minor (no-skill vs v11).
 
 - **v11 is worse than v4c on habits and invoice and better on trip.** On habits each v11
   build has one minor defect (small tap targets, clipped labels). On invoice, two v11
