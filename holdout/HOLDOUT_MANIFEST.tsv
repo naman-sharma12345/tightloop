@@ -1,0 +1,3 @@
+task	path	git_hash (blob of the single task file)	commit	date_utc
+ghcli-01	benchmark/tasks/ghcli-01.json	f2bfa0c26c52cdcb294efcfa3b3f500ff76fc6c1	553733d1fcdc337522413944579539ea959a89a4	2026-10-19T04:07:52Z
+gin-04	benchmark/tasks/gin-04.json	4bc420305a36d004933d423b84a95fd31489bcc6	15734c327b3849f2ed67dc5f8240ecbfacfce491	2026-10-19T04:09:17Z
