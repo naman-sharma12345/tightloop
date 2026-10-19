@@ -1,0 +1,17 @@
+{"row": 65, "sampler_version": "sampler-sha256:6735e9c236a1", "runner_pid": 3944821, "sampler_start": "2026-10-19T06:55:36Z", "partial": false, "interval_s": 3, "samples": 16, "format": "one JSON line per /proc sample: t (UTC) and hits (pid, comm, cwd, exe of every matching process); empty hits = clean sample"}
+{"t": "2026-10-19T06:55:36Z", "hits": []}
+{"t": "2026-10-19T06:55:39Z", "hits": []}
+{"t": "2026-10-19T06:55:42Z", "hits": []}
+{"t": "2026-10-19T06:55:45Z", "hits": []}
+{"t": "2026-10-19T06:55:48Z", "hits": []}
+{"t": "2026-10-19T06:55:51Z", "hits": []}
+{"t": "2026-10-19T06:55:54Z", "hits": []}
+{"t": "2026-10-19T06:55:57Z", "hits": []}
+{"t": "2026-10-19T06:56:00Z", "hits": []}
+{"t": "2026-10-19T06:56:03Z", "hits": []}
+{"t": "2026-10-19T06:56:06Z", "hits": []}
+{"t": "2026-10-19T06:56:09Z", "hits": []}
+{"t": "2026-10-19T06:56:12Z", "hits": []}
+{"t": "2026-10-19T06:56:15Z", "hits": []}
+{"t": "2026-10-19T06:56:18Z", "hits": []}
+{"t": "2026-10-19T06:56:21Z", "hits": []}
