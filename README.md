@@ -7,17 +7,19 @@
 tightloop is a small skill for coding agents. It is one short `SKILL.md` plus a gate
 script that keeps the agent in a tight loop: look once, write once, run one check,
 fix only what failed, stop. In our benchmark the 1.0 default built the same three
-apps at **~31% lower token cost than an agent with no skill** (cost-weighted, summed
-over 9 builds) and ~21% lower than the previous version (v4c). Counting input+output
-tokens alone, it is ~8% less than no-skill (0-20% per app); most of the saving is in
-cache reads. Defect scores stayed near zero for every version, though not lower than
-no-skill. [What's counted](#whats-counted) and the caveats are below.
+apps with **~8% fewer input+output tokens than an agent with no skill** (0-20% per app;
+765k vs 703k summed over 9 builds) and at **~31% lower cost** (cost-weighted tokens,
+summed over 9 builds); against the previous version (v4c) it was ~11% fewer
+input+output tokens and ~21% lower cost. Most of the cost saving is cache reads,
+because v11 makes far fewer model calls ([where the saving comes from](#where-the-saving-comes-from)).
+Defect scores stayed near zero for every version, though not lower than no-skill.
+[What's counted](#whats-counted) and the caveats are below.
 
 **1.0 ships two versions:**
 
 | | what it is | pick it when |
 |---|---|---|
-| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. About 300 tokens. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest token cost |
+| **v11** (default) | `.claude/skills/tightloop/` and `AGENTS.md` at the repo root. 104 words, about 300 tokens. Has a bug-fix mode (proven by the gate) and an app mode (write each file once, syntax-check). | you want the lowest cost |
 | **v4c** (classic) | [`classic/v4c/`](classic/v4c/), opt-in. A 3-call loop that always adds a test that fails without the change. | you want a test with every change |
 
 ## Install
@@ -100,11 +102,16 @@ at a time: 27 builds, 0 retries, 0 voids.
 >   per build, from the agent CLI's own final usage report as the harness recorded it.
 >   `input` is only the uncached input (tens of tokens per build); almost every prompt
 >   token is billed as a cache read or a cache write.
-> - **Totals** (7.00M / 6.13M / 4.82M, and the ~31% and ~21%) are **sums over the 9 builds**
+> - **Totals** (765k / 789k / 703k input+output, 7.00M / 6.13M / 4.82M cost-weighted, and the
+>   ~8%, ~31% and ~21%) are **sums over the 9 builds**
 >   of each version. **Per-spec numbers are medians of 3 builds.** No means are used.
 > - **Input+output alone** is a much smaller gap: v11 is ~8% below no-skill summed over
->   9 builds (703k vs 765k), 0-20% per app. Most of the saving is cache reads: the median
->   v11 build read about 20k tokens from cache, the median no-skill build about 1.8M.
+>   9 builds (703k vs 765k), 0-20% per app. Most of the cost saving is cache reads: the
+>   median v11 build read 20.2k tokens from cache, the median no-skill build 1.81M
+>   ([why](#where-the-saving-comes-from)).
+> - **Skill size:** v11's `SKILL.md` is 104 words. In the build logs, the first model call of
+>   every v11 build is 290-299 tokens longer than the no-skill build on the same spec
+>   (v4c: 433-435), counted by the agent's own usage report. So "about 300 tokens".
 >
 > | spec (median of 3) | no-skill | v4c (classic) | v11 (default) |
 > |---|---:|---:|---:|
@@ -126,10 +133,45 @@ Cost-weighted tokens, median of 3 builds:
 | trip | 859k | 656k | **516k** (-40%) |
 | **sum, 9 builds** | 7.00M (100%) | 6.13M (88%) | **4.82M (69%)** |
 
-v11 has the lowest token cost on all 3 specs (percentages are against no-skill). On
-input+output alone it is 0.3% lower on habits, 15% on invoice and 20% on trip. Per-build
+On input+output tokens alone, v11 is 0.3% lower than no-skill on habits, 15% on invoice
+and 20% on trip. On cost (the table above, percentages against no-skill) it is the lowest
+on all 3 specs. Per-build
 rows, min-max ranges and wall times:
 [`results/appv2/compare/TABLE_r11_3arms.md`](results/appv2/compare/TABLE_r11_3arms.md).
+
+### Where the saving comes from
+
+Every model call re-reads the whole conversation so far, mostly from cache. A no-skill
+build made a median of 22 model calls (over its 9 builds: 138 shell commands, 63 file
+reads, 27 file writes); a v11 build made 2, because it writes every file in one shell
+call and stops. The largest context in a build is similar (median 131k vs 107k tokens),
+so the gap is the number of calls. **This comes from the skill, not the run setup.**
+
+| per build, median of 9 | no-skill | v4c (classic) | v11 (default) |
+|---|---:|---:|---:|
+| model calls | 22 | 10 | 2 |
+| cache read per call | 92k | 66k | 10k |
+| cache read per build | 1.81M | 660k | 20.2k |
+| largest context | 131k | 115k | 107k |
+| first call warm (read the ~20k shared prefix) | 8 of 9 | 8 of 9 | 9 of 9 |
+
+- **Same setup for every arm:** one harness, a fresh agent session per build (27
+  sessions), one build at a time, the same model and settings, and the same spec order
+  in each arm.
+- **Warm vs cold cache is about 1% of the gap.** The first call of 25 of 27 builds read
+  the same ~20k system prefix from cache, left warm by the build before; the two cold
+  starts were the first build of the no-skill and v4c runs. That moves at most ~20k
+  per build against a 1.8M gap. On v11's second call the cache had expired (its first
+  call wrote the whole app and ran past the 5-minute cache lifetime), so v11 re-wrote
+  its context rather than reading it. That costs v11, not helps it.
+- **Cache reads are 84% of the cost saving:** summed over 9 builds, cache reads are
+  1.84M of the 2.18M cost-weighted gap between no-skill and v11; output is 0.30M.
+- **What the data can't rule out:** the arms ran in separate blocks of the same day
+  (no-skill 08:17-10:35 UTC, v4c 14:32-16:40, v11 16:43-18:31), not interleaved. A
+  rerun that alternates arms build by build on the same specs would settle that.
+
+Per-call numbers come from the agent's stream log for each build (one usage record per
+model call), the same log the token rows come from.
 
 ### Defects
 
@@ -197,9 +239,9 @@ What this says, honestly:
 
 v4c was tightloop's best version before 1.0 and stays available as an opt-in mode in
 [`classic/v4c/`](classic/v4c/). It finishes a change in 3 tool calls and always adds a
-test that fails without the change, proven by its gate. In the app benchmark v11's
-token cost was ~21% lower than v4c's (cost-weighted, summed over 9 builds: 4.82M vs
-6.13M; input+output alone ~11% lower, 703k vs 789k), and v4c had lower defect medians
+test that fails without the change, proven by its gate. In the app benchmark v11 used
+~11% fewer input+output tokens than v4c (703k vs 789k, summed over 9 builds) and cost
+~21% less (cost-weighted tokens, 4.82M vs 6.13M), and v4c had lower defect medians
 on habits and invoice. Install it in place of the default, not
 beside it: [`classic/v4c/README.md`](classic/v4c/README.md).
 
