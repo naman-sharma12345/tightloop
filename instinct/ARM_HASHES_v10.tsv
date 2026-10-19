@@ -1,0 +1,6 @@
+# v10 arm-file sha256, written before v10 run 1 (PREREG_v10.md)
+v10	benchmark/arms/tightloop-v10/SKILL.md	978 B	6c2683f102ddbb000b779a9aefe2367b8342f1253b66c8fe6056b3561b2cf7e7	(= v4c)
+v10	benchmark/arms/tightloop-v10/gate.sh	3599 B	45087837bc2814878668291f25f39ba04d0f178e3ee58ec9ec5a4ba7e9aaac72	(v4c fe7b3e514126; diff echo removed)
+v10	benchmark/arms/tightloop-v10/phases/fail.md	970 B	ff125c13dd9a0b44b251fa62150388576dba53c95d57b28e8fe157fcb57549d7	(= v4c)
+v10	benchmark/arms/tightloop-v10/phases/risky.md	901 B	0c437f10a70275f98d0143d7ba143deb21269f871203bb86dd5b13ec7347ae15	(= v4c)
+runner.py	benchmark/runner.py after the v10 arm registration	2e1c2536f19a83064162da6bafcf669018fd45f34866299d6604760f21db8d53	(before: 024b69b9b29f)

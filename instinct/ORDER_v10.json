@@ -1,0 +1,128 @@
+{
+ "pass": "v10",
+ "written_utc": "2026-10-19T07:25:10Z",
+ "rule": "runner.py --rotate: per repeat shift (2*task_index + run_index) mod number_of_arms over the ARMS order ['v10'] (one arm, so every session is position 1); one session per runner.py invocation, go clean -cache before each",
+ "tasks": [
+  "fd-01",
+  "gin-01",
+  "gin-02",
+  "tokio-02"
+ ],
+ "arms": [
+  "tightloop-v10"
+ ],
+ "runs": 3,
+ "holdout": false,
+ "row_file": "v10/rows.jsonl",
+ "df_mib_at_write": 4421,
+ "sessions": [
+  {
+   "task": "fd-01",
+   "run": 1,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "fd-01",
+   "run": 2,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "fd-01",
+   "run": 3,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-01",
+   "run": 1,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-01",
+   "run": 2,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-01",
+   "run": 3,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-02",
+   "run": 1,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-02",
+   "run": 2,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "gin-02",
+   "run": 3,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 1,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 2,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  },
+  {
+   "task": "tokio-02",
+   "run": 3,
+   "arm": "tightloop-v10",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v10"
+   ]
+  }
+ ]
+}
