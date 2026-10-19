@@ -1,0 +1,411 @@
+{
+ "app": "kanban",
+ "checks": [
+  {
+   "name": "input #new-card and the 3 columns exist",
+   "ok": true
+  },
+  {
+   "name": "add 3 cards with Enter (land in To do)",
+   "ok": true
+  },
+  {
+   "name": "blank card not added",
+   "ok": true
+  },
+  {
+   "name": "drag a card from To do to Done (real mouse events, else HTML5 drag events)",
+   "ok": true
+  },
+  {
+   "name": "card click opens #card-modal with #card-title/#card-desc/#card-delete, Escape closes it",
+   "ok": true
+  },
+  {
+   "name": "card delete asks with native confirm(); Cancel keeps the card",
+   "ok": true
+  },
+  {
+   "name": "card delete, confirmed, removes the card and closes the modal",
+   "ok": true
+  },
+  {
+   "name": "board survives reload",
+   "ok": true
+  },
+  {
+   "name": "every visible button changes page state",
+   "ok": false
+  },
+  {
+   "name": "no console errors or uncaught page errors",
+   "ok": true
+  }
+ ],
+ "console_errors": [],
+ "page_errors": [],
+ "external_requests": [],
+ "dialogs": [
+  {
+   "type": "confirm",
+   "message": "Delete card \u201cFix login bug\u201d?",
+   "default": "",
+   "check": "card delete asks with native confirm(); Cancel keeps the card",
+   "answer": "Cancel"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete card \u201cFix login bug\u201d?",
+   "default": "",
+   "check": "card delete, confirmed, removes the card and closes the modal",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "New column name",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Test item'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "New column name",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Test item'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cTo do\u201d and its 2 card(s)?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cIn progress\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cDone\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cTo do\u201d and its 2 card(s)?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "New column name",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Test item'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cTo do\u201d and its 2 card(s)?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cIn progress\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cDone\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cIn progress\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "New column name",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Test item'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "To do",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'To do'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cTo do\u201d and its 2 card(s)?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "In progress",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'In progress'"
+  },
+  {
+   "type": "prompt",
+   "message": "Rename column",
+   "default": "Done",
+   "check": "every visible button changes page state",
+   "answer": "OK, typed 'Done'"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cIn progress\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cDone\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  },
+  {
+   "type": "confirm",
+   "message": "Delete column \u201cDone\u201d?",
+   "default": "",
+   "check": "every visible button changes page state",
+   "answer": "OK"
+  }
+ ],
+ "dialogs_total": 47,
+ "dialog_counts": {
+  "confirm:Cancel": 1,
+  "confirm:OK": 13,
+  "prompt:OK": 33
+ },
+ "drag_tried": [
+  "pointer"
+ ],
+ "drag_events": {
+  "pointer": {
+   "mousemove": 3,
+   "pointerdown": 1,
+   "mousedown": 1,
+   "dragstart": 1,
+   "dragover": 14,
+   "drop": 1
+  }
+ },
+ "drag_method": "pointer (real mouse events; the page got native HTML5 dragstart/drop from them)",
+ "buttons_tested": 10,
+ "buttons_no_effect": [
+  "\u270e",
+  "\u270e",
+  "\u270e"
+ ],
+ "w375_scrollWidth_vs_viewport": [
+  375,
+  375
+ ],
+ "passed": 9,
+ "total": 10
+}

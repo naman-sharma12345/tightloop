@@ -1,0 +1,47 @@
+APP HARNESS v2 SELF-TEST (no builds, no model calls). Build output used: work/tl_blind_out/r2/kanban/C (r2, 12 builds, no reruns).
+Run at 2026-10-19T07:57:12Z on base origin/v6/v8-prep b16a28e.
+
+== Frozen v1 files, sha256 BEFORE any v2 work ==
+ad6b508757dc25957e3e04d2db68a8e876c59d729e46ce2f9a5596908ee8ff72  benchmark/blind/checks/check_app.py
+15a4f30b299b87f3feb5af963b64992a8ac4d47027bbf857675c1502ba5de5bc  benchmark/blind/serve.py
+9a6dcca5e845bd09609de9cc07858243260ede488408e9703c96ace664269d21  benchmark/blind/r2_run/sandbox_r2.py
+fcac2570994138cad0e1cd6fec766d5d945f665172a8d8dce5923b21c0f6376b  benchmark/blind/r2_run/egress_r2.py
+3a17ea8a89c5bcb5f08cbf1e9dc6248499aa36d2719544865b9e2da144a738f2  benchmark/blind/r2_run/blind_driver_r2.py
+42bf6e342634cbab8a767e0b5c30a6fe4559219ec7f814ea1508d3d0642a7710  benchmark/blind/v9_run/blind_driver_v9.py
+280cb4a13ccba9cb955d8783c072eaaae6ef2535b3b28122a02211adeffd7be8  benchmark/runner.py
+
+== 1. prompt() fix: checker on r2 kanban-C ==
+v1 checks/check_app.py (frozen), re-run now: 9/10, dead buttons ['+ Add column', '✎', '✎', '✎']; failed: ['every visible button changes page state']  (saved r2 row: 9/10, same dead buttons)
+v2 harness_v2/check_app_v2.py: 10/10, dead buttons []; dialogs 9 {"confirm:Cancel": 1, "confirm:OK": 4, "prompt:OK": 4}
+v2 dialog log (each distinct dialog once):
+  confirm  | 'Delete card “Fix login bug”?' | default '' | Cancel | during: card delete asks with native confirm(); Cancel keeps the card
+  confirm  | 'Delete card “Fix login bug”?' | default '' | OK | during: card delete, confirmed, removes the card and closes the modal
+  prompt   | 'New column name' | default '' | OK, typed 'Test item' | during: every visible button changes page state
+  prompt   | 'Rename column' | default 'To do' | OK, typed 'To do 2' | during: every visible button changes page state
+  confirm  | 'Delete column “To do” and its 2 card(s)?' | default '' | OK | during: every visible button changes page state
+  prompt   | 'Rename column' | default 'In progress' | OK, typed 'In progress 2' | during: every visible button changes page state
+  confirm  | 'Delete column “In progress”?' | default '' | OK | during: every visible button changes page state
+  prompt   | 'Rename column' | default 'Done' | OK, typed 'Done 2' | during: every visible button changes page state
+  confirm  | 'Delete column “Done”?' | default '' | OK | during: every visible button changes page state
+Variant for evidence only (not in the harness): accept the BARE default value: 9/10, dead ['✎', '✎', '✎'] -> renaming 'To do' to 'To do' is a no-op, so v2 types the default plus ' 2'.
+
+== 2. browser fix: one headless-Chromium launch + page load of r2 kanban-C INSIDE the build sandbox (sandbox_v2.py --browser-selftest) ==
+v1_prefix (sandbox_r2, frozen) {"home_user": [".cargo", ".rustup", "go-dist", "tl-npm"], "browser_bind_writable": false, "launch": "FAILED", "error": "BrowserType.launch: Executable doesn't exist at /home/user/.cache/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell \u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557 \u2551 Looks like Playwright was just installed or updated.       \u2551 \u2551 Please run ", "rc": 0}
+v2_prefix (sandbox_v2) {"home_user": [".cache", ".cargo", ".rustup", "go-dist", "tl-npm"], "browser_bind_writable": false, "launch": "ok", "title": "Kanban board", "buttons": 15, "page_errors": [], "browser_version": "153.0.8010.12", "rc": 0}
+SELFTEST PASS (v1 launch: FAILED | v2 launch: ok | v2 browser bind writable: False )
+
+== 3. no-regression: check_app_v2.py over all 12 r2 outputs vs their saved v1 scores ==
+kanban-A	v1_saved 10/10	v2 10/10	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 4}
+kanban-B	v1_saved 10/10	v2 10/10	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 4}
+kanban-C	v1_saved 9/10	v2 10/10	v1_dead ['+ Add column', '✎', '✎', '✎']	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 4, 'prompt:OK': 4}
+kanban-D	v1_saved 10/10	v2 10/10	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 4}
+bookmarks-A	v1_saved 20/20	v2 20/20	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+bookmarks-B	v1_saved 20/20	v2 20/20	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+bookmarks-C	v1_saved 20/20	v2 20/20	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+bookmarks-D	v1_saved 20/20	v2 20/20	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+expenses-A	v1_saved 25/25	v2 25/25	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+expenses-B	v1_saved 25/25	v2 25/25	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+expenses-C	v1_saved 17/25	v2 17/25	v1_dead []	v2_dead []	dialogs {}
+expenses-D	v1_saved 25/25	v2 25/25	v1_dead []	v2_dead []	dialogs {'confirm:Cancel': 1, 'confirm:OK': 3}
+ALL12 DONE
+Only kanban-C changes (9/10 -> 10/10). The other 11 builds score the same as v1.
