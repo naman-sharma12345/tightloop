@@ -19,7 +19,7 @@ ARMS = {
     "ponytail": None,  # pinned upstream SKILL.md, loaded by ponytail_skill()
     # each tightloop arm: (its skill folder in this repo, folder name installed in the checkout)
     "tightloop-v3": os.path.join(ROOT, "arms", "tightloop-v3"),
-    "tightloop-v4": os.path.join(ROOT, "..", ".claude", "skills", "tightloop"),
+    "tightloop-v4": os.path.join(ROOT, "arms", "tightloop-v4"),  # 1.0: the pre-1.0 root skill, byte copy (the root .claude/skills/tightloop/ is now v11)
     # v4a = v4 minus its step-4 skeptic rule (one-rule iteration); gate.sh and phases/ identical to v4
     "tightloop-v4a": os.path.join(ROOT, "arms", "tightloop-v4a"),
     # v4b = v4 with step 4 kept but no gate rerun unless a code or test line changed
@@ -631,8 +631,8 @@ def main():
                               ".git/info/exclude (never in the diff or graded): ponytail -> "
                               ".claude/skills/ponytail/SKILL.md; tightloop-v3 -> its folder "
                               "benchmark/arms/tightloop-v3/ at .claude/skills/tightloop/; "
-                              "tightloop-v4 -> .claude/skills/tightloop/ (SKILL.md, gate.sh, "
-                              "phases/) at the same path; tightloop-v4a -> its folder benchmark/arms/tightloop-v4a/ "
+                              "tightloop-v4 -> benchmark/arms/tightloop-v4/ (SKILL.md, gate.sh, "
+                              "phases/) at .claude/skills/tightloop/; tightloop-v4a -> its folder benchmark/arms/tightloop-v4a/ "
                               "at .claude/skills/tightloop/; tightloop-v4b -> benchmark/arms/tightloop-v4b/ at the same path; "
                               "tightloop-v5 -> benchmark/arms/tightloop-v5/ (SKILL.md, look.py, gate.sh, phases/) "
                               "at the same path; tightloop-v5b -> benchmark/arms/tightloop-v5b/ at the same path; "
