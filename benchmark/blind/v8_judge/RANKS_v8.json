@@ -1,0 +1,370 @@
+{
+ "written_utc": "2026-10-19T01:07:27Z",
+ "rubric_commit": "b8d4711",
+ "rubric_file_commit": "6e53527ef9992160f17eb9b5d28327ac3220ee45",
+ "zip_sha256": "0b7ee15f66099551a3b01272e85391e726100578dc28a52bf69385a6ffeb979c",
+ "runtime_errors_per_label": {
+  "kanban-A": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-B": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-C": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-D": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-E": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-F": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "kanban-G": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-A": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-B": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-C": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-D": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-E": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-F": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "bookmarks-G": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-A": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-B": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-C": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-D": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-E": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-F": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  },
+  "expenses-G": {
+   "console_errors": 0,
+   "page_errors": 0,
+   "external_requests": 0
+  }
+ },
+ "test_files_per_label": {
+  "kanban-A": [],
+  "kanban-B": [],
+  "kanban-C": [],
+  "kanban-D": [],
+  "kanban-E": [
+   "test.js"
+  ],
+  "kanban-F": [],
+  "kanban-G": [],
+  "bookmarks-A": [],
+  "bookmarks-B": [],
+  "bookmarks-C": [
+   "test.js"
+  ],
+  "bookmarks-D": [],
+  "bookmarks-E": [],
+  "bookmarks-F": [],
+  "bookmarks-G": [],
+  "expenses-A": [],
+  "expenses-B": [
+   "test.js"
+  ],
+  "expenses-C": [
+   "test.js"
+  ],
+  "expenses-D": [],
+  "expenses-E": [],
+  "expenses-F": [],
+  "expenses-G": []
+ },
+ "apps": {
+  "bookmarks": [
+   {
+    "rank": 1,
+    "label": "A",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add bookmark' scrolls to the already-open form and focuses Title (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "B",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add bookmark' scrolls to the already-open form and focuses Title (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "D",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add' scrolls to the already-open form and focuses Title (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "E",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add bookmark' scrolls to the already-open form and focuses Title, and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "F",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add bookmark' scrolls to the already-open form and focuses Title (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "G",
+    "score": 100,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add' scrolls to the already-open form and focuses Title (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 7,
+    "label": "C",
+    "score": 99,
+    "reason": "Full click-through pass: add form open on load and Title takes typing directly; '+ Add bookmark' focuses Title and scrolls to the already-open form (resets an open edit first), and the form itself adds bookmarks (no deduction); invalid 'notaurl' and ftp:// rejected inline; add 3, card link new tab + domain + avatar + chips; counter; search by title/URL/tag; tag chip filter shown + cleared; edit; delete dismissed then accepted; folder create/filter/rename/delete (cancel keeps, accept -> Unsorted); export JSON array; import 1 added 1 duplicate skipped; reload; focus rings everywhere; 375 stacks and add works; 0 errors; ships an unused test.js (node assert script for logic.js, not loaded by the page) (Q3 -1).",
+    "test_files": {
+     "count": 1,
+     "files": [
+      "test.js"
+     ]
+    }
+   }
+  ],
+  "expenses": [
+   {
+    "rank": 1,
+    "label": "A",
+    "score": 100,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; '$842.50' card, #total '842.50', dialog edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "D",
+    "score": 100,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '842.50', 6-month table, dialog edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "F",
+    "score": 100,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '842.50', 6-month table, dialog edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "G",
+    "score": 100,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '842.50', dialog edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors.",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 5,
+    "label": "B",
+    "score": 99,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '842.50', dialog edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors; ships an unused test.js (node assert script, not loaded by the page) (Q3 -1).",
+    "test_files": {
+     "count": 1,
+     "files": [
+      "test.js"
+     ]
+    }
+   },
+   {
+    "rank": 5,
+    "label": "C",
+    "score": 99,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '$842.50', 6-month table, edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors; ships an unused test.js (node assert script, not loaded by the page) (Q3 -1).",
+    "test_files": {
+     "count": 1,
+     "files": [
+      "test.js"
+     ]
+    }
+   },
+   {
+    "rank": 5,
+    "label": "E",
+    "score": 99,
+    "reason": "Full click-through pass: month and date default to current; empty/negative/non-numeric/zero each rejected inline; 3 added newest first; #total '842.50', in-row edit via #save-edit (850.00 after edit); 3 summary cards; category chart updates; 6-month chart; category filter; previous month -> empty state + 0.00; delete dismissed then accepted; CSV header exact; reload; focus rings; 375 clean; 0 errors; row Edit/Delete buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   }
+  ],
+  "kanban": [
+   {
+    "rank": 1,
+    "label": "A",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (prompt box ('Review' typed, column added)); column rename WORKS (prompt box on all 3 pencils), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "B",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (adds 'New column' at once with an inline name field); column rename WORKS (inline field on all 3 pencils (if another column's name field is still open, the first pencil click only closes it)), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "C",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (prompt box); column rename WORKS (prompt box on all 3 pencils), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "D",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (adds 'New column' at once with an inline name field); column rename WORKS (inline field on all 3 pencils (same first-click-closes-open-field behaviour as B)), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 28 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "F",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (prompt box); column rename WORKS (prompt box on all 3 text 'Rename' buttons), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 1,
+    "label": "G",
+    "score": 99,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (adds 'New column' at once with an inline name field); column rename WORKS (inline field on all 3 icon (SVG) rename buttons (same first-click-closes-open-field behaviour as B)), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1).",
+    "test_files": {
+     "count": 0,
+     "files": []
+    }
+   },
+   {
+    "rank": 7,
+    "label": "E",
+    "score": 98,
+    "reason": "Full click-through pass: whitespace title rejected, add by Enter and button, 560 px dialog over dim backdrop, Bug chip + red overdue, close by button/Escape/backdrop, card delete dismissed then accepted, drag between + within columns with drop indicator, Bug filter shows 1; \"+ Add column\" WORKS (prompt box); column rename WORKS (inline field on all 3 pencils), renames persist after reload; column delete cancel/accept; reload; focus rings visible; 375 modal fits; 0 errors; column buttons 32 px (D3 -1); ships an unused test.js (node assert script, not loaded by the page) (Q3 -1).",
+    "test_files": {
+     "count": 1,
+     "files": [
+      "test.js"
+     ]
+    }
+   }
+  ]
+ }
+}
