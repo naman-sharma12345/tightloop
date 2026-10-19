@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Wayfare: trip planner</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.25"/><path d="m15.9 8.1-2.2 5.6-5.6 2.2 2.2-5.6z"/></svg>
+        </span>
+        <span class="brand-name">Wayfare</span>
+      </div>
+
+      <div class="trip-switch" id="tripSwitch">
+        <label for="tripSelect" class="sr-only">Current trip</label>
+        <select id="tripSelect" class="select"></select>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="btn-group" role="group" aria-label="History">
+          <button type="button" class="btn btn-ghost icon-btn" id="undoBtn" aria-label="Undo" title="Undo (Ctrl+Z)" disabled></button>
+          <button type="button" class="btn btn-ghost icon-btn" id="redoBtn" aria-label="Redo" title="Redo (Shift+Ctrl+Z)" disabled></button>
+        </div>
+        <button type="button" class="btn btn-ghost" id="importBtn" aria-label="Import trip from JSON"></button>
+        <button type="button" class="btn btn-primary" id="newTripBtn" aria-label="New trip"></button>
+      </div>
+    </div>
+  </header>
+
+  <div id="banner" class="banner-area"></div>
+
+  <main id="main" tabindex="-1">
+    <div id="emptyApp" hidden></div>
+
+    <div id="workspace" hidden>
+      <section id="tripHead" class="trip-head" aria-label="Trip overview"></section>
+
+      <div class="toolbar">
+        <div class="search">
+          <label for="searchInput" class="sr-only">Search activities by title or place</label>
+          <span class="search-icon" id="searchIcon" aria-hidden="true"></span>
+          <input id="searchInput" type="search" class="input search-input" placeholder="Search activities or places" autocomplete="off" aria-describedby="searchStatus">
+          <button type="button" class="search-clear icon-btn" id="searchClear" aria-label="Clear search" hidden></button>
+        </div>
+        <p id="searchStatus" class="search-status" aria-live="polite"></p>
+        <button type="button" class="btn btn-primary" id="addActivityBtn" data-fid="toolbar-add"></button>
+      </div>
+
+      <div class="layout">
+        <div class="plan">
+          <section id="tray" class="tray" aria-labelledby="trayTitle"></section>
+          <section class="board-section" aria-labelledby="boardTitle">
+            <h2 id="boardTitle" class="sr-only">Itinerary</h2>
+            <div id="board" class="board" tabindex="-1"></div>
+          </section>
+        </div>
+        <aside id="budget" class="budget" aria-labelledby="budgetTitle"></aside>
+      </div>
+    </div>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- Activity dialog -->
+  <dialog id="actDialog" class="dialog" aria-labelledby="actDialogTitle">
+    <form id="actForm" class="dialog-inner" novalidate>
+      <header class="dialog-head">
+        <div>
+          <p class="eyebrow" id="actDialogEyebrow">Activity</p>
+          <h2 id="actDialogTitle" class="dialog-title">New activity</h2>
+        </div>
+        <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="Close dialog"></button>
+      </header>
+
+      <div class="dialog-body">
+        <div class="field">
+          <label for="fTitle">Title <span class="req" aria-hidden="true">*</span></label>
+          <input id="fTitle" name="title" class="input" maxlength="120" autocomplete="off" required aria-describedby="eTitle" placeholder="e.g. Lunch at the market">
+          <p class="field-error" id="eTitle" hidden></p>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="fDay">Day</label>
+            <select id="fDay" name="day" class="select"></select>
+          </div>
+          <div class="field">
+            <label for="fStart">Start time</label>
+            <input id="fStart" name="start" type="time" class="input" required aria-describedby="eStart">
+            <p class="field-error" id="eStart" hidden></p>
+          </div>
+          <div class="field">
+            <label for="fDuration">Duration</label>
+            <select id="fDuration" name="duration" class="select"></select>
+          </div>
+        </div>
+
+        <fieldset class="field fieldset">
+          <legend>Category</legend>
+          <div class="seg" id="fCats"></div>
+        </fieldset>
+
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="fPlace">Place</label>
+            <input id="fPlace" name="place" class="input" maxlength="160" autocomplete="off" placeholder="Address or venue">
+          </div>
+          <div class="field">
+            <label for="fCost">Cost <span class="optional">(optional)</span></label>
+            <div class="input-affix">
+              <span class="affix" id="fCostSym" aria-hidden="true">€</span>
+              <input id="fCost" name="cost" class="input" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="eCost">
+            </div>
+            <p class="field-error" id="eCost" hidden></p>
+          </div>
+        </div>
+
+        <div class="grid grid-2 money-grid">
+          <div class="field">
+            <label for="fPaidBy">Paid by</label>
+            <select id="fPaidBy" name="paidBy" class="select"></select>
+          </div>
+          <fieldset class="field fieldset" aria-describedby="eSplit">
+            <legend>Split between</legend>
+            <div class="checks" id="fSplit"></div>
+            <p class="field-error" id="eSplit" hidden></p>
+          </fieldset>
+        </div>
+
+        <div class="field">
+          <label for="fNotes">Notes</label>
+          <textarea id="fNotes" name="notes" class="input textarea" rows="3" placeholder="Booking reference, what to bring, who to meet…"></textarea>
+        </div>
+      </div>
+
+      <footer class="dialog-foot">
+        <button type="button" class="btn btn-danger" id="actDelete"></button>
+        <span class="spacer"></span>
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="actSave">Save activity</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Trip dialog -->
+  <dialog id="tripDialog" class="dialog dialog-narrow" aria-labelledby="tripDialogTitle">
+    <form id="tripForm" class="dialog-inner" novalidate>
+      <header class="dialog-head">
+        <div>
+          <p class="eyebrow">Trip</p>
+          <h2 id="tripDialogTitle" class="dialog-title">New trip</h2>
+        </div>
+        <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="Close dialog"></button>
+      </header>
+
+      <div class="dialog-body">
+        <div class="field">
+          <label for="tName">Trip name <span class="req" aria-hidden="true">*</span></label>
+          <input id="tName" class="input" maxlength="80" autocomplete="off" required aria-describedby="eName" placeholder="e.g. Lisbon long weekend">
+          <p class="field-error" id="eName" hidden></p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="tStart">Start date</label>
+            <input id="tStart" type="date" class="input" required aria-describedby="eStartDate">
+            <p class="field-error" id="eStartDate" hidden></p>
+          </div>
+          <div class="field">
+            <label for="tEnd">End date</label>
+            <input id="tEnd" type="date" class="input" required aria-describedby="eEndDate tDaysHint">
+            <p class="field-error" id="eEndDate" hidden></p>
+          </div>
+        </div>
+        <p class="hint" id="tDaysHint" aria-live="polite"></p>
+        <p class="inline-warn" id="tShrinkWarn" hidden></p>
+
+        <div class="field">
+          <label for="tCurrency">Currency</label>
+          <select id="tCurrency" class="select"></select>
+        </div>
+
+        <fieldset class="field fieldset">
+          <legend>Travellers <span class="optional">(1 to 8, each name different)</span></legend>
+          <ul class="traveller-rows" id="tTravellers"></ul>
+          <p class="field-error" id="eTravellers" hidden></p>
+          <button type="button" class="btn btn-ghost btn-sm" id="tAddTraveller"></button>
+        </fieldset>
+      </div>
+
+      <footer class="dialog-foot">
+        <span class="spacer"></span>
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="tripSave">Create trip</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+
+  <script src="app.js"></script>
+</body>
+</html>

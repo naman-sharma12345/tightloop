@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Kept · Habit tracker</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232D5B4E'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#today">Skip to Today</a>
+
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div class="brand">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="9" fill="currentColor"/>
+          <path d="M9 16.5l4.5 4.5L23 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand__name">Kept</span>
+        <span class="brand__tag">Habit tracker</span>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="undo-btn" class="btn btn--ghost" disabled aria-keyshortcuts="Control+Z Meta+Z" title="Undo (Ctrl/Cmd+Z)">
+          <span data-icon="undo"></span><span class="btn__label">Undo</span>
+        </button>
+        <button type="button" id="add-btn" class="btn btn--primary" aria-keyshortcuts="N" data-fk="add">
+          <span data-icon="plus"></span><span>New habit</span><kbd class="kbd" aria-hidden="true">N</kbd>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notice" class="notice" role="alert" hidden></div>
+
+  <main class="layout">
+    <div class="layout__col layout__col--left">
+      <section class="panel today" id="today" aria-labelledby="today-title">
+        <div class="today__head">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h1 id="today-title" class="today__date" tabindex="-1">Today</h1>
+          </div>
+          <div id="today-progress" class="progress"></div>
+        </div>
+        <div id="today-body"></div>
+      </section>
+
+      <section class="panel data" aria-labelledby="data-title">
+        <h2 id="data-title" class="panel__title">Backup</h2>
+        <p class="panel__lede">Save everything as a JSON file, or import one. Imported habits merge by name and keep every check-in.</p>
+        <div class="data__actions">
+          <button type="button" id="export-btn" class="btn btn--secondary"><span data-icon="download"></span><span>Export JSON</span></button>
+          <button type="button" id="import-btn" class="btn btn--secondary" aria-describedby="import-error"><span data-icon="upload"></span><span>Import JSON</span></button>
+          <input type="file" id="import-file" accept="application/json,.json" class="sr-only" tabindex="-1" aria-hidden="true">
+        </div>
+        <p id="import-error" class="field-error" hidden></p>
+      </section>
+    </div>
+
+    <div class="layout__col layout__col--right">
+      <section class="habits" aria-labelledby="habits-title">
+        <div class="section-head">
+          <h2 id="habits-title" class="section-title" tabindex="-1">Habits</h2>
+          <span id="habits-count" class="count-pill"></span>
+        </div>
+        <div id="habits-body"></div>
+      </section>
+
+      <section class="archived" aria-labelledby="archived-title">
+        <div class="section-head">
+          <h2 id="archived-title" class="section-title">Archived</h2>
+          <span id="archived-count" class="count-pill"></span>
+        </div>
+        <div id="archived-body"></div>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="habit-dialog" class="dialog" aria-labelledby="dialog-title">
+    <form id="habit-form" class="dialog__form" novalidate>
+      <div class="dialog__head">
+        <h2 id="dialog-title" class="dialog__title">New habit</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close dialog"><span data-icon="x"></span></button>
+      </div>
+
+      <div class="dialog__body">
+        <div class="field">
+          <div class="field__labelrow">
+            <label for="f-name" class="field__label">Name</label>
+            <span id="name-count" class="field__count" aria-hidden="true">0/60</span>
+          </div>
+          <input id="f-name" name="name" class="input" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="e.g. Read 20 pages" aria-describedby="name-error">
+          <p id="name-error" class="field-error" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend class="field__label">Colour</legend>
+          <div class="swatches" id="swatches"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field__label">Schedule</legend>
+          <div class="segmented" id="schedule-type">
+            <label class="segmented__item"><input type="radio" name="stype" value="daily" class="overlay-input"><span>Every day</span></label>
+            <label class="segmented__item"><input type="radio" name="stype" value="weekdays" class="overlay-input"><span>Some days</span></label>
+            <label class="segmented__item"><input type="radio" name="stype" value="weekly" class="overlay-input"><span>Times a week</span></label>
+          </div>
+
+          <div id="days-panel" class="subfield" hidden>
+            <p id="days-label" class="subfield__label">Repeat on</p>
+            <div class="days" role="group" aria-labelledby="days-label" aria-describedby="days-error" id="days"></div>
+            <p id="days-error" class="field-error" hidden></p>
+          </div>
+
+          <div id="times-panel" class="subfield" hidden>
+            <label for="f-times" class="subfield__label">Times per week</label>
+            <div class="stepper">
+              <button type="button" class="icon-btn icon-btn--boxed" id="times-dec" aria-label="Fewer times per week"><span data-icon="minus"></span></button>
+              <input id="f-times" class="input input--num" type="number" inputmode="numeric" min="1" max="7" step="1" value="3" aria-describedby="times-hint times-error">
+              <button type="button" class="icon-btn icon-btn--boxed" id="times-inc" aria-label="More times per week"><span data-icon="plus"></span></button>
+              <span id="times-hint" class="subfield__hint">Any days, Monday to Sunday</span>
+            </div>
+            <p id="times-error" class="field-error" hidden></p>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="dialog__foot">
+        <button type="button" class="btn btn--ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn--primary" id="dialog-submit">Add habit</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

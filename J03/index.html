@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Invoices · Ledgerly</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main" id="skip-link">Skip to content</a>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="brand" href="#/invoices" aria-label="Ledgerly, go to invoices">
+        <span class="brand-mark"><span data-icon="logo"></span></span>
+        <span class="brand-name">Ledgerly</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#/invoices" data-nav="invoices"><span data-icon="file"></span><span>Invoices</span></a>
+        <a href="#/clients" data-nav="clients"><span data-icon="users"></span><span>Clients</span></a>
+      </nav>
+      <span class="header-spacer"></span>
+      <button type="button" class="btn btn-ghost settings-btn" id="settings-btn">
+        <span data-icon="building"></span><span class="settings-label">Business &amp; data</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="notice-region"></div>
+    <div id="view"></div>
+  </main>
+
+  <div class="toast-region" id="toasts" role="status" aria-live="polite"></div>
+  <div class="sr-only" id="announcer" aria-live="assertive"></div>
+
+  <!-- Client dialog -->
+  <dialog class="dialog" id="client-dialog" aria-labelledby="client-dialog-title">
+    <form id="client-form" novalidate>
+      <header class="dialog-head">
+        <h2 id="client-dialog-title">New client</h2>
+        <button type="button" class="btn btn-ghost btn-icon" data-close aria-label="Close dialog"><span data-icon="x"></span></button>
+      </header>
+      <div class="dialog-body">
+        <div class="field" data-key="name">
+          <label for="client-name">Name <span class="req">required</span></label>
+          <input class="input" id="client-name" name="name" autocomplete="organization" aria-describedby="client-name-err" aria-required="true">
+          <p class="field-error" id="client-name-err" hidden></p>
+        </div>
+        <div class="field" data-key="email">
+          <label for="client-email">Email <span class="req">optional</span></label>
+          <input class="input" id="client-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="client-email-err" placeholder="billing@example.com">
+          <p class="field-error" id="client-email-err" hidden></p>
+        </div>
+        <div class="field">
+          <label for="client-address">Address <span class="req">optional</span></label>
+          <textarea class="input" id="client-address" name="address" rows="3" autocomplete="street-address"></textarea>
+        </div>
+        <div class="field">
+          <label for="client-taxid">Tax ID <span class="req">optional</span></label>
+          <input class="input" id="client-taxid" name="taxId" autocomplete="off">
+        </div>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="client-submit">Add client</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Settings dialog -->
+  <dialog class="dialog" id="settings-dialog" aria-labelledby="settings-title">
+    <form id="settings-form" novalidate>
+      <header class="dialog-head">
+        <h2 id="settings-title">Business &amp; data</h2>
+        <button type="button" class="btn btn-ghost btn-icon" data-close aria-label="Close dialog"><span data-icon="x"></span></button>
+      </header>
+      <div class="dialog-body">
+        <p class="hint">Your business details appear on every new invoice. Currency and tax rate are the starting values for new invoices and lines.</p>
+        <div class="field">
+          <label for="profile-name">Business name</label>
+          <input class="input" id="profile-name" autocomplete="organization" placeholder="e.g. Northwind Studio">
+        </div>
+        <div class="field">
+          <label for="profile-address">Address</label>
+          <textarea class="input" id="profile-address" rows="3" autocomplete="street-address"></textarea>
+        </div>
+        <div class="field">
+          <label for="profile-taxid">Tax ID</label>
+          <input class="input" id="profile-taxid" autocomplete="off" placeholder="e.g. VAT GB123456789">
+        </div>
+        <div class="fields-2">
+          <div class="field">
+            <label for="profile-currency">Default currency</label>
+            <select class="input" id="profile-currency"></select>
+          </div>
+          <div class="field" data-key="taxRate">
+            <label for="profile-taxrate">Default tax rate (%)</label>
+            <input class="input num" id="profile-taxrate" inputmode="decimal" aria-describedby="profile-taxrate-err" autocomplete="off">
+            <p class="field-error" id="profile-taxrate-err" hidden></p>
+          </div>
+        </div>
+
+        <section class="data-box" aria-labelledby="data-title">
+          <h3 id="data-title">Backup</h3>
+          <p class="hint">Everything is stored in this browser. Export a JSON backup to keep it safe or move it to another device. Importing replaces all current data.</p>
+          <div class="data-actions">
+            <button type="button" class="btn btn-secondary" id="export-json"><span data-icon="download"></span><span>Export JSON</span></button>
+            <button type="button" class="btn btn-secondary" id="import-json-btn"><span data-icon="upload"></span><span>Import JSON</span></button>
+            <input type="file" id="import-file" accept="application/json,.json" class="sr-only" tabindex="-1" aria-hidden="true">
+          </div>
+          <div id="import-error" class="inline-error" role="alert" hidden></div>
+        </section>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Save details</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Paid dialog -->
+  <dialog class="dialog dialog-sm" id="paid-dialog" aria-labelledby="paid-title" aria-describedby="paid-desc">
+    <form id="paid-form" novalidate>
+      <header class="dialog-head">
+        <h2 id="paid-title">Mark as paid</h2>
+        <button type="button" class="btn btn-ghost btn-icon" data-close aria-label="Close dialog"><span data-icon="x"></span></button>
+      </header>
+      <div class="dialog-body">
+        <p class="hint" id="paid-desc">Record when the payment arrived. The invoice becomes read-only until you reopen it.</p>
+        <div class="field" data-key="paidDate">
+          <label for="paid-date">Paid on</label>
+          <input class="input" type="date" id="paid-date" aria-describedby="paid-date-err">
+          <p class="field-error" id="paid-date-err" hidden></p>
+        </div>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><span data-icon="check"></span><span>Mark as paid</span></button>
+      </footer>
+    </form>
+  </dialog>
+
+  <article class="print-doc" id="print-doc"></article>
+
+  <script src="app.js"></script>
+</body>
+</html>

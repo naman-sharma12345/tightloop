@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wayfare — Trip planner</title>
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230E6B63'/%3E%3Cpath d='M9 22l7-12 7 12' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./" aria-label="Wayfare home">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9"/><path d="M8.5 22 16 9.5 23.5 22" /><circle cx="16" cy="18.5" r="1.6"/></svg>
+        <span class="brand-name">Wayfare</span>
+      </a>
+      <div class="trip-switch" id="tripSwitch" hidden>
+        <label for="tripSelect" class="sr-only">Current trip</label>
+        <select id="tripSelect" class="select select-quiet"></select>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn ghost icon-only-sm" id="undoBtn" data-action="undo" disabled>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+          <span class="btn-label">Undo</span>
+        </button>
+        <button type="button" class="btn ghost icon-only-sm" id="redoBtn" data-action="redo" disabled>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg>
+          <span class="btn-label">Redo</span>
+        </button>
+        <span class="divider" aria-hidden="true"></span>
+        <button type="button" class="btn ghost icon-only-sm" data-action="import">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+          <span class="btn-label">Import</span>
+        </button>
+        <button type="button" class="btn primary icon-only-sm" data-action="new-trip">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="btn-label">New trip</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="notices">
+      <div id="storageNotice" class="notice notice-info" role="status" hidden></div>
+      <div id="importError" class="notice notice-error" role="alert" hidden></div>
+    </div>
+
+    <section id="emptyApp" class="welcome" hidden aria-labelledby="welcomeTitle">
+      <svg class="welcome-art" viewBox="0 0 220 140" aria-hidden="true" focusable="false">
+        <rect x="18" y="26" width="184" height="96" rx="14" class="wa-card"/>
+        <rect x="34" y="44" width="46" height="62" rx="8" class="wa-col"/>
+        <rect x="87" y="44" width="46" height="62" rx="8" class="wa-col"/>
+        <rect x="140" y="44" width="46" height="62" rx="8" class="wa-col"/>
+        <rect x="40" y="52" width="34" height="14" rx="4" class="wa-a"/>
+        <rect x="40" y="70" width="34" height="10" rx="4" class="wa-b"/>
+        <rect x="93" y="52" width="34" height="20" rx="4" class="wa-c"/>
+        <rect x="146" y="52" width="34" height="12" rx="4" class="wa-b"/>
+        <rect x="146" y="68" width="34" height="16" rx="4" class="wa-a"/>
+        <path d="M166 22c0-9 7-15 14-15s14 6 14 15c0 11-14 22-14 22s-14-11-14-22z" class="wa-pin"/>
+        <circle cx="180" cy="22" r="5" class="wa-pin-dot"/>
+      </svg>
+      <h1 id="welcomeTitle">Plan a trip, one day at a time</h1>
+      <p>You don't have any trips yet. Create one to lay out each day, keep an eye on overlaps and split costs fairly — or import a trip file you exported earlier.</p>
+      <div class="welcome-actions">
+        <button type="button" class="btn primary lg" data-action="new-trip">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+          Create your first trip
+        </button>
+        <button type="button" class="btn lg" data-action="import">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 15V3"/><path d="m7 10 5 5 5-5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+          Import a trip file
+        </button>
+      </div>
+    </section>
+
+    <div id="tripView" hidden>
+      <section class="trip-head" id="tripHead" aria-labelledby="tripTitle"></section>
+
+      <div class="workspace">
+        <section class="itinerary" aria-labelledby="itinTitle">
+          <div class="itin-head">
+            <h2 id="itinTitle" class="section-title">Itinerary</h2>
+            <div class="search">
+              <label for="search" class="sr-only">Search activities by title or place</label>
+              <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="search" type="search" placeholder="Search title or place" autocomplete="off" spellcheck="false">
+              <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+          <p id="searchStatus" class="search-status" role="status"></p>
+          <div id="tray"></div>
+          <div id="board" class="board" role="region" aria-label="Days of the trip" tabindex="0"></div>
+        </section>
+
+        <aside id="budget" class="budget" aria-labelledby="budgetTitle" tabindex="0"></aside>
+      </div>
+    </div>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-relevant="additions"></div>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+
+  <!-- Trip dialog -->
+  <dialog id="tripDialog" class="dialog" aria-labelledby="tripDialogTitle">
+    <form id="tripForm" class="dialog-inner" novalidate>
+      <header class="dialog-head">
+        <div>
+          <p class="eyebrow">Trip details</p>
+          <h2 id="tripDialogTitle">New trip</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close aria-label="Close dialog">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+      <div class="dialog-body">
+        <div class="field">
+          <label for="tripName">Trip name</label>
+          <input id="tripName" class="input" maxlength="80" autocomplete="off" placeholder="e.g. Lisbon long weekend" aria-describedby="tripName-err">
+          <p class="field-error" id="tripName-err" hidden></p>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="tripStart">Start date</label>
+            <input id="tripStart" class="input" type="date" aria-describedby="tripStart-err">
+            <p class="field-error" id="tripStart-err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="tripEnd">End date</label>
+            <input id="tripEnd" class="input" type="date" aria-describedby="tripEnd-err tripLength">
+            <p class="field-error" id="tripEnd-err" hidden></p>
+          </div>
+        </div>
+        <p class="hint" id="tripLength">Trips can be 1 to 30 days long.</p>
+        <div class="field">
+          <label for="tripCurrency">Currency</label>
+          <select id="tripCurrency" class="select"></select>
+        </div>
+        <fieldset class="field fieldset">
+          <legend>Travellers <span class="legend-hint">1 to 8 people, each name once</span></legend>
+          <ul id="travellerList" class="traveller-list"></ul>
+          <button type="button" class="btn ghost small-gap" id="addTraveller">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+            Add traveller
+          </button>
+          <p class="field-error" id="travellers-err" hidden></p>
+        </fieldset>
+      </div>
+      <footer class="dialog-foot">
+        <span class="spacer"></span>
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn primary" id="tripSubmit">Create trip</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Activity dialog -->
+  <dialog id="actDialog" class="dialog" aria-labelledby="actDialogTitle">
+    <form id="actForm" class="dialog-inner" novalidate>
+      <header class="dialog-head">
+        <div>
+          <p class="eyebrow" id="actEyebrow">Activity</p>
+          <h2 id="actDialogTitle">New activity</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close aria-label="Close dialog">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </header>
+      <div class="dialog-body">
+        <div class="field">
+          <label for="actTitle">Title</label>
+          <input id="actTitle" class="input" maxlength="100" autocomplete="off" placeholder="e.g. Lunch at Time Out Market" aria-describedby="actTitle-err">
+          <p class="field-error" id="actTitle-err" hidden></p>
+        </div>
+        <fieldset class="field fieldset">
+          <legend>Category</legend>
+          <div class="segmented" id="actCategories"></div>
+        </fieldset>
+        <div class="field-row three">
+          <div class="field">
+            <label for="actDay">Day</label>
+            <select id="actDay" class="select"></select>
+          </div>
+          <div class="field">
+            <label for="actStart">Start time</label>
+            <input id="actStart" class="input" type="time" aria-describedby="actStart-err">
+            <p class="field-error" id="actStart-err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="actDuration">Duration</label>
+            <select id="actDuration" class="select"></select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="actPlace">Place <span class="label-opt">optional</span></label>
+          <input id="actPlace" class="input" maxlength="120" autocomplete="off" placeholder="Address or name of the place">
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="actCost">Cost <span class="label-opt">optional</span></label>
+            <div class="input-affix">
+              <span class="affix" id="actCurrency" aria-hidden="true">EUR</span>
+              <input id="actCost" class="input" inputmode="decimal" autocomplete="off" placeholder="0.00" aria-describedby="actCost-err">
+            </div>
+            <p class="field-error" id="actCost-err" hidden></p>
+          </div>
+          <div class="field">
+            <label for="actPaidBy">Paid by</label>
+            <select id="actPaidBy" class="select"></select>
+          </div>
+        </div>
+        <fieldset class="field fieldset">
+          <legend>Split between <span class="legend-hint" id="splitHint"></span></legend>
+          <div class="checks" id="actSplit"></div>
+          <p class="field-error" id="actSplit-err" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label for="actNotes">Notes <span class="label-opt">optional</span></label>
+          <textarea id="actNotes" class="input textarea" rows="3" maxlength="4000" placeholder="Booking reference, what to bring, opening hours…"></textarea>
+        </div>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn danger-ghost" id="actDelete">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>
+          Delete
+        </button>
+        <span class="spacer"></span>
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+        <button type="submit" class="btn primary" id="actSubmit">Add activity</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>

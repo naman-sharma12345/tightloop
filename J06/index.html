@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Steady · Habit tracker</title>
+  <meta name="description" content="A calm habit tracker that keeps everything in your browser.">
+  <meta name="theme-color" content="#f6f4ef">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232f5d50'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="app-header">
+    <div class="app-header__inner">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="9" fill="currentColor"/><path d="M9 16.5l4.5 4.5L23 11.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div>
+          <h1 class="brand__name">Steady</h1>
+          <p class="brand__tag">Small things, every day</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn--ghost" id="undo-btn" data-action="undo" disabled aria-keyshortcuts="Control+Z Meta+Z">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+          <span>Undo</span>
+          <kbd class="kbd" id="undo-kbd">Ctrl Z</kbd>
+        </button>
+        <button type="button" class="btn btn--primary" id="add-btn" data-action="add" aria-keyshortcuts="N">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          <span>New habit</span>
+          <kbd class="kbd kbd--on-dark">N</kbd>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notice-region" class="notice-region"></div>
+
+  <main id="main" class="layout" tabindex="-1">
+    <section class="panel panel--today" aria-labelledby="today-title">
+      <div class="today-head">
+        <div>
+          <p class="eyebrow" id="today-date"></p>
+          <h2 class="section-title section-title--lg" id="today-title">Today</h2>
+          <p class="today-summary" id="today-summary"></p>
+        </div>
+        <div class="progress" id="today-progress" aria-hidden="true"></div>
+      </div>
+      <div id="today-due"></div>
+      <div id="today-other"></div>
+      <p class="kbd-hint" id="kbd-hint">
+        <kbd class="kbd">↑</kbd><kbd class="kbd">↓</kbd> move
+        <span class="dot-sep" aria-hidden="true"></span>
+        <kbd class="kbd">Space</kbd> check
+        <span class="dot-sep" aria-hidden="true"></span>
+        <kbd class="kbd">N</kbd> new habit
+      </p>
+    </section>
+
+    <div class="col-right">
+      <section class="stack" aria-labelledby="habits-title">
+        <div class="section-head">
+          <h2 class="section-title" id="habits-title">Your habits</h2>
+          <p class="section-meta" id="habits-meta"></p>
+        </div>
+        <div id="habit-list" class="habit-list"></div>
+      </section>
+
+      <section class="stack" aria-labelledby="archived-title">
+        <div class="section-head">
+          <h2 class="section-title" id="archived-title">Archived</h2>
+          <p class="section-meta" id="archived-meta"></p>
+        </div>
+        <div id="archived-list"></div>
+      </section>
+
+      <section class="panel panel--quiet backup" aria-labelledby="backup-title">
+        <div class="backup__text">
+          <h2 class="section-title section-title--sm" id="backup-title">Backup &amp; restore</h2>
+          <p class="muted">Your data stays in this browser. Export a JSON copy, or import one to merge it in. Matching names are combined and keep every check-in.</p>
+        </div>
+        <div class="backup__actions">
+          <button type="button" class="btn btn--secondary" data-action="export">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+            <span>Export JSON</span>
+          </button>
+          <button type="button" class="btn btn--secondary" data-action="import" aria-describedby="import-error">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M5 20h14"/></svg>
+            <span>Import JSON</span>
+          </button>
+          <input type="file" id="import-file" accept=".json,application/json" class="visually-hidden" tabindex="-1" aria-hidden="true">
+        </div>
+        <p class="field-error backup__error" id="import-error" role="alert" hidden></p>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast-region" id="toast-region" role="status" aria-live="polite"></div>
+
+  <dialog class="dialog" id="habit-dialog" aria-labelledby="dialog-title">
+    <form id="habit-form" class="dialog__form" novalidate>
+      <div class="dialog__head">
+        <h2 class="section-title" id="dialog-title">New habit</h2>
+        <button type="button" class="icon-btn" data-action="close-dialog" aria-label="Close">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="dialog__body">
+        <div class="field">
+          <div class="field__label-row">
+            <label class="field__label" for="f-name">Name</label>
+            <span class="field__count" id="f-name-count" aria-hidden="true">0/60</span>
+          </div>
+          <input class="input" id="f-name" name="name" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="e.g. Read 10 pages" aria-describedby="f-name-hint f-name-error">
+          <p class="field__hint" id="f-name-hint">Up to 60 characters.</p>
+          <p class="field-error" id="f-name-error" hidden></p>
+        </div>
+
+        <fieldset class="field">
+          <legend class="field__label">Colour</legend>
+          <div class="swatches" id="f-colors"></div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field__label">Schedule</legend>
+          <div class="segmented" role="radiogroup" aria-label="Schedule type">
+            <label class="segmented__opt"><input type="radio" name="stype" value="daily" checked><span>Every day</span></label>
+            <label class="segmented__opt"><input type="radio" name="stype" value="days"><span>Chosen days</span></label>
+            <label class="segmented__opt"><input type="radio" name="stype" value="weekly"><span>Times a week</span></label>
+          </div>
+
+          <div class="sched-panel" id="panel-days" hidden>
+            <div class="day-chips" id="f-days" role="group" aria-label="Days of the week" aria-describedby="f-days-error"></div>
+            <p class="field-error" id="f-days-error" hidden></p>
+          </div>
+
+          <div class="sched-panel" id="panel-weekly" hidden>
+            <div class="stepper">
+              <button type="button" class="icon-btn icon-btn--outline" data-step="-1" aria-label="Fewer times">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <label class="visually-hidden" for="f-times">Times per week</label>
+              <input class="input stepper__input" id="f-times" type="number" inputmode="numeric" min="1" max="7" step="1" value="3" aria-describedby="f-times-hint f-times-error">
+              <button type="button" class="icon-btn icon-btn--outline" data-step="1" aria-label="More times">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <span class="stepper__suffix" id="f-times-hint">times per week, any days</span>
+            </div>
+            <p class="field-error" id="f-times-error" hidden></p>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="dialog__foot">
+        <button type="button" class="btn btn--ghost" data-action="close-dialog">Cancel</button>
+        <button type="submit" class="btn btn--primary" id="dialog-submit">Add habit</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
