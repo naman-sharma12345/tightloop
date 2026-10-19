@@ -1,0 +1,18 @@
+ghcli-01b hidden-test check 2026-10-19T06:58:02Z; start_commit 92561b6aad6988bf6e98d5ffe2bdf1425b9c74c1; reference = upstream fix commit 221e12681ec03ed17ebf473d354d5d66797b5bc5 (non-test files of git diff start..fix); hidden patch patches/ghcli-01b.patch; check: go test -run TestPrintUnchanged ./pkg/cmd/issue/artifact/shared/
+[start] checkout start rc 0 
+[start] apply hidden patch rc 0 
+[start] check rc 1; output tail:
+FAIL	github.com/cli/cli/v2/pkg/cmd/issue/artifact/shared [build failed]
+FAIL
+# github.com/cli/cli/v2/pkg/cmd/issue/artifact/shared [github.com/cli/cli/v2/pkg/cmd/issue/artifact/shared.test]
+pkg/cmd/issue/artifact/shared/results_test.go:168:4: undefined: PrintUnchanged
+
+[reference] checkout start rc 0 
+[reference] apply upstream fix (non-test files) rc 0:  pkg/cmd/issue/artifact/shared/results.go | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+[reference] apply hidden patch rc 0 
+[reference] check rc 0; output tail:
+ok  	github.com/cli/cli/v2/pkg/cmd/issue/artifact/shared	0.090s
+
+RESULT: start rc 1 (fails as expected); reference rc 0 (passes as expected)

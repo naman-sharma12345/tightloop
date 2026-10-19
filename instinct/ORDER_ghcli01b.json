@@ -1,0 +1,120 @@
+{
+ "pass": "ghcli01b",
+ "written_utc": "2026-10-19T06:58:39Z",
+ "rule": "runner.py --rotate rule over [no-skill, ponytail, v4c]: per repeat shift (2*task_index + run_index) mod 3; one session per runner invocation, go clean -cache before each",
+ "tasks": [
+  "ghcli-01b"
+ ],
+ "arms": [
+  "no-skill",
+  "ponytail",
+  "tightloop-v4c"
+ ],
+ "runs": 3,
+ "row_file": "holdout/rows.jsonl",
+ "split": "holdout",
+ "holdout_variant": "ghcli-01b (instruction names the signature; added after ghcli-01 was seen)",
+ "task_file_source": "origin/rotate-flag 6b9922eda89e20da925d702ef50625e51a5d8b86 (task file e6ba9cf, hidden patch 26d48df, holdout-split.json 6b9922e)",
+ "note": "holdout only, no tuning on it (Naman m:20a38013)",
+ "sessions": [
+  {
+   "task": "ghcli-01b",
+   "run": 1,
+   "arm": "no-skill",
+   "position": 1,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 1,
+   "arm": "ponytail",
+   "position": 2,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 1,
+   "arm": "tightloop-v4c",
+   "position": 3,
+   "repeat_order": [
+    "no-skill",
+    "ponytail",
+    "tightloop-v4c"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 2,
+   "arm": "ponytail",
+   "position": 1,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 2,
+   "arm": "tightloop-v4c",
+   "position": 2,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 2,
+   "arm": "no-skill",
+   "position": 3,
+   "repeat_order": [
+    "ponytail",
+    "tightloop-v4c",
+    "no-skill"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 3,
+   "arm": "tightloop-v4c",
+   "position": 1,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 3,
+   "arm": "no-skill",
+   "position": 2,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  },
+  {
+   "task": "ghcli-01b",
+   "run": 3,
+   "arm": "ponytail",
+   "position": 3,
+   "repeat_order": [
+    "tightloop-v4c",
+    "no-skill",
+    "ponytail"
+   ]
+  }
+ ]
+}
