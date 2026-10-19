@@ -18,7 +18,7 @@
 # 1800 s timeout, isolation probe before each session, transcript audit + VOID rule, one RETRY on a harness crash only.
 import json, os, re, sys, time, shutil, subprocess, tempfile, atexit
 TD = "/home/user/tab/work/tl_appv2_state"           # logs + rows (outside files/, outside any task dir)
-SNAP = "/home/user/tab/work/tl_blind_appv2"      # git-archive snapshot of the v6/app-harness-v2 commit (SNAP/.snap_commit)
+SNAP = "/home/user/tab/work/tl_blind_appv2b"     # git-archive snapshot of the v6/app-harness-v2 commit (SNAP/.snap_commit); "b" = the probe-fix commit (the d223c09 snapshot tl_blind_appv2 stays as it was)
 OUT = "/home/user/tab/work/tl_blind_out/appv2"       # raw builds by build id (NEVER under files/)
 COSTDIR = "/home/user/tab/files/tl_blind/appv2"
 HOLD = "/home/user/tab/work/tl_appv2_state/hold"   # written/removed by root only
@@ -42,8 +42,9 @@ sys.path.insert(0, SNAP + "/benchmark/blind/harness_v2")
 import sandbox_v2
 S = sandbox_v2.S              # the sandbox_r2 module with prefix patched in this process (browser folder bound read-only)
 assert S.prefix is sandbox_v2.prefix_v2
+assert S.PROBE_CODE is sandbox_v2.PROBE_CODE_V2   # the v2 probe (its 'home' check knows the read-only browser bind)
 S.START_OK = COSTDIR + "/START_OK"
-S.OLD_PROBE_PATHS = S.OLD_PROBE_PATHS + ["/home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/check_app_v2.py", "/home/user/tab/work/tl_appv2/benchmark/blind/harness_v2/check_app_v2.py", "/home/user/tab/work/tl_appv2_state", "/home/user/tab/files/tl_blind/v9/KEY_v9.json", "/home/user/tab/work/tl_blind_v9/benchmark/blind/checks/check_app.py", "/home/user/tab/files/tl_blind/v8/KEY_v8.json", "/home/user/tab/files/tl_blind/v7/KEY_v7.json", "/home/user/tab/work/tl_blind_v4cn3/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v8/benchmark/blind/checks/check_app.py", "/home/user/tab/files/tl_blind/v6c/KEY_v6c.json", "/home/user/tab/files/tl_blind/v5c/KEY_v5c.json", "/home/user/tab/work/tl_blind_v7/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v6c/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v5c/benchmark/blind/checks/check_app.py"]
+S.OLD_PROBE_PATHS = S.OLD_PROBE_PATHS + ["/home/user/tab/work/tl_blind_appv2b/benchmark/blind/harness_v2/check_app_v2.py", "/home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/check_app_v2.py", "/home/user/tab/work/tl_appv2/benchmark/blind/harness_v2/check_app_v2.py", "/home/user/tab/work/tl_appv2_state", "/home/user/tab/files/tl_blind/v9/KEY_v9.json", "/home/user/tab/work/tl_blind_v9/benchmark/blind/checks/check_app.py", "/home/user/tab/files/tl_blind/v8/KEY_v8.json", "/home/user/tab/files/tl_blind/v7/KEY_v7.json", "/home/user/tab/work/tl_blind_v4cn3/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v8/benchmark/blind/checks/check_app.py", "/home/user/tab/files/tl_blind/v6c/KEY_v6c.json", "/home/user/tab/files/tl_blind/v5c/KEY_v5c.json", "/home/user/tab/work/tl_blind_v7/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v6c/benchmark/blind/checks/check_app.py", "/home/user/tab/work/tl_blind_v5c/benchmark/blind/checks/check_app.py"]
 S.NAME_RE = r"^(KEY(_v\w+)?\.json|mapping(_r\d+)?\.json|check_app(_v2)?\.py|blind_rows.*\.jsonl|COST|METRICS\.json|\.netrc|BUILD_RESULTS\.tsv)$"
 def log(*a): print(time.strftime('%H:%M:%SZ', time.gmtime()), *a, flush=True)
 def report(msg): subprocess.run(["node", "/home/user/tab/progress-cli.mjs", "report", msg], capture_output=True, timeout=60)

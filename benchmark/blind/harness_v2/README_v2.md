@@ -50,3 +50,10 @@ See selftest/SELFTEST_v2.txt for the full output. Summary:
    benchmark/blind/specs/r11/, path + commit + sha256). The baseline is no-skill on these, not on kanban/bookmarks/expenses.
 4. python3 /home/user/tab/work/tl_blind_appv2/benchmark/blind/harness_v2/blind_driver_v2.py no-skill   (9 builds)
    then tightloop-v4c (9 builds), then tightloop-v11 once its arm folder is committed on top of this branch.
+
+## Probe fix (2026-10-19, after d223c09)
+d223c09 refused every build: the frozen probe's 'home' check did not know the read-only browser bind ('.cache' in /home/user).
+sandbox_v2.py now also swaps ONLY that check in-process (PROBE_CODE_V2): 4 toolchains + '.cache', .cache holds only a
+read-only ms-playwright, no other mount under /home/user. Self-test: `python3 benchmark/blind/harness_v2/sandbox_v2.py --probe-selftest`
+(selftest/SELFTEST_v2_probe.txt). The snapshot is now /home/user/tab/work/tl_blind_appv2b and the queue is orders/ORDER_v2.3.json
+(same builds and spec pins as v2.2). Run: python3 /home/user/tab/work/tl_blind_appv2b/benchmark/blind/harness_v2/blind_driver_v2.py no-skill
