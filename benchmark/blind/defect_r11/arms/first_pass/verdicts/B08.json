@@ -1,0 +1,173 @@
+{
+ "label": "B08",
+ "spec": "habits",
+ "items": {
+  "H01": {
+   "result": "pass"
+  },
+  "H02": {
+   "result": "pass"
+  },
+  "H03": {
+   "result": "pass"
+  },
+  "H04": {
+   "result": "pass"
+  },
+  "H05": {
+   "result": "pass"
+  },
+  "H06": {
+   "result": "pass"
+  },
+  "H07": {
+   "result": "pass"
+  },
+  "H08": {
+   "result": "pass"
+  },
+  "H09": {
+   "result": "pass"
+  },
+  "H10": {
+   "result": "pass"
+  },
+  "H11": {
+   "result": "pass"
+  },
+  "H12": {
+   "result": "pass"
+  },
+  "H13": {
+   "result": "pass"
+  },
+  "H14": {
+   "result": "pass"
+  },
+  "H15": {
+   "result": "pass"
+  },
+  "H16": {
+   "result": "pass"
+  },
+  "H17": {
+   "result": "pass"
+  },
+  "H18": {
+   "result": "pass"
+  },
+  "H19": {
+   "result": "pass"
+  },
+  "H20": {
+   "result": "pass"
+  },
+  "H21": {
+   "result": "pass"
+  },
+  "H22": {
+   "result": "pass"
+  },
+  "H23": {
+   "result": "pass"
+  },
+  "H24": {
+   "result": "pass"
+  },
+  "H25": {
+   "result": "pass"
+  },
+  "H26": {
+   "result": "pass"
+  },
+  "H27": {
+   "result": "pass"
+  },
+  "H28": {
+   "result": "pass"
+  },
+  "H29": {
+   "result": "pass"
+  },
+  "H30": {
+   "result": "pass"
+  },
+  "H31": {
+   "result": "pass"
+  },
+  "H32": {
+   "result": "pass"
+  },
+  "H33": {
+   "result": "pass"
+  },
+  "H34": {
+   "result": "pass"
+  },
+  "H35": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "fail",
+   "severity": "minor",
+   "weight": 1,
+   "evidence": "1280: the stat labels on every habit card are cut with an ellipsis ('Current s…', 'Best str…'); the dt 'Current streak' needs 99 px in a 71 px box, 'Best streak' 77 in 71."
+  },
+  "G08": {
+   "result": "fail-shared-cause",
+   "counted_on": "G07",
+   "weight": 0,
+   "evidence": "375: same stat-label box cuts 'Current streak' (99 px in 80 px); same root cause as G07."
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All 35 habits items pass. G07: fixed UI labels (stat titles) are clipped with an ellipsis at 1280 and 375, so they cannot be read in full; counted once on G07 (G08 shared cause). Rule used in this round: clipped fixed UI text counts; a long user-entered name cut with an ellipsis where the full name is shown elsewhere does not."
+}

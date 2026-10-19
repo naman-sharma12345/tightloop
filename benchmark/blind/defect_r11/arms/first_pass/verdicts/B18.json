@@ -1,0 +1,161 @@
+{
+ "label": "B18",
+ "spec": "trip",
+ "items": {
+  "T01": {
+   "result": "pass"
+  },
+  "T02": {
+   "result": "pass"
+  },
+  "T03": {
+   "result": "pass"
+  },
+  "T04": {
+   "result": "pass"
+  },
+  "T05": {
+   "result": "pass"
+  },
+  "T06": {
+   "result": "fail",
+   "severity": "major",
+   "weight": 3,
+   "evidence": "With the 10-day trip at 1280 the board scrolls inside itself (overflow-x: auto, scrollWidth 2868 in 868), but the page scrollWidth is 2755, so the page scrolls too. At 375 the 4-day trip makes the page scroll 742 px. Cause: the absolutely positioned sr-only 'to Day N, …' spans in each day's Add button use <body> as their offsetParent and escape the board's clip."
+  },
+  "T07": {
+   "result": "pass"
+  },
+  "T08": {
+   "result": "pass"
+  },
+  "T09": {
+   "result": "pass"
+  },
+  "T10": {
+   "result": "pass"
+  },
+  "T11": {
+   "result": "pass"
+  },
+  "T12": {
+   "result": "pass"
+  },
+  "T13": {
+   "result": "pass"
+  },
+  "T14": {
+   "result": "pass"
+  },
+  "T15": {
+   "result": "pass"
+  },
+  "T16": {
+   "result": "pass"
+  },
+  "T17": {
+   "result": "pass"
+  },
+  "T18": {
+   "result": "pass"
+  },
+  "T19": {
+   "result": "pass"
+  },
+  "T20": {
+   "result": "pass"
+  },
+  "T21": {
+   "result": "pass"
+  },
+  "T22": {
+   "result": "pass"
+  },
+  "T23": {
+   "result": "pass"
+  },
+  "T24": {
+   "result": "pass"
+  },
+  "T25": {
+   "result": "pass"
+  },
+  "T26": {
+   "result": "pass"
+  },
+  "T27": {
+   "result": "pass"
+  },
+  "T28": {
+   "result": "pass"
+  },
+  "T29": {
+   "result": "pass"
+  },
+  "T30": {
+   "result": "pass"
+  },
+  "T31": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "fail-shared-cause",
+   "counted_on": "T06",
+   "weight": 0,
+   "evidence": "375: the page scrolls 742 px sideways (scrollWidth 1117). Same root cause as T06."
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "The other 30 trip items pass. The 1280 filled view does not overflow (G07 pass). Adapter fixes before the scoring run: category locator scoped to the dialog. The manual drag now drops in the middle of the visible part of the day column, because the sticky header covered the old drop point. A drag that finishes inside one animation frame leaves body.is-dragging set (the class is added in requestAnimationFrame), but a human drag cannot do that, so it is not scored."
+}

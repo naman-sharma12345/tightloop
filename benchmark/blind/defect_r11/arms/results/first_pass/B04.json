@@ -1,0 +1,528 @@
+{
+ "label": "B04",
+ "spec": "habits",
+ "setup": [
+  "Swim: saved times value now 2",
+  "Gym: saved ",
+  "Stretch: saved ",
+  "Floss: saved ",
+  "2026-10-06 Swim clicked",
+  "2026-10-07 Swim clicked",
+  "2026-10-13 Swim clicked",
+  "2026-10-13 Stretch clicked",
+  "2026-10-14 Swim clicked",
+  "2026-10-14 Stretch clicked",
+  "2026-10-15 Stretch clicked",
+  "2026-10-16 Gym clicked",
+  "2026-10-16 Stretch clicked",
+  "2026-10-17 Stretch clicked",
+  "2026-10-18 Stretch clicked",
+  "2026-10-19 Gym clicked",
+  "2026-10-20 Swim clicked",
+  "2026-10-20 Stretch clicked",
+  "2026-10-20 Floss clicked",
+  "2026-10-21 Gym clicked",
+  "2026-10-21 Stretch clicked",
+  "2026-10-21 Swim clicked",
+  "22 Stretch clicked",
+  "22 Floss clicked"
+ ],
+ "export_path": "/tmp/dr11dl_n9lmvays/cadence-habits-2026-10-22.json",
+ "items": {
+  "H35": {
+   "auto": null,
+   "ev": "first load: Skip to Today | Cadence | Undo | Export | Import | New habit | Today |  | Thursday, October 22 |  | No habits yet | Add your first habit to start a streak. Tip: press N any time. | Add a habit |  | N new \u00a0\u00b7\u00a0 \u2191\u2193 move \u00a0\u00b7\u00a0 Space check \u00a0\u00b7\u00a0 Ctrl Z undo |  | Your habits | Your habits will live here | Each habit gets a streak counter and a 1"
+  },
+  "H11": {
+   "auto": null,
+   "ev": "Stretch (daily; 13-18, 20-22 Oct checked) streaks Current 3days Best 6days 12 weeks 9done; expected current 3 best 6"
+  },
+  "H12": {
+   "auto": null,
+   "ev": "Gym (Mon/Wed/Fri; Fri16 Mon19 Wed21) streaks Current 3days Best 3days 12 weeks 3done; expected current 3"
+  },
+  "H13": {
+   "auto": null,
+   "ev": "Swim (2/week; 6+7, 13+14, 20 Oct): on Wed 21 before check Current 2weeks Best 2weeks 12 weeks 5done; after check Wed 21 Current 3weeks Best 3weeks 12 weeks 6done; on Thu 22 Current 3weeks Best 3weeks 12 weeks 6done; expected 2 then 3 (weeks)"
+  },
+  "H03": {
+   "auto": true,
+   "ev": "habits ['Swim', 'Gym', 'Stretch', 'Floss']->['Swim', 'Gym', 'Stretch', 'Floss']; errors [(\"''\", ['Give your habit a name.']), (\"'   '\", ['Give your habit a name.'])]"
+  },
+  "H01": {
+   "auto": true,
+   "ev": "add Read daily -> Read: saved ; due today ['Stretch', 'Floss', 'Read']"
+  },
+  "H05": {
+   "auto": null,
+   "ev": "colour choices 6; Walk added with 2nd colour -> shown colour #2d68a0 rgb(231, 227, 218) Every day"
+  },
+  "H02": {
+   "auto": null,
+   "ev": "\"  Walk  \" saved as ['Walk']; 60-char present True; 61-char field value len 61, errors ['Keep the name to 60 characters or fewer \u2014 it\u2019s 61 now.'], 61-char saved False"
+  },
+  "H04": {
+   "auto": true,
+   "ev": "habits 7->7; errors [('read', ['You already have a habit called \u201cRead\u201d. Try a different name.']), (' READ ', ['You already have a habit called \u201cRead\u201d. Try a different name.'])]"
+  },
+  "H06": {
+   "auto": null,
+   "ev": "zero weekdays: errors ['Pick at least one day.'], NoDays saved False; Gym in due False, in not-due True; due ['Stretch', 'Floss', 'Read', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA']; not due ['Swim', 'Gym']"
+  },
+  "H07": {
+   "auto": null,
+   "ev": "N=0/8 attempts [(0, 'times value now 0', ['Enter a whole number from 1 to 7.']), (8, 'times value now 8', ['Enter a whole number from 1 to 7.'])]; saved N0 False N8 False; Swim 2/week was saved in setup (True)"
+  },
+  "H08": {
+   "auto": true,
+   "ev": "after check Read done=True"
+  },
+  "H09": {
+   "auto": true,
+   "ev": "after second click done=False"
+  },
+  "H10": {
+   "auto": null,
+   "ev": "Gym (not due Thu) listed in not-due True; check registered False->True"
+  },
+  "H14": {
+   "auto": null,
+   "ev": "84 cells, 81 enabled; first [['Mon 3 Aug: not done', False, False]], last enabled [['Thu 22 Oct: not done (today)', False, False]], after [['Fri 23 Oct: upcoming', True, False], ['Sat 24 Oct: upcoming', True, False], ['Sun 25 Oct: upcoming', True, False]]"
+  },
+  "H16": {
+   "auto": null,
+   "ev": "future cells ['Fri 23 Oct: upcoming', 'Sat 24 Oct: upcoming', 'Sun 25 Oct: upcoming']; click on first future -> disabled; cells after ['Fri 23 Oct: upcoming']"
+  },
+  "H15": {
+   "auto": null,
+   "ev": "Stretch before Current 3days Best 6days 12 weeks 9done; click Mon 19 Oct -> clicked, streaks Current 10days Best 10days 12 weeks 10done, label Mon 19 Oct: done; click again -> clicked, streaks Current 3days Best 6days 12 weeks 9done, label Mon 19 Oct: not done; expected 10/10 then 3/6"
+  },
+  "H17": {
+   "auto": null,
+   "ev": "labels: done cell Tue 20 Oct: done; not-done cell Mon 19 Oct: not done; toggled Mon 19 Oct: done"
+  },
+  "H19": {
+   "auto": null,
+   "ev": "Floss daily (20,22 Oct) Current 1day Best 1day 12 weeks 2done; after edit to Tue+Thu (saved) Current 2days Best 2days 12 weeks 2done; expected 1 then 2"
+  },
+  "H18": {
+   "auto": null,
+   "ev": "edit -> saved; names ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA']; colour #b04f37 rgb(231, 227, 218) Weekdays; schedule text Weekdays"
+  },
+  "H20": {
+   "auto": true,
+   "ev": "archived: due ['Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'], archived ['Walk']; restored: due ['Stretch', 'Floss', 'Read more', 'Walk', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'], archived []"
+  },
+  "H22": {
+   "auto": null,
+   "ev": "check: True->undo False toast \"Undone: check \u201cWalk\u201d\"; uncheck: False->undo True toast \"Undone: uncheck \u201cWalk\u201d\"; edit: True->undo Walk back True toast \"Undone: edit \u201cWalk\u201d\"; archive: ['Walk']->undo archived [], due has Walk True toast \"Undone: archive \u201cWalk\u201d\"; delete: present after delete False -> undo present True toast \"Undone: delete \u201cWalk\u201d\""
+  },
+  "H25": {
+   "auto": null,
+   "ev": "toasts: ['Undone: check \u201cWalk\u201d', 'Undone: uncheck \u201cWalk\u201d', 'Undone: edit \u201cWalk\u201d', 'Undone: archive \u201cWalk\u201d', 'Undone: delete \u201cWalk\u201d']"
+  },
+  "H23": {
+   "auto": true,
+   "ev": "check Walk True; Ctrl+Z -> done False"
+  },
+  "H24": {
+   "auto": true,
+   "ev": "done cells after 11 toggles 11; after 10 undos 1; after 11th undo 1"
+  },
+  "H26": {
+   "auto": null,
+   "ev": "7 rows; focus Stretch -ArrowDown-> Floss -ArrowDown-> Read more -ArrowUp-> Floss"
+  },
+  "H27": {
+   "auto": null,
+   "ev": "focused Floss: done True -Space-> False -Space-> True"
+  },
+  "H28": {
+   "auto": true,
+   "ev": "\"n\" opens add form True; \"N\" opens True; typing nnn in name field gives \"nnn\""
+  },
+  "H21": {
+   "auto": true,
+   "ev": "dismiss -> Walk present True; accept -> present False; confirm dialogs total 3"
+  },
+  "H29": {
+   "auto": true,
+   "ev": "export file cadence-habits-2026-10-22.json; parsed True; snippet {\"app\": \"cadence\", \"version\": 1, \"exportedAt\": \"2026-10-22T04:30:41.745Z\", \"habits\": [{\"id\": \"hmuw6judc6iue16\", \"name\": \"Swim\", \"color\": \"pine\", \"schedule\": {\"type\": \"weekly\", \"times\": 2}, \"checks\": [\"2026-10-06\", \"2026-10-07\", \"2026-10-13\", \"2026-10-14\", \"2026-10-20\", \"2026-10-21\"], \"archived\": fal"
+  },
+  "H30": {
+   "auto": null,
+   "ev": "import msg Imported: 1 new, 6 merged; habits ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'] -> ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Gym 2 Oct label Fri 2 Oct: done; Gym 16 Oct label Fri 16 Oct: done; Yoga 21 Oct Wed 21 Oct: done; Gym count 1"
+  },
+  "H31": {
+   "auto": null,
+   "ev": "bad text -> \"Import failed: That file isn\u2019t valid JSON. Nothing was changed.\"; wrong shape -> \"Import failed: This file isn\u2019t a Cadence export: it has no list of habits. Nothing was changed.\"; habits unchanged True"
+  },
+  "G06": {
+   "auto": null,
+   "ev": "before reload ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; after ['Swim', 'Gym', 'Stretch', 'Floss', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Stretch Current 3days Best 6days 12 weeks 9done"
+  },
+  "H33": {
+   "auto": null,
+   "ev": "at 23:59 header \"Thursday, October 22\"; after running clock to 00:01:10 without reload header \"Friday, October 23\", Read more done=False"
+  },
+  "H34": {
+   "auto": null,
+   "ev": "due list after rollover (Fri): ['Gym', 'Stretch', 'Read more', 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'Yoga']; Gym due True"
+  },
+  "H32": {
+   "auto": null,
+   "ev": "checked Read more at 23:59:30 (done=True); after midnight+reload: 22 Oct label Thu 22 Oct: done; 23 Oct label Fri 23 Oct: not done (today)"
+  },
+  "G04": {
+   "auto": null,
+   "ev": "localStorage keys: [\"cadence-habits-v1\"]"
+  },
+  "G15": {
+   "auto": true,
+   "ev": "reduced-motion rule True, has transitions/animations True"
+  },
+  "G18": {
+   "auto": true,
+   "ev": "{\"vars\": 46, \"svg\": 78, \"hover\": true, \"active\": true, \"disabled\": true, \"focus\": true, \"imgs\": []}"
+  },
+  "G16": {
+   "auto": true,
+   "ev": "low-contrast texts at 1280: 0 []"
+  },
+  "G13": {
+   "auto": true,
+   "ev": "unlabelled inputs (main view): [] | in dialog: []"
+  },
+  "G11": {
+   "auto": null,
+   "ev": "40 tab stops: A|Skip to Today ; BUTTON|Export ; BUTTON|Import ; BUTTON|New habit ; BUTTON|Gym, done today ; BUTTON|Stretch, done today ; BUTTON|Read more, done today ; BUTTON|AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Yoga, done today ; BUTTON|Swim, done today ; BUTTON|Floss, done today ; BUTTON|Edit Swim ; BUTTON|Archive Swim ; BUTTON|Delete Swim ; BUTTON|Fri 23 Oct: not done (today) ; BUTTON|Edit Gym ; BUTTON|Archive Gym ; BUTTON|Delete Gym ; BUTTON|Fri 23 Oct: not done (today) ; BUTTON|Edit Stretch ; BUTTON|Archive Stretch ; BUTTON|Delete Stretch ; BUTTON|Fri 23 Oct: not done (today) ; BUTTON|Edit Floss ; BUTTON|Archive Floss ; BUTTON|Delete Floss ; BUTTON|Fri 23 Oct: not done (today), not schedu ; BUTTON|Edit Read more ; BUTTON|Archive Read more ; BUTTON|Delete Read more ; BUTTON|Fri 23 Oct: not done (today) ; BUTTON|Edit AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Archive AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Delete AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ; BUTTON|Fri 23 Oct: not done (today) ; BUTTON|Edit Yoga ; BUTTON|Archive Yoga ; BUTTON|Delete Yoga ; BUTTON|Fri 23 Oct: not done (today) ; <none>"
+  },
+  "G12": {
+   "auto": true,
+   "ev": "checked 15 focused controls; without visible change: []"
+  },
+  "G14": {
+   "auto": null,
+   "ev": "focus outside dialog on 0/30 tab presses; after Escape focus on BUTTON|New habit (opener header [data-action=add])"
+  },
+  "G09": {
+   "auto": null,
+   "ev": "['Read: saved ', 'Gym: saved ', 'Read done True', 'edit -> saved', 'heat click -> clicked']"
+  },
+  "G08": {
+   "auto": null,
+   "ev": "375 overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0} (pass needs scrollWidth<=376); see screenshots | dialog overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0}"
+  },
+  "G10": {
+   "auto": false,
+   "ev": "168 controls under 40px at 375: ['Mon 3 Aug: not done 17x17', 'Tue 4 Aug: not done 17x17', 'Wed 5 Aug: not done 17x17', 'Thu 6 Aug: not done 17x17', 'Fri 7 Aug: not done 17x17', 'Sat 8 Aug: not done 17x17', 'Sun 9 Aug: not done 17x17', 'Mon 10 Aug: not done 17x17', 'Tue 11 Aug: not done 17x17', 'Wed 12 Aug: not done 17x17', 'Thu 13 Aug: not done 17x17', 'Fri 14 Aug: not done 17x17'] | dialog: 168 ['Mon 3 Aug: not done 17x17', 'Tue 4 Aug: not done 17x17', 'Wed 5 Aug: not done 17x17', 'Thu 6 Aug: not done 17x17', 'Fri 7 Aug: not done 17x17', 'Sat 8 Aug: not done 17x17', 'Sun 9 Aug: not done 17x17', 'Mon 10 Aug: not done 17x17']"
+  },
+  "G05": {
+   "auto": null,
+   "ev": "pageerrors []; console []; text: Skip to Today | Cadence | Undo | Export | Import | New habit |  | Your saved habits couldn\u2019t be read, so Cadence started empty. Import a backup to bring them back. |  | Today |  | Thursday, October 22 |  | No habits yet | Add your first habit to start a streak. Tip: press N any time. | Add a habit |  | N new \u00a0\u00b7\u00a0 \u2191\u2193 move \u00a0\u00b7\u00a0 Space check \u00a0\u00b7\u00a0 Ctrl Z undo |  | Your habits | Your habits will live here | Each habit gets a streak counter and a 1"
+  },
+  "G01": {
+   "auto": true,
+   "ev": "pageerrors []; console errors []"
+  },
+  "G02": {
+   "auto": true,
+   "ev": "outside requests []"
+  },
+  "G03": {
+   "auto": true,
+   "ev": "HTTP>=400 []"
+  }
+ },
+ "storage_keys": [
+  "cadence-habits-v1"
+ ],
+ "probe1280": {
+  "tag": "1280 filled",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Mon 3 Aug: not done 18x18",
+   "Tue 4 Aug: not done 18x18",
+   "Wed 5 Aug: not done 18x18",
+   "Thu 6 Aug: not done 18x18",
+   "Fri 7 Aug: not done 18x18",
+   "Sat 8 Aug: not done 18x18",
+   "Sun 9 Aug: not done 18x18",
+   "Mon 10 Aug: not done 18x18",
+   "Tue 11 Aug: not done 18x18",
+   "Wed 12 Aug: not done 18x18",
+   "Thu 13 Aug: not done 18x18",
+   "Fri 14 Aug: not done 18x18",
+   "Sat 15 Aug: not done 18x18",
+   "Sun 16 Aug: not done 18x18",
+   "Mon 17 Aug: not done 18x18",
+   "Tue 18 Aug: not done 18x18",
+   "Wed 19 Aug: not done 18x18",
+   "Thu 20 Aug: not done 18x18",
+   "Fri 21 Aug: not done 18x18",
+   "Sat 22 Aug: not done 18x18",
+   "Sun 23 Aug: not done 18x18",
+   "Mon 24 Aug: not done 18x18",
+   "Tue 25 Aug: not done 18x18",
+   "Wed 26 Aug: not done 18x18",
+   "Thu 27 Aug: not done 18x18",
+   "Fri 28 Aug: not done 18x18",
+   "Sat 29 Aug: not done 18x18",
+   "Sun 30 Aug: not done 18x18",
+   "Mon 31 Aug: not done 18x18",
+   "Tue 1 Sep: not done 18x18",
+   "Wed 2 Sep: not done 18x18",
+   "Thu 3 Sep: not done 18x18",
+   "Fri 4 Sep: not done 18x18",
+   "Sat 5 Sep: not done 18x18",
+   "Sun 6 Sep: not done 18x18",
+   "Mon 7 Sep: not done 18x18",
+   "Tue 8 Sep: not done 18x18",
+   "Wed 9 Sep: not done 18x18",
+   "Thu 10 Sep: not done 18x18",
+   "Fri 11 Sep: not done 18x18"
+  ],
+  "n_small": 588,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "css": {
+  "reduced": true,
+  "anim": true,
+  "vars": 46,
+  "hover": true,
+  "active": true,
+  "disabled": true,
+  "focus": true,
+  "print": false,
+  "svg": 78,
+  "imgs": []
+ },
+ "tabwalk": [
+  "A|Skip to Today",
+  "BUTTON|Export",
+  "BUTTON|Import",
+  "BUTTON|New habit",
+  "BUTTON|Gym, done today",
+  "BUTTON|Stretch, done today",
+  "BUTTON|Read more, done today",
+  "BUTTON|AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Yoga, done today",
+  "BUTTON|Swim, done today",
+  "BUTTON|Floss, done today",
+  "BUTTON|Edit Swim",
+  "BUTTON|Archive Swim",
+  "BUTTON|Delete Swim",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "BUTTON|Edit Gym",
+  "BUTTON|Archive Gym",
+  "BUTTON|Delete Gym",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "BUTTON|Edit Stretch",
+  "BUTTON|Archive Stretch",
+  "BUTTON|Delete Stretch",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "BUTTON|Edit Floss",
+  "BUTTON|Archive Floss",
+  "BUTTON|Delete Floss",
+  "BUTTON|Fri 23 Oct: not done (today), not schedu",
+  "BUTTON|Edit Read more",
+  "BUTTON|Archive Read more",
+  "BUTTON|Delete Read more",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "BUTTON|Edit AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Archive AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Delete AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "BUTTON|Edit Yoga",
+  "BUTTON|Archive Yoga",
+  "BUTTON|Delete Yoga",
+  "BUTTON|Fri 23 Oct: not done (today)",
+  "<none>"
+ ],
+ "probe1280_dialog": {
+  "tag": "1280 dialog",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Mon 3 Aug: not done 18x18",
+   "Tue 4 Aug: not done 18x18",
+   "Wed 5 Aug: not done 18x18",
+   "Thu 6 Aug: not done 18x18",
+   "Fri 7 Aug: not done 18x18",
+   "Sat 8 Aug: not done 18x18",
+   "Sun 9 Aug: not done 18x18",
+   "Mon 10 Aug: not done 18x18",
+   "Tue 11 Aug: not done 18x18",
+   "Wed 12 Aug: not done 18x18",
+   "Thu 13 Aug: not done 18x18",
+   "Fri 14 Aug: not done 18x18",
+   "Sat 15 Aug: not done 18x18",
+   "Sun 16 Aug: not done 18x18",
+   "Mon 17 Aug: not done 18x18",
+   "Tue 18 Aug: not done 18x18",
+   "Wed 19 Aug: not done 18x18",
+   "Thu 20 Aug: not done 18x18",
+   "Fri 21 Aug: not done 18x18",
+   "Sat 22 Aug: not done 18x18",
+   "Sun 23 Aug: not done 18x18",
+   "Mon 24 Aug: not done 18x18",
+   "Tue 25 Aug: not done 18x18",
+   "Wed 26 Aug: not done 18x18",
+   "Thu 27 Aug: not done 18x18",
+   "Fri 28 Aug: not done 18x18",
+   "Sat 29 Aug: not done 18x18",
+   "Sun 30 Aug: not done 18x18",
+   "Mon 31 Aug: not done 18x18",
+   "Tue 1 Sep: not done 18x18",
+   "Wed 2 Sep: not done 18x18",
+   "Thu 3 Sep: not done 18x18",
+   "Fri 4 Sep: not done 18x18",
+   "Sat 5 Sep: not done 18x18",
+   "Sun 6 Sep: not done 18x18",
+   "Mon 7 Sep: not done 18x18",
+   "Tue 8 Sep: not done 18x18",
+   "Wed 9 Sep: not done 18x18",
+   "Thu 10 Sep: not done 18x18",
+   "Fri 11 Sep: not done 18x18"
+  ],
+  "n_small": 588,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375": {
+  "tag": "375 filled",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Mon 3 Aug: not done 17x17",
+   "Tue 4 Aug: not done 17x17",
+   "Wed 5 Aug: not done 17x17",
+   "Thu 6 Aug: not done 17x17",
+   "Fri 7 Aug: not done 17x17",
+   "Sat 8 Aug: not done 17x17",
+   "Sun 9 Aug: not done 17x17",
+   "Mon 10 Aug: not done 17x17",
+   "Tue 11 Aug: not done 17x17",
+   "Wed 12 Aug: not done 17x17",
+   "Thu 13 Aug: not done 17x17",
+   "Fri 14 Aug: not done 17x17",
+   "Sat 15 Aug: not done 17x17",
+   "Sun 16 Aug: not done 17x17",
+   "Mon 17 Aug: not done 17x17",
+   "Tue 18 Aug: not done 17x17",
+   "Wed 19 Aug: not done 17x17",
+   "Thu 20 Aug: not done 17x17",
+   "Fri 21 Aug: not done 17x17",
+   "Sat 22 Aug: not done 17x17",
+   "Sun 23 Aug: not done 17x17",
+   "Mon 24 Aug: not done 17x17",
+   "Tue 25 Aug: not done 17x17",
+   "Wed 26 Aug: not done 17x17",
+   "Thu 27 Aug: not done 17x17",
+   "Fri 28 Aug: not done 17x17",
+   "Sat 29 Aug: not done 17x17",
+   "Sun 30 Aug: not done 17x17",
+   "Mon 31 Aug: not done 17x17",
+   "Tue 1 Sep: not done 17x17",
+   "Wed 2 Sep: not done 17x17",
+   "Thu 3 Sep: not done 17x17",
+   "Fri 4 Sep: not done 17x17",
+   "Sat 5 Sep: not done 17x17",
+   "Sun 6 Sep: not done 17x17",
+   "Mon 7 Sep: not done 17x17",
+   "Tue 8 Sep: not done 17x17",
+   "Wed 9 Sep: not done 17x17",
+   "Thu 10 Sep: not done 17x17",
+   "Fri 11 Sep: not done 17x17"
+  ],
+  "n_small": 168,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375_dialog": {
+  "tag": "375 dialog",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Mon 3 Aug: not done 17x17",
+   "Tue 4 Aug: not done 17x17",
+   "Wed 5 Aug: not done 17x17",
+   "Thu 6 Aug: not done 17x17",
+   "Fri 7 Aug: not done 17x17",
+   "Sat 8 Aug: not done 17x17",
+   "Sun 9 Aug: not done 17x17",
+   "Mon 10 Aug: not done 17x17",
+   "Tue 11 Aug: not done 17x17",
+   "Wed 12 Aug: not done 17x17",
+   "Thu 13 Aug: not done 17x17",
+   "Fri 14 Aug: not done 17x17",
+   "Sat 15 Aug: not done 17x17",
+   "Sun 16 Aug: not done 17x17",
+   "Mon 17 Aug: not done 17x17",
+   "Tue 18 Aug: not done 17x17",
+   "Wed 19 Aug: not done 17x17",
+   "Thu 20 Aug: not done 17x17",
+   "Fri 21 Aug: not done 17x17",
+   "Sat 22 Aug: not done 17x17",
+   "Sun 23 Aug: not done 17x17",
+   "Mon 24 Aug: not done 17x17",
+   "Tue 25 Aug: not done 17x17",
+   "Wed 26 Aug: not done 17x17",
+   "Thu 27 Aug: not done 17x17",
+   "Fri 28 Aug: not done 17x17",
+   "Sat 29 Aug: not done 17x17",
+   "Sun 30 Aug: not done 17x17",
+   "Mon 31 Aug: not done 17x17",
+   "Tue 1 Sep: not done 17x17",
+   "Wed 2 Sep: not done 17x17",
+   "Thu 3 Sep: not done 17x17",
+   "Fri 4 Sep: not done 17x17",
+   "Sat 5 Sep: not done 17x17",
+   "Sun 6 Sep: not done 17x17",
+   "Mon 7 Sep: not done 17x17",
+   "Tue 8 Sep: not done 17x17",
+   "Wed 9 Sep: not done 17x17",
+   "Thu 10 Sep: not done 17x17",
+   "Fri 11 Sep: not done 17x17"
+  ],
+  "n_small": 168,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "dialogs": [
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all its check-ins? You can undo this right after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all its check-ins? You can undo this right after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cWalk\u201d and all its check-ins? You can undo this right after."
+  ]
+ ]
+}

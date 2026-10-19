@@ -1,0 +1,392 @@
+{
+ "label": "B16",
+ "spec": "invoice",
+ "first_text": "Skip to content\nFolio\nInvoices\nClients\nSettings\n\nWelcome to Folio. Nothing is saved yet, so you're starting with an empty workspace. Add your business details first; they appear on every new invoice.\n\nSet up business profile\nInvoices\n\nCreate, send and track what you\u2019re owed.\n\nExport CSV\nNew invoice\nNo invoices yet\n\nCreate your first invoice. You can add the client right from the editor.\n\nCreate an",
+ "nums": [
+  "2026-0001",
+  "2026-0002",
+  "2026-0003",
+  "2026-0004"
+ ],
+ "json_export": "/tmp/dr11dl_thvrmu1a/folio-backup-2026-10-22.json",
+ "items": {
+  "I01": {
+   "auto": null,
+   "ev": "save -> saved; after reload settings read {'name': 'Northwind Studio', 'address': '1 Harbour St, Leeds', 'taxid': 'GB123', 'currency': 'EUR', 'taxrate': '20'}"
+  },
+  "I03": {
+   "auto": true,
+   "ev": "add Acme -> saved; clients ['AI Acme, Inc.  billing@acme.test  No invoices yet', 'BL Beta LLC  No email  No invoices yet', 'GC Gamma Co  gamma@g.test  No invoices yet']"
+  },
+  "I04": {
+   "auto": null,
+   "ev": "empty name -> refused, inline errors [\"Enter the client's name.\"]"
+  },
+  "I05": {
+   "auto": null,
+   "ev": "bad@ -> refused, inline errors [\"That email doesn't look right. Check for typos, like name@example.com.\"]; no email (Beta LLC) -> saved; clients ['AI Acme, Inc.  billing@acme.test  No invoices yet', 'BL Beta LLC  No email  No invoices yet', 'GC Gamma Co  gamma@g.test  No invoices yet']"
+  },
+  "I02": {
+   "auto": null,
+   "ev": "new invoice 2026-0001: fields {'number': '2026-0001', 'issue': '2026-10-22', 'due': '2026-11-05', 'currency': 'EUR'}; new line tax 20; business name shown False | on invoice #1 after setup, business name shown False"
+  },
+  "I24": {
+   "auto": null,
+   "ev": "lines [('Design', '0.5', '2.01', '0', '0'), ('Hosting', '3', '19.99', '10', '20'), ('Support', '2', '12.50', '0', '5')]; line amounts ['$1.01', '$53.97', '$25.00']; totals Summary Subtotal $85.98 Discount \u2212$6.00 Tax 5% $1.25 Tax 20% $10.79 Total $92.02 Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in US dollar (USD)"
+  },
+  "I25": {
+   "auto": null,
+   "ev": "totals block Summary Subtotal $85.98 Discount \u2212$6.00 Tax 5% $1.25 Tax 20% $10.79 Total $92.02 Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in US dollar (USD)"
+  },
+  "I28": {
+   "auto": null,
+   "ev": "EUR totals Summary Subtotal 85,98\u00a0\u20ac Discount \u22126,00\u00a0\u20ac Tax 5% 1,25\u00a0\u20ac Tax 20% 10,79\u00a0\u20ac Total 92,02\u00a0\u20ac Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in Euro (EUR) lines ['1,01\\xa0\u20ac', '53,97\\xa0\u20ac', '25,00\\xa0\u20ac']; GBP totals Summary Subtotal \u00a385.98 Discount \u2212\u00a36.00 Tax 5% \u00a31.25 Tax 20% \u00a310.79 Total \u00a392.02 Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in British pound (GBP); back to USD Summary Subtotal $85.98 Discount \u2212$6.00 Tax 5% $1.25 Tax 20% $10.79 Total $92.02 Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in US dollar (USD)"
+  },
+  "I17": {
+   "auto": null,
+   "ev": "currency options ['USD \u00b7 US dollar', 'EUR \u00b7 Euro', 'GBP \u00b7 British pound', 'INR \u00b7 Indian rupee', 'JPY \u00b7 Japanese yen']"
+  },
+  "I14": {
+   "auto": null,
+   "ev": "first 2026-0001, second 2026-0002"
+  },
+  "I15": {
+   "auto": null,
+   "ev": "set #2 number to 2026-0001 -> set; errors ['2026-0001 is already used by another invoice. Pick a different number.']; list rows after leaving ['2026-0001 | Acme, Inc. | Oct 22, 2026 | Nov 5, 2026 | $92.02 |  Draft', '2026-0001 Needs attention | No client | Oct 22, 2026 | Nov 5, 2026 | 0,00\\xa0\u20ac |  Draft']"
+  },
+  "I16": {
+   "auto": null,
+   "ev": "issue 22 Oct, due 20 Oct -> set; errors [\"This draft was left with fields that need attention. They're marked below.\", 'Choose who this invoice is for.', \"The due date can't be before the issue date.\", 'Describe this item.', 'Enter a unit price (0 is fine).']"
+  },
+  "I18": {
+   "auto": null,
+   "ev": "lines ['X', 'Y', 'Z'] totals Summary Subtotal $60.00 Discount $0.00 Tax $0.00 Total $60.00 Bill to: Gamma Co Due: Nov 5, 2026 Amounts in US dollar (USD); remove middle -> ['X', 'Z'] totals Summary Subtotal $40.00 Discount $0.00 Tax $0.00 Total $40.00 Bill to: Gamma Co Due: Nov 5, 2026 Amounts in US dollar (USD)"
+  },
+  "I19": {
+   "auto": null,
+   "ev": "empty description -> marked aria-invalid fields 1, messages ['Describe this item.']"
+  },
+  "I20": {
+   "auto": null,
+   "ev": "qty tests [('0', \"aria-invalid fields 1, messages ['Quantity must be more than 0.']\", ['\u2014', '$30.00']), ('-1', \"aria-invalid fields 1, messages ['Quantity must be more than 0.']\", ['\u2014', '$30.00']), ('1.234', \"aria-invalid fields 1, messages ['Use up to 2 decimal places.']\", ['\u2014', '$30.00'])]"
+  },
+  "I21": {
+   "auto": null,
+   "ev": "tests [('price', '-5', 'aria-invalid fields 1, messages [\"Price can\\'t be negative.\"]', ['\u2014', '$30.00']), ('disc', '101', 'aria-invalid fields 1, messages [\"Discount can\\'t be more than 100%.\"]', ['\u2014', '$30.00']), ('disc', '-1', 'aria-invalid fields 1, messages [\"Discount can\\'t be negative.\"]', ['\u2014', '$30.00'])]"
+  },
+  "I22": {
+   "auto": null,
+   "ev": "['X', 'Z', 'W'] -Alt+Up on line 2-> ['Z', 'X', 'W'] (f-l-707b17b2-fbc6-4e91-b68e-2079829e8997-description|Z) -Alt+Down on line 1-> ['X', 'Z', 'W'] (f-l-707b17b2-fbc6-4e91-b68e-2079829e8997-description|Z)"
+  },
+  "I23": {
+   "auto": null,
+   "ev": "drag line 3 above line 1 (drag_to handle) -> ['W', 'X', 'Z']"
+  },
+  "I27": {
+   "auto": null,
+   "ev": "USD 1x1234567.5 -> lines ['$1,234,567.50'], totals Summary Subtotal $1,234,567.50 Discount $0.00 Tax $0.00 Total $1,234,567.50 Bill to: Gamma Co Due: Nov 5, 2026 Amounts in US dollar (USD); INR totals Summary Subtotal \u20b912,34,567.50 Discount \u20b90.00 Tax \u20b90.00 Total \u20b912,34,567.50 Bill to: Gamma Co Due: Nov 5, 2026 Amounts in Indian rupee (INR)"
+  },
+  "I26": {
+   "auto": null,
+   "ev": "JPY 3x1234 tax10 -> lines ['\uffe53,702']; totals Summary Subtotal \uffe53,702 Discount \uffe50 Tax 10% \uffe5370 Total \uffe54,072 Bill to: Beta LLC Due: Nov 5, 2026 Amounts in Japanese yen (JPY)"
+  },
+  "I35": {
+   "auto": true,
+   "ev": "after typing + reload (no save click): lines ['Yen job autosave']"
+  },
+  "I36": {
+   "auto": null,
+   "ev": "saved indicator text \"Saved at 10:00:25 AM\""
+  },
+  "I37": {
+   "auto": null,
+   "ev": "cleared desc, left editor; list rows ['2026-0003 Needs attention | Beta LLC | Oct 22, 2026 | Nov 5, 2026 | \uffe54,072 |  Draft', '2026-0002 | Gamma Co | Oct 22, 2026 | Nov 5, 2026 | $1,234,567.50 |  Draft', '2026-0001 | Acme, Inc. | Oct 22, 2026 | Nov 5, 2026 | $92.02 |  Draft']; reopened: lines [''], field marked aria-invalid fields 1, messages ['Describe this item.'], totals Summary Subtotal \uffe53,702 Discount \uffe50 Tax 10% \uffe5370 Total \uffe54,072 Bill to: Beta LLC Due: Nov 5, 2026 Amounts in Japanese yen (JPY)"
+  },
+  "I10": {
+   "auto": null,
+   "ev": "A=2026-0001 sent (clicked) due 15 Oct, B=2026-0002 draft due 15 Oct, C=2026-0004 sent (clicked) due 30 Oct, JPY=2026-0003 draft; list rows ['2026-0003 | Beta LLC | Oct 22, 2026 | Nov 5, 2026 | \uffe54,072 |  Draft', '2026-0004 | Acme, Inc. | Oct 20, 2026 | Oct 30, 2026 | $500.00 |  Sent', '2026-0002 | Gamma Co | Oct 1, 2026 | Oct 15, 2026 | $1,234,567.50 |  Draft', '2026-0001 | Acme, Inc. | Oct 1, 2026 | Oct 15, 2026 | $92.02 |  Overdue']"
+  },
+  "I09": {
+   "auto": null,
+   "ev": "list rows (columns) ['2026-0003 | Beta LLC | Oct 22, 2026 | Nov 5, 2026 | \uffe54,072 |  Draft', '2026-0004 | Acme, Inc. | Oct 20, 2026 | Oct 30, 2026 | $500.00 |  Sent', '2026-0002 | Gamma Co | Oct 1, 2026 | Oct 15, 2026 | $1,234,567.50 |  Draft', '2026-0001 | Acme, Inc. | Oct 1, 2026 | Oct 15, 2026 | $92.02 |  Overdue']"
+  },
+  "I11": {
+   "auto": null,
+   "ev": "filters {'Draft': ['2026-0003:\\nDraft', '2026-0002:\\nDraft'], 'Sent': ['2026-0004:\\nSent'], 'Paid': [], 'Overdue': ['2026-0001:\\nOverdue']}"
+  },
+  "I12": {
+   "auto": null,
+   "ev": "search acme -> ['2026-0004', '2026-0001']; search 2026-0004 -> ['2026-0004']"
+  },
+  "I13": {
+   "auto": null,
+   "ev": "sorts {'Newest first': [('2026-0003', 'Oct 22, 2026', '\uffe54,072'), ('2026-0004', 'Oct 20, 2026', '$500.00'), ('2026-0002', 'Oct 1, 2026', '$1,234,567.50'), ('2026-0001', 'Oct 1, 2026', '$92.02')], 'Oldest first': [('2026-0001', 'Oct 1, 2026', '$92.02'), ('2026-0002', 'Oct 1, 2026', '$1,234,567.50'), ('2026-0004', 'Oct 20, 2026', '$500.00'), ('2026-0003', 'Oct 22, 2026', '\uffe54,072')], 'Highest total': [('2026-0002', 'Oct 1, 2026', '$1,234,567.50'), ('2026-0003', 'Oct 22, 2026', '\uffe54,072'), ('2026-0004', 'Oct 20, 2026', '$500.00'), ('2026-0001', 'Oct 1, 2026', '$92.02')], 'Lowest total': [('2026-0001', 'Oct 1, 2026', '$92.02'), ('2026-0004', 'Oct 20, 2026', '$500.00'), ('2026-0003', 'Oct 22, 2026', '\uffe54,072'), ('2026-0002', 'Oct 1, 2026', '$1,234,567.50')]}"
+  },
+  "I06": {
+   "auto": null,
+   "ev": "edit -> saved; clients ['AI Acme, Inc.  billing@acme.test  2 invoices', 'BL Beta Ltd  No email  1 invoice', 'GC Gamma Co  gamma@g.test  1 invoice']; invoice rows ['2026-0001 | Acme, Inc. | Oct 1, 2026 | Oct 15, 2026 | $92.02 |  Overdue', '2026-0004 | Acme, Inc. | Oct 20, 2026 | Oct 30, 2026 | $500.00 |  Sent', '2026-0003 | Beta Ltd | Oct 22, 2026 | Nov 5, 2026 | \uffe54,072 |  Draft', '2026-0002 | Gamma Co | Oct 1, 2026 | Oct 15, 2026 | $1,234,567.50 |  Draft']"
+  },
+  "I07": {
+   "auto": null,
+   "ev": "delete Acme (used) -> dialogs []; message: Acme, Inc. is on 2 invoices, so it can't be deleted. Delete those invoices or switch them to another client first. / Client updated; clients after [\"AI Acme, Inc.  billing@acme.test  2 invoices  Acme, Inc. is on 2 invoices, so it can't be deleted. Delete those invoices or switch them to another client first.\", 'BL Beta Ltd  No email  1 invoice', 'GC Gamma Co  gamma@g.test  1 invoice']"
+  },
+  "I08": {
+   "auto": null,
+   "ev": "unused Delta: dismiss -> dialogs [('confirm', \"Delete Delta Unused? This can't be undone.\")]; message: Delta Unused added, present True; accept -> dialogs [('confirm', \"Delete Delta Unused? This can't be undone.\")]; message: Delta Unused added\nDelta Unused deleted, present False; confirm dialogs so far 2"
+  },
+  "I29": {
+   "auto": null,
+   "ev": "invoice C marked sent earlier: status now Sent | Saved at 10:00:35 AM | Mark as paid Duplicate Print Delete; A clicked"
+  },
+  "I30": {
+   "auto": null,
+   "ev": "mark paid -> paid dialog with date; status Paid | Saved at 10:00:50 AM | Reopen Duplicate Print Delete"
+  },
+  "I31": {
+   "auto": null,
+   "ev": "paid: line field readonly True, client disabled True, fill attempt -> fill refused; actions ['Reopen', 'Duplicate', 'Print', 'Delete']; reopen button 1; after reopen readonly False"
+  },
+  "I32": {
+   "auto": null,
+   "ev": "duplicate -> clicked; new fields {'number': '2026-0005', 'issue': '2026-10-22', 'due': '2026-11-01', 'currency': 'USD'}; lines ['Retainer']; status Draft | Saved at 10:00:53 AM | Mark as sent Duplicate Print Delete"
+  },
+  "I33": {
+   "auto": null,
+   "ev": "dismiss -> rows 5 (dup 2026-0005 present True); accept -> rows 4 present False"
+  },
+  "I34": {
+   "auto": null,
+   "ev": "visible buttons/nav/header in print: []; print CSS rules with break-inside avoid on: ['.inv-table tbody tr', '.pdoc-lines tr']; print css length 694; computed break-inside of visible total blocks in print: ['pdoc-totals:avoid']; print text Invoice |  | No. 2026-0001 |  | FROM |  | Northwind Studio |  | 1 Harbour St, Leeds |  | Tax ID: GB123 |  | BILL TO |  | Acme, Inc. |  | billing@acme.test |  | ISSUE DATE | Oct 1, 2026 | DUE DATE | Oct 15, 2026 | STATUS | Overdue | CURRENCY | USD | DESCRIPTION\tQTY\tUNIT PRICE\tDISC.\tTAX\tAMOUNT | Design\t0.5\t$2.01\t\u2014\t0%\t$1.01 | Hosting\t3\t$19.99\t10%\t20%\t$53.97"
+  },
+  "I38": {
+   "auto": null,
+   "ev": "file invoices-2026-10-22.csv; first line 'number,client,issue_date,due_date,currency,total,status'; rows [['number', 'client', 'issue_date', 'due_date', 'currency', 'total', 'status'], ['2026-0001', 'Acme, Inc.', '2026-10-01', '2026-10-15', 'USD', '92.02', 'Overdue'], ['2026-0004', 'Acme, Inc.', '2026-10-20', '2026-10-30', 'USD', '500.00', 'Sent'], ['2026-0003', 'Beta Ltd', '2026-10-22', '2026-11-05', 'JPY', '4072', 'Draft'], ['2026-0002', 'Gamma Co', '2026-10-01', '2026-10-15', 'USD', '1234567.50', 'Draft']]"
+  },
+  "I39": {
+   "auto": null,
+   "ev": "export folio-backup-2026-10-22.json: {\n  \"version\": 1,\n  \"profile\": {\n    \"name\": \"Northwind Studio\",\n    \"address\": \"1 Harbour St, Leeds\",\n    \"taxId\": \"GB123\",\n    \"currency\": \"EUR\",\n    \"taxRate\": \"20\"\n  },\n  \"clients\": [\n    {\n      "
+  },
+  "I40": {
+   "auto": null,
+   "ev": "bad text -> bad.json isn't a valid Folio backup. Nothing was changed.; wrong shape -> bad2.json isn't a valid Folio backup. Nothing was changed.; rows unchanged True"
+  },
+  "G06": {
+   "auto": true,
+   "ev": "rows before 4 after reload 4; same row set True; same order False (order may reset with the sort control; only data counts)"
+  },
+  "G04": {
+   "auto": null,
+   "ev": "localStorage keys: [\"folio-invoice-builder:v1\"]"
+  },
+  "G15": {
+   "auto": true,
+   "ev": "reduced-motion rule True, has transitions/animations True"
+  },
+  "G18": {
+   "auto": true,
+   "ev": "{\"vars\": 44, \"svg\": 11, \"hover\": true, \"active\": true, \"disabled\": true, \"focus\": true, \"imgs\": []}"
+  },
+  "G16": {
+   "auto": true,
+   "ev": "low-contrast texts at 1280: 0 []"
+  },
+  "G13": {
+   "auto": true,
+   "ev": "unlabelled inputs (main view): [] | in dialog: []"
+  },
+  "G11": {
+   "auto": null,
+   "ev": "19 tab stops: A|Skip to content ; A|Folio, go to invoices ; A|Invoices ; A|Clients ; BUTTON|Settings ; BUTTON|Export CSV ; BUTTON|New invoice ; BUTTON|All 4 ; BUTTON|Draft 2 ; BUTTON|Sent 1 ; BUTTON|Overdue 1 ; BUTTON|Paid 0 ; INPUT|Search client or number ; SELECT|Newest first Oldest first Highest total  ; A|2026-0003 ; A|2026-0004 ; A|2026-0002 ; A|2026-0001 ; <none>"
+  },
+  "G12": {
+   "auto": true,
+   "ev": "checked 15 focused controls; without visible change: []"
+  },
+  "G14": {
+   "auto": null,
+   "ev": "focus outside dialog on 0/30 tab presses; after Escape focus on BUTTON|Settings (opener header [data-act=settings])"
+  },
+  "IMPORT_FRESH": {
+   "auto": null,
+   "ev": "fresh import -> Data imported; rows ['2026-0003 | Beta Ltd | Oct 22, 2026 | Nov 5, 2026 | \uffe54,072 |  Draft', '2026-0004 | Acme, Inc. | Oct 20, 2026 | Oct 30, 2026 | $500.00 |  Sent', '2026-0002 | Gamma Co | Oct 1, 2026 | Oct 15, 2026 | $1,234,567.50 |  Draft', '2026-0001 | Acme, Inc. | Oct 1, 2026 | Oct 15, 2026 | $92.02 |  Overdue']; clients ['AI Acme, Inc.  billing@acme.test  2 invoices', 'BL Beta Ltd  No email  1 invoice', 'GC Gamma Co  gamma@g.test  1 invoice']; settings {'name': 'Northwind Studio', 'address': '1 Harbour St, Leeds', 'taxid': 'GB123', 'currency': 'EUR', 'taxrate': '20'}"
+  },
+  "G09": {
+   "auto": null,
+   "ev": "['saved', 'totals Summary Subtotal $100.00 Discount $0.00 Tax $0.00 Total $100.00 Bill to: Acme, Inc. Due: Nov 5, 2026 Amounts in US dollar (USD)', 'mark sent clicked', \"rows ['2026-0001 Acme, Inc. Oct 22, 2026 Nov 5, 2026 $100.00 Sent']\"]"
+  },
+  "G08": {
+   "auto": null,
+   "ev": "375 overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0} (pass needs scrollWidth<=376); see screenshots | dialog overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0}"
+  },
+  "G10": {
+   "auto": false,
+   "ev": "7 controls under 40px at 375: ['Folio, go to invoices 30x40', 'Set up business profile 226x36', 'All\\n1 66x36', 'Draft\\n0 82x36', 'Sent\\n1 79x36', 'Overdue\\n0 104x36', 'Paid\\n0 77x36'] | dialog: 7 ['Folio, go to invoices 30x40', 'Set up business profile 226x36', 'All\\n1 66x36', 'Draft\\n0 82x36', 'Sent\\n1 79x36', 'Overdue\\n0 104x36', 'Paid\\n0 77x36']"
+  },
+  "G05": {
+   "auto": null,
+   "ev": "pageerrors []; console []; text: Skip to content | Folio | Invoices | Clients | Settings |  | We couldn't read your saved data, so you're starting with an empty workspace. Your next change will replace the unreadable data. |  | Invoices |  | Create, send and track what you\u2019re owed. |  | Export CSV | New invoice | No invoices yet |  | Create your first invoice. You can add the client right from the editor. |  | Create an invoice"
+  },
+  "G01": {
+   "auto": true,
+   "ev": "pageerrors []; console errors []"
+  },
+  "G02": {
+   "auto": true,
+   "ev": "outside requests []"
+  },
+  "G03": {
+   "auto": true,
+   "ev": "HTTP>=400 []"
+  }
+ },
+ "storage_keys": [
+  "folio-invoice-builder:v1"
+ ],
+ "probe1280": {
+  "tag": "1280 filled",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "All\n4 66x36",
+   "Draft\n2 82x36",
+   "Sent\n1 79x36",
+   "Overdue\n1 104x36",
+   "Paid\n0 77x36",
+   "2026-0003 87x19",
+   "2026-0004 87x19",
+   "2026-0002 87x19",
+   "2026-0001 84x19"
+  ],
+  "n_small": 9,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "css": {
+  "reduced": true,
+  "anim": true,
+  "vars": 44,
+  "hover": true,
+  "active": true,
+  "disabled": true,
+  "focus": true,
+  "print": true,
+  "svg": 11,
+  "imgs": []
+ },
+ "tabwalk": [
+  "A|Skip to content",
+  "A|Folio, go to invoices",
+  "A|Invoices",
+  "A|Clients",
+  "BUTTON|Settings",
+  "BUTTON|Export CSV",
+  "BUTTON|New invoice",
+  "BUTTON|All 4",
+  "BUTTON|Draft 2",
+  "BUTTON|Sent 1",
+  "BUTTON|Overdue 1",
+  "BUTTON|Paid 0",
+  "INPUT|Search client or number",
+  "SELECT|Newest first Oldest first Highest total ",
+  "A|2026-0003",
+  "A|2026-0004",
+  "A|2026-0002",
+  "A|2026-0001",
+  "<none>"
+ ],
+ "probe1280_dialog": {
+  "tag": "1280 dialog",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "All\n4 66x36",
+   "Draft\n2 82x36",
+   "Sent\n1 79x36",
+   "Overdue\n1 104x36",
+   "Paid\n0 77x36",
+   "2026-0003 87x19",
+   "2026-0004 87x19",
+   "2026-0002 87x19",
+   "2026-0001 84x19"
+  ],
+  "n_small": 9,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375": {
+  "tag": "375 filled",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Folio, go to invoices 30x40",
+   "Set up business profile 226x36",
+   "All\n1 66x36",
+   "Draft\n0 82x36",
+   "Sent\n1 79x36",
+   "Overdue\n0 104x36",
+   "Paid\n0 77x36"
+  ],
+  "n_small": 7,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375_dialog": {
+  "tag": "375 dialog",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Folio, go to invoices 30x40",
+   "Set up business profile 226x36",
+   "All\n1 66x36",
+   "Draft\n0 82x36",
+   "Sent\n1 79x36",
+   "Overdue\n0 104x36",
+   "Paid\n0 77x36"
+  ],
+  "n_small": 7,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "dialogs": [
+  [
+   "confirm",
+   "Delete Delta Unused? This can't be undone."
+  ],
+  [
+   "confirm",
+   "Delete Delta Unused? This can't be undone."
+  ],
+  [
+   "confirm",
+   "Delete invoice 2026-0005? This can't be undone."
+  ],
+  [
+   "confirm",
+   "Delete invoice 2026-0005? This can't be undone."
+  ],
+  [
+   "confirm",
+   "Replace everything with 3 clients and 4 invoices from folio-backup-2026-10-22.json?"
+  ]
+ ]
+}

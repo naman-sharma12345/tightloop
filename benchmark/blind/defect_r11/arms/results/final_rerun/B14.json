@@ -1,0 +1,355 @@
+{
+ "label": "B14",
+ "spec": "trip",
+ "json_export": "/tmp/dr11dl_glzptbb_/lisbon.json",
+ "items": {
+  "T31": {
+   "auto": null,
+   "ev": "first load text: Skip to content | Wayfare | Undo | Redo | Import | New trip | Plan your next trip |  | You don\u2019t have any trips yet. Create one to lay out your days, activities and a shared budget, or import a trip you exported earlier. |  | Create a trip | Import JSON"
+  },
+  "T02": {
+   "auto": null,
+   "ev": "end<start: trips 0->0, errors=['The end date can\u2019t be before the start date.']; 31 days: trips 0->0, errors=['Trips can be up to 30 days; this one is 31.']; 1-day: trips 0->1"
+  },
+  "T03": {
+   "auto": null,
+   "ev": "0 travellers: trips 0->0 err=['Add at least one traveller.']; 9th traveller: fill reported add refused at #9: ['A trip can have up to 8 travellers.']; 9 travellers submit: trips 0->0, travellers=None; dup Ana: trips 0->0 err=['Ana is already on the list. Use a different name, like adding an initial.']"
+  },
+  "T01": {
+   "auto": true,
+   "ev": "trips 0->1, days shown 4, travellers=['Ana, Ben, Cy']"
+  },
+  "T07": {
+   "auto": true,
+   "ev": "day1 titles ['Lunch']"
+  },
+  "T08": {
+   "auto": true,
+   "ev": "errors=['Give the activity a title.']; day1 ['Lunch']->['Lunch']"
+  },
+  "T09": {
+   "auto": null,
+   "ev": "duration control: select with 48 options: first ['15 min', '30 min'] last ['11 h 45 min', '12 h'] (values not offerable outside the list)"
+  },
+  "T11": {
+   "auto": true,
+   "ev": "Museum (no cost) saved: day1 ['Coffee', 'Lunch', 'Museum']"
+  },
+  "T13": {
+   "auto": null,
+   "ev": "conflict texts day1: ['Conflict: overlaps Museum 13:00-14:30', 'Conflict: overlaps Lunch 12:30-13:30']"
+  },
+  "T12": {
+   "auto": null,
+   "ev": "day2 order after adds ['Tram', 'Tile shop', 'Walk']; after Tram->16:00 ['Tile shop', 'Walk', 'Tram']"
+  },
+  "T10": {
+   "auto": null,
+   "ev": "category control + icons: picker ['Food:<path d=\"M4 3v6a2 2 0 0 0 2 2h2a2 2 0 0 ', 'Sight:<path d=\"M14.5 4.5h-5L7.5 7H5a2 2 0 0 0-', 'Transport:<rect x=\"5\" y=\"3\" width=\"14\" height=\"14\"', 'Stay:<path d=\"M3 19V6M3 15h18v4M21 15v-3a3 3 ', 'Other:<path d=\"M12 3.5l2.4 5 5.4.7-4 3.8 1 5.4']; cards ['Food:\\nCoffee:<svg class=\"icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" foc:', 'Food:\\nLunch:<svg class=\"icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" foc:', 'Sight:\\nMuseum:<svg class=\"icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" foc:', 'Other:\\nTile shop:<svg class=\"icon\" viewBox=\"0 0 24 24\" aria-hidden="
+  },
+  "T18": {
+   "auto": null,
+   "ev": "edit result saved; reopened: {'title': 'Walk Alfama', 'start': '17:00', 'place': 'Alfama', 'cost': '12.50', 'notes': 'line 1\\nline 2', 'duration': '45', 'category': 'Sight'}"
+  },
+  "T19": {
+   "auto": null,
+   "ev": "[\"split none -> dialog open 1 errors ['Pick at least one person to split the cost with.']\", 'Ana+Ben -> dialog open 0', 'reopen paid-by value Ana, split checked 2']"
+  },
+  "T20": {
+   "auto": null,
+   "ev": "['button: open=0', 'Escape: open=0', 'backdrop: open=0']"
+  },
+  "T14": {
+   "auto": true,
+   "ev": "day3 before []; after drag day1 ['Coffee', 'Lunch'] day3 ['Museum']"
+  },
+  "T15": {
+   "auto": true,
+   "ev": "menu result keyboard menu items ['Day 1 Sun 1 Nov Curr', 'Day 2 Mon 2 Nov', 'Day 3 Tue 3 Nov', 'Day 4 Wed 4 Nov', 'Unscheduled']; day1 ['Lunch']; day2 ['Coffee', 'Tile shop', 'Tram', 'Walk Alfama']"
+  },
+  "T16": {
+   "auto": null,
+   "ev": "after Museum leaves day1: day1 conflicts []; day3 conflicts []; Lunch moved to day3 -> day3 conflicts ['Conflict: overlaps Museum 13:00-14:30', 'Conflict: overlaps Lunch 12:30-13:30']; Lunch time text 12:30\u201313:30 \u00b7 1 h"
+  },
+  "T22": {
+   "auto": null,
+   "ev": "budget (Lunch 45 Food day1, Train 30 Transport day2, Snack 25 Food day2; expected total 100, Food 70, Transport 30, day1 45, day2 55): Budget |  | TOTAL |  | 100.00 |  | 3 activities with a cost \u00b7 33.33 per person |  | BY CATEGORY | Food | 70.00 | Transport | 30.00 | BY DAY | Day 1 \u00b7 Sun 1 Nov | 45.00 | Day 2 \u00b7 Mon 2 Nov | 55.00 | Day 3 \u00b7 Tue 3 Nov | \u2014 | Day 4 \u00b7 Wed 4 Nov | \u2014 | SETTLE UP | What each traveller paid, their share, and their balance | Traveller\tPaid\tShare\tBalance | Ana\t100.00\t40.83\t+59.17 | Ben\t0.00\t40.84\t\u221240.84 | Cy\t0.00\t18.33\t\u221218.33 | 2 transfers settle everything | Ben | pays |"
+  },
+  "T23": {
+   "auto": null,
+   "ev": "settle text: Budget |  | TOTAL |  | 130.00 |  | 2 activities with a cost \u00b7 43.33 per person |  | BY CATEGORY | Food | 100.00 | Transport | 30.00 | BY DAY | Day 1 \u00b7 Sun 1 Nov | 100.00 | Day 2 \u00b7 Mon 2 Nov | 30.00 | Day 3 \u00b7 Tue 3 Nov | \u2014 | Day 4 \u00b7 Wed 4 Nov | \u2014 | SETTLE UP | What each traveller paid, their share, and their balance | Traveller\tPaid\tShare\tBalance | Ana\t100.00\t33.34\t+66.66 | Ben\t30.00\t48.33\t\u221218.33 | Cy\t0.00\t48.33\t\u221248.33 | 2 transfers settle everything | Cy | pays | Ana | 48.33 | Ben | pays | Ana | 18.33"
+  },
+  "T27": {
+   "auto": null,
+   "ev": "search market: marks 1, status \"1 of 8 activities match \u201cmarket\u201d.\", columns ['tray:852:cards0', 'day:284:cards1', 'day is-collapsed:67:cards0', 'day is-collapsed:67:cards0', 'day is-collapsed:67:cards0'], visible cards ['Food:\\nLunch(card cat-food is-match)']; search museum: marks 1, status \"1 of 8 activities match \u201cmuseum\u201d.\", columns ['tray:852:cards0', 'day is-collapsed:67:cards0', 'day is-collapsed:67:cards0', 'day:284:cards1', 'day is-collapsed:67:cards0'], visible cards ['Sight:\\nMuseum(card cat-sight is-match)']"
+  },
+  "T28": {
+   "auto": null,
+   "ev": "scheduled activities by day {'Lunch': 1, 'Train': 2, 'Coffee': 2, 'Tile shop': 2, 'Tram': 2, 'Walk Alfama': 2, 'Snack': 2, 'Museum': 3}; ics file lisbon.ics: 8 VEVENTs [('Lunch', '20261101T123000', '20261101T133000', None), ('Train', '20261102T080000', '20261102T083000', None), ('Coffee', '20261102T113000', '20261102T123000', None), ('Tile shop', '20261102T120000', '20261102T123000', None), ('Tram', '20261102T160000', '20261102T163000', None), ('Walk Alfama', '20261102T170000', '20261102T174500', None), ('Snack', '20261102T200000', '20261102T201500', None), ('Museum', '20261103T130000', '20261"
+  },
+  "T29_export": {
+   "auto": true,
+   "ev": "json export {\n  \"app\": \"wayfare-trip-planner\",\n  \"version\": 1,\n  \"exportedAt\": \"2026-10-22T04:30:33.194Z\",\n  \"trip\": {\n    \"name\": \"Lisbon\",\n    \"start\": \"2026-11-01\",\n    \"end\": \"2026-11-04\",\n    \"travellers\": [\n      \"Ana\",\n      \"Ben\",\n      \"Cy\"\n    ],\n    \"activities\": [\n      {\n        \"id\": \"1aziwhvzlpmx"
+  },
+  "T24": {
+   "auto": true,
+   "ev": "day4 add ['UndoMe']; undo []; redo ['UndoMe']"
+  },
+  "T25": {
+   "auto": true,
+   "ev": "Ctrl+Z -> []; Shift+Ctrl+Z -> ['UndoMe']"
+  },
+  "T26": {
+   "auto": null,
+   "ev": "base ['UndoMe']; after 21 adds 22 items; after 20 undos ['U01', 'UndoMe']; 21st undo -> ['U01', 'UndoMe']"
+  },
+  "T17": {
+   "auto": null,
+   "ev": "day4 before ['U01', 'UndoMe']; day3 had Lunch/Museum; after end->11-02 message: form warning \"2 days. 3 activities will move to Unscheduled. \"; after:  / Unscheduled\n3\n\nDrag these onto a day, or use \u201cMove to\u2026\u201d.\n\nOther:\nU01\n\n06:00\u201306:15 \u00b7 15 min\n\nMove to\u2026\n(U01)\nOther:\nUndoMe\n\n10:00\u201310:30 \u00b7 30 min\n\nX\n\nMove to\u2026\n(UndoMe)\nSight:\nMuseum\n\n13:00\u201314:30 \u00b7 1 h 30 min\n\nMNAA\n\nMove to\u2026\n(Museum) / 3 activities moved to Unscheduled because their days are no longe \u2026 rag these onto a day, or use \u201cMove to\u2026\u201d.\n\nOther:\nU01\n\n06:00\u201306:15 \u00b7 15 min\n\nMove to\u2026\n(U01)\nOther:\nUndoMe\n\n10:00\u201310:30 \u00b7 30 min\n\nX\n\nMove to\u2026\n(UndoM"
+  },
+  "T04": {
+   "auto": true,
+   "ev": "after rename+reload name present: True"
+  },
+  "G06": {
+   "auto": null,
+   "ev": "after reload text: Skip to content | Wayfare | Current trip | Lisbon & Porto | Undo | Redo | Import | New trip | Lisbon & Porto | Sun 1 Nov \u2013 Wed, 4 Nov 2026 \u00b7 4 days | A | B | C | Ana, Ben, Cy | Edit trip | Delete | Search activities by title or place | Export .ics | Export JSON | Unscheduled | 3 |  | Drag these onto a day, or use \u201cMove to\u2026\u201d. |  | Other: | U01 |  | 06:00\u201306:15 \u00b7 15 min |  | Move to\u2026 | (U01) | Other: | UndoMe |  | 10:00\u201310:30 \u00b7 30 min |  | X |  | Move to\u2026 | (UndoMe) | Sight: | Mu"
+  },
+  "T21": {
+   "auto": null,
+   "ev": "['dismiss -> still present 1', 'accept -> present 0', \"dialogs [('confirm', 'Delete \u201cMuseum\u201d? You can undo this straight after.'), ('confirm', 'Delete \u201cMuseum\u201d? You can undo this straight after.')]\"]"
+  },
+  "T06": {
+   "auto": null,
+   "ev": "[{'cols': 4, 'sw': 1188, 'cw': 852, 'ox': 'auto', 'page_sw': 1280}, {'cols': 10, 'sw': 2988, 'cw': 852, 'ox': 'auto', 'page_sw': 1280}]"
+  },
+  "T30": {
+   "auto": null,
+   "ev": "bad text import msg=Couldn\u2019t import \u201cbad.json\u201d. It isn\u2019t valid JSON. Nothing was changed. / Couldn\u2019t import \u201cbad.json\u201d. It isn\u2019t valid JSON. Nothing was changed.; shape import msg=Couldn\u2019t import \u201cbad2.json\u201d. The trip has no name. Nothing was changed. / Couldn\u2019t import \u201cbad2.json\u201d. The trip has no name. Nothing was changed.; data unchanged=True"
+  },
+  "T05_dismiss": {
+   "auto": true,
+   "ev": "dismiss: trips 1->1, confirm dialogs so far 5"
+  },
+  "G04": {
+   "auto": null,
+   "ev": "localStorage keys: [\"wayfare.tripPlanner.v1\"]"
+  },
+  "G15": {
+   "auto": true,
+   "ev": "reduced-motion rule True, has transitions/animations True"
+  },
+  "G18": {
+   "auto": true,
+   "ev": "{\"vars\": 67, \"svg\": 79, \"hover\": true, \"active\": true, \"disabled\": true, \"focus\": true, \"imgs\": []}"
+  },
+  "G16": {
+   "auto": true,
+   "ev": "low-contrast texts at 1280: 0 []"
+  },
+  "G13": {
+   "auto": true,
+   "ev": "unlabelled inputs (main view): [] | in dialog: []"
+  },
+  "G11": {
+   "auto": null,
+   "ev": "35 tab stops: INPUT|Search by title or place ; BUTTON|Export .ics ; BUTTON|Export JSON ; BUTTON|Other: U01 ; BUTTON|Move to\u2026 (U01) ; BUTTON|Other: UndoMe ; BUTTON|Move to\u2026 (UndoMe) ; BUTTON|Food: Lunch ; BUTTON|Move to\u2026 (Lunch) ; BUTTON|Add activity to Day 1 ; BUTTON|Transport: Train ; BUTTON|Move to\u2026 (Train) ; BUTTON|Food: Coffee ; BUTTON|Move to\u2026 (Coffee) ; BUTTON|Other: Tile shop ; BUTTON|Move to\u2026 (Tile shop) ; BUTTON|Other: Tram ; BUTTON|Move to\u2026 (Tram) ; BUTTON|Sight: Walk Alfama ; BUTTON|Move to\u2026 (Walk Alfama) ; BUTTON|Food: Snack ; BUTTON|Move to\u2026 (Snack) ; BUTTON|Add activity to Day 2 ; BUTTON|Add activity to Day 3 ; BUTTON|Add activity to Day 4 ; ASIDE|Budget  TOTAL  130.00  2 activities with ; <none> ; A|Skip to content ; SELECT|Lisbon & Porto ; BUTTON|Undo ; BUTTON|Import ; BUTTON|New trip ; BUTTON|Dismiss message ; BUTTON|Edit trip ; BUTTON|Delete"
+  },
+  "G12": {
+   "auto": true,
+   "ev": "checked 15 focused controls; without visible change: []"
+  },
+  "G14": {
+   "auto": null,
+   "ev": "focus outside dialog on 0/30 tab presses; after Escape focus on BUTTON|Add activity\nto Day 1 (opener Add activity to Day 1)"
+  },
+  "T_delete_accept": {
+   "auto": true,
+   "ev": "accept delete: trips 1->0"
+  },
+  "IMPORT_FRESH": {
+   "auto": true,
+   "ev": "import msg Imported \u201cLisbon\u201d with 8 activities.; text after: Skip to content | Wayfare | Current trip | Lisbon | Undo | Redo | Import | New trip | Lisbon | Sun 1 Nov \u2013 Wed, 4 Nov 2026 \u00b7 4 days | A | B | C | Ana, Ben, Cy | Edit trip | Delete | Search activities by title or place | Export .ics | Export JSON | Unscheduled | 0 |  | Nothing waiting here. Activities from days you remove land in this tray, and you can drag one in to park it. |  | Day 1 | Sun 1 Nov |  | 1 activity \u00b7 100.00 |  | Food: | Lunch |  | 12:30\u201313:30 \u00b7 1 h |  | Time Out Market |  | Cost | 100.00 | Move to\u2026 | (Lunch) | Add acti"
+  },
+  "G09": {
+   "auto": null,
+   "ev": "['trip created: 1', \"day1 ['Lunch', 'Museum']\", 'budget visible text: Budget |  | TOTAL |  | 45.00 |  | 1 activity with a cost \u00b7 22.50 per person |  | BY CATEGORY | Food | 45.00 | BY DAY | D']"
+  },
+  "G08": {
+   "auto": null,
+   "ev": "375 overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0} (pass needs scrollWidth<=376); see screenshots | dialog overflow {'sw': 375, 'cw': 375, 'bw': 375, 'page_scrollable_x': 0}"
+  },
+  "G10": {
+   "auto": true,
+   "ev": "0 controls under 40px at 375: [] | dialog: 0 []"
+  },
+  "G05": {
+   "auto": null,
+   "ev": "pageerrors []; console []; text: Skip to content | Wayfare | Undo | Redo | Import | New trip |  | Your saved trips couldn\u2019t be read, so the planner started empty. Create a trip or import a JSON export to continue. |  | Plan your next trip |  | You don\u2019t have any trips yet. Create one to lay out your days, activities and a shared budget, or import a trip you exported earlier. |  | Create a trip | Import JSON"
+  },
+  "G01": {
+   "auto": true,
+   "ev": "pageerrors []; console errors []"
+  },
+  "G02": {
+   "auto": true,
+   "ev": "outside requests []"
+  },
+  "G03": {
+   "auto": true,
+   "ev": "HTTP>=400 []"
+  }
+ },
+ "storage_keys": [
+  "wayfare.tripPlanner.v1"
+ ],
+ "probe1280": {
+  "tag": "1280 filled",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Move to\u2026\n(U01) 111x36",
+   "Move to\u2026\n(UndoMe) 111x36",
+   "Move to\u2026\n(Lunch) 111x36",
+   "Move to\u2026\n(Train) 111x36",
+   "Move to\u2026\n(Coffee) 111x36",
+   "Move to\u2026\n(Tile shop) 111x36",
+   "Move to\u2026\n(Tram) 111x36",
+   "Move to\u2026\n(Walk Alfama) 111x36",
+   "Move to\u2026\n(Snack) 111x36"
+  ],
+  "n_small": 9,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "css": {
+  "reduced": true,
+  "anim": true,
+  "vars": 67,
+  "hover": true,
+  "active": true,
+  "disabled": true,
+  "focus": true,
+  "print": false,
+  "svg": 79,
+  "imgs": []
+ },
+ "tabwalk": [
+  "INPUT|Search by title or place",
+  "BUTTON|Export .ics",
+  "BUTTON|Export JSON",
+  "BUTTON|Other: U01",
+  "BUTTON|Move to\u2026 (U01)",
+  "BUTTON|Other: UndoMe",
+  "BUTTON|Move to\u2026 (UndoMe)",
+  "BUTTON|Food: Lunch",
+  "BUTTON|Move to\u2026 (Lunch)",
+  "BUTTON|Add activity to Day 1",
+  "BUTTON|Transport: Train",
+  "BUTTON|Move to\u2026 (Train)",
+  "BUTTON|Food: Coffee",
+  "BUTTON|Move to\u2026 (Coffee)",
+  "BUTTON|Other: Tile shop",
+  "BUTTON|Move to\u2026 (Tile shop)",
+  "BUTTON|Other: Tram",
+  "BUTTON|Move to\u2026 (Tram)",
+  "BUTTON|Sight: Walk Alfama",
+  "BUTTON|Move to\u2026 (Walk Alfama)",
+  "BUTTON|Food: Snack",
+  "BUTTON|Move to\u2026 (Snack)",
+  "BUTTON|Add activity to Day 2",
+  "BUTTON|Add activity to Day 3",
+  "BUTTON|Add activity to Day 4",
+  "ASIDE|Budget  TOTAL  130.00  2 activities with",
+  "<none>",
+  "A|Skip to content",
+  "SELECT|Lisbon & Porto",
+  "BUTTON|Undo",
+  "BUTTON|Import",
+  "BUTTON|New trip",
+  "BUTTON|Dismiss message",
+  "BUTTON|Edit trip",
+  "BUTTON|Delete"
+ ],
+ "probe1280_dialog": {
+  "tag": "1280 dialog",
+  "overflow": {
+   "sw": 1280,
+   "cw": 1280,
+   "bw": 1280,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [
+   "Move to\u2026\n(Lunch) 111x36",
+   "Move to\u2026\n(Train) 111x36",
+   "Move to\u2026\n(Coffee) 111x36",
+   "Move to\u2026\n(Tile shop) 111x36",
+   "Move to\u2026\n(Tram) 111x36",
+   "Move to\u2026\n(Walk Alfama) 111x36",
+   "Move to\u2026\n(Snack) 111x36"
+  ],
+  "n_small": 7,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375": {
+  "tag": "375 filled",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "probe375_dialog": {
+  "tag": "375 dialog",
+  "overflow": {
+   "sw": 375,
+   "cw": 375,
+   "bw": 375,
+   "page_scrollable_x": 0
+  },
+  "small_targets": [],
+  "n_small": 0,
+  "unlabelled": [],
+  "low_contrast": [],
+  "n_low": 0
+ },
+ "dialogs": [
+  [
+   "confirm",
+   "Delete \u201cOneDay\u201d? You can undo this straight after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cMuseum\u201d? You can undo this straight after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cMuseum\u201d? You can undo this straight after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cTenDays\u201d? You can undo this straight after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cLisbon & Porto\u201d and its 9 activities? You can undo this straight after."
+  ],
+  [
+   "confirm",
+   "Delete \u201cLisbon & Porto\u201d and its 9 activities? You can undo this straight after."
+  ]
+ ]
+}

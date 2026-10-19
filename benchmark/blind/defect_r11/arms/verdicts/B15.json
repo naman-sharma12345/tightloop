@@ -1,0 +1,155 @@
+{
+ "label": "B15",
+ "spec": "trip",
+ "items": {
+  "T01": {
+   "result": "pass"
+  },
+  "T02": {
+   "result": "pass"
+  },
+  "T03": {
+   "result": "pass"
+  },
+  "T04": {
+   "result": "pass"
+  },
+  "T05": {
+   "result": "pass"
+  },
+  "T06": {
+   "result": "pass"
+  },
+  "T07": {
+   "result": "pass"
+  },
+  "T08": {
+   "result": "pass"
+  },
+  "T09": {
+   "result": "pass"
+  },
+  "T10": {
+   "result": "pass"
+  },
+  "T11": {
+   "result": "pass"
+  },
+  "T12": {
+   "result": "pass"
+  },
+  "T13": {
+   "result": "pass"
+  },
+  "T14": {
+   "result": "pass"
+  },
+  "T15": {
+   "result": "pass"
+  },
+  "T16": {
+   "result": "pass"
+  },
+  "T17": {
+   "result": "pass"
+  },
+  "T18": {
+   "result": "pass"
+  },
+  "T19": {
+   "result": "pass"
+  },
+  "T20": {
+   "result": "pass"
+  },
+  "T21": {
+   "result": "pass"
+  },
+  "T22": {
+   "result": "pass"
+  },
+  "T23": {
+   "result": "pass"
+  },
+  "T24": {
+   "result": "pass"
+  },
+  "T25": {
+   "result": "pass"
+  },
+  "T26": {
+   "result": "pass"
+  },
+  "T27": {
+   "result": "pass"
+  },
+  "T28": {
+   "result": "pass"
+  },
+  "T29": {
+   "result": "pass"
+  },
+  "T30": {
+   "result": "pass"
+  },
+  "T31": {
+   "result": "pass"
+  },
+  "G01": {
+   "result": "pass"
+  },
+  "G02": {
+   "result": "pass"
+  },
+  "G03": {
+   "result": "pass"
+  },
+  "G04": {
+   "result": "pass"
+  },
+  "G05": {
+   "result": "pass"
+  },
+  "G06": {
+   "result": "pass"
+  },
+  "G07": {
+   "result": "pass"
+  },
+  "G08": {
+   "result": "pass"
+  },
+  "G09": {
+   "result": "pass"
+  },
+  "G10": {
+   "result": "pass"
+  },
+  "G11": {
+   "result": "pass"
+  },
+  "G12": {
+   "result": "pass"
+  },
+  "G13": {
+   "result": "pass"
+  },
+  "G14": {
+   "result": "pass"
+  },
+  "G15": {
+   "result": "pass"
+  },
+  "G16": {
+   "result": "pass"
+  },
+  "G17": {
+   "result": "pass"
+  },
+  "G18": {
+   "result": "pass"
+  }
+ },
+ "unlisted": [],
+ "note": "All 31 trip items pass. T17: the run read the message area before the toast was written. A direct check of the same edit shows the toast \"1 activity moved to Unscheduled because its day is no longer part of the trip.\" and the tray count. T03: the Add traveller button disappears at 8; an empty row or an exact duplicate is refused. T06: only the board scrolls. G07/G08 from screenshots: no overflow; toasts transient. Final rerun (all 18 on the final adapters, 20:00-20:23Z): step results and screenshots agree with the first pass; verdict carried over."
+}
