@@ -1,0 +1,48 @@
+14:31:22Z plan (build ids) ['appv2-tightloop-v4c-habits-1', 'appv2-tightloop-v4c-invoice-1', 'appv2-tightloop-v4c-trip-1', 'appv2-tightloop-v4c-invoice-2', 'appv2-tightloop-v4c-trip-2', 'appv2-tightloop-v4c-habits-2', 'appv2-tightloop-v4c-trip-3', 'appv2-tightloop-v4c-habits-3', 'appv2-tightloop-v4c-invoice-3'] arm tightloop-v4c order file ORDER_v2.3.json done 0
+14:31:22Z clear; settling 60 s so a waiting pass-3 session shows itself first
+14:32:25Z isolation appv2-tightloop-v4c-habits-1 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-7vnllp8d'] ok True
+14:32:25Z start appv2-tightloop-v4c-habits-1 attempt 1 wt /tmp/tlb-7vnllp8d waited 60.2 df 4346
+14:42:30Z audit appv2-tightloop-v4c-habits-1 attempt 1 {'hits': 0, 'terms': []}
+14:43:14Z row appv2-tightloop-v4c-habits-1 in+out 71378 cw 519589.85 turns 3 wall 604.56 checks 1 / 2 test_files ['test.js'] overlap clean
+14:43:14Z clear; settling 60 s so a waiting pass-3 session shows itself first
+14:44:17Z isolation appv2-tightloop-v4c-invoice-1 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-p5pt1baz'] ok True
+14:44:17Z start appv2-tightloop-v4c-invoice-1 attempt 1 wt /tmp/tlb-p5pt1baz waited 60.2 df 4345
+14:56:27Z audit appv2-tightloop-v4c-invoice-1 attempt 1 {'hits': 0, 'terms': []}
+14:56:51Z row appv2-tightloop-v4c-invoice-1 in+out 88427 cw 615752.9 turns 6 wall 730.54 checks 2 / 2 test_files [] overlap clean
+14:56:51Z clear; settling 60 s so a waiting pass-3 session shows itself first
+14:57:54Z isolation appv2-tightloop-v4c-trip-1 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-tiwvolm8'] ok True
+14:57:54Z start appv2-tightloop-v4c-trip-1 attempt 1 wt /tmp/tlb-tiwvolm8 waited 60.2 df 4343
+15:08:43Z audit appv2-tightloop-v4c-trip-1 attempt 1 {'hits': 0, 'terms': []}
+15:08:51Z row appv2-tightloop-v4c-trip-1 in+out 79640 cw 589909.7 turns 10 wall 648.41 checks 2 / 2 test_files ['test.js'] overlap clean
+15:08:51Z clear; settling 60 s so a waiting pass-3 session shows itself first
+15:09:54Z isolation appv2-tightloop-v4c-invoice-2 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-jeckbdin'] ok True
+15:09:54Z start appv2-tightloop-v4c-invoice-2 attempt 1 wt /tmp/tlb-jeckbdin waited 60.2 df 4343
+15:30:17Z audit appv2-tightloop-v4c-invoice-2 attempt 1 {'hits': 0, 'terms': []}
+15:30:43Z row appv2-tightloop-v4c-invoice-2 in+out 128371 cw 1065029.4 turns 24 wall 1222.51 checks 2 / 2 test_files ['tests/e2e.py', 'tests/money.test.js'] overlap clean
+15:30:43Z clear; settling 60 s so a waiting pass-3 session shows itself first
+15:31:46Z isolation appv2-tightloop-v4c-trip-2 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-xfo3rs4o'] ok True
+15:31:46Z start appv2-tightloop-v4c-trip-2 attempt 1 wt /tmp/tlb-xfo3rs4o waited 60.2 df 4340
+15:46:05Z audit appv2-tightloop-v4c-trip-2 attempt 1 {'hits': 0, 'terms': []}
+15:46:56Z row appv2-tightloop-v4c-trip-2 in+out 96884 cw 805791.25 turns 18 wall 858.13 checks 1 / 2 test_files [] overlap clean
+15:46:56Z clear; settling 60 s so a waiting pass-3 session shows itself first
+15:47:59Z isolation appv2-tightloop-v4c-habits-2 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-7c55ehey'] ok True
+15:47:59Z start appv2-tightloop-v4c-habits-2 attempt 1 wt /tmp/tlb-7c55ehey waited 60.2 df 4338
+15:57:34Z audit appv2-tightloop-v4c-habits-2 attempt 1 {'hits': 0, 'terms': []}
+15:58:01Z row appv2-tightloop-v4c-habits-2 in+out 65802 cw 526177.25 turns 11 wall 574.47 checks 1 / 2 test_files ['tests/core.test.js'] overlap clean
+15:58:01Z clear; settling 60 s so a waiting pass-3 session shows itself first
+15:59:04Z isolation appv2-tightloop-v4c-trip-3 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-tm3itpjz'] ok True
+15:59:04Z start appv2-tightloop-v4c-trip-3 attempt 1 wt /tmp/tlb-tm3itpjz waited 60.2 df 4337
+16:11:31Z audit appv2-tightloop-v4c-trip-3 attempt 1 {'hits': 0, 'terms': []}
+16:12:22Z row appv2-tightloop-v4c-trip-3 in+out 90540 cw 655956.25 turns 8 wall 746.81 checks 1 / 2 test_files ['tests/logic.test.js'] overlap clean
+16:12:22Z clear; settling 60 s so a waiting pass-3 session shows itself first
+16:13:26Z isolation appv2-tightloop-v4c-habits-3 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-lr9vvrrp'] ok True
+16:13:26Z start appv2-tightloop-v4c-habits-3 attempt 1 wt /tmp/tlb-lr9vvrrp waited 60.2 df 4336
+16:22:41Z audit appv2-tightloop-v4c-habits-3 attempt 1 {'hits': 0, 'terms': []}
+16:23:09Z row appv2-tightloop-v4c-habits-3 in+out 57678 cw 497190.05 turns 19 wall 555.6 checks 1 / 2 test_files [] overlap clean
+16:23:09Z clear; settling 60 s so a waiting pass-3 session shows itself first
+16:24:13Z isolation appv2-tightloop-v4c-invoice-3 attempt 1 workspace files 4 ['.claude/skills/tightloop/SKILL.md', '.claude/skills/tightloop/gate.sh', '.claude/skills/tightloop/phases/fail.md', '.claude/skills/tightloop/phases/risky.md'] grep hits [] visible in sandbox [] failed probe checks [] writable host paths ['/tmp/.claude-cfg', '/tmp/tlb-4ug50jfo'] ok True
+16:24:13Z start appv2-tightloop-v4c-invoice-3 attempt 1 wt /tmp/tlb-4ug50jfo waited 60.2 df 4334
+16:40:51Z audit appv2-tightloop-v4c-invoice-3 attempt 1 {'hits': 0, 'terms': []}
+16:41:12Z row appv2-tightloop-v4c-invoice-3 in+out 110308 cw 853647.75 turns 17 wall 997.76 checks 2 / 2 test_files ['tests/money.test.js'] overlap clean
+16:41:12Z ALL DONE tightloop-v4c 9 of 9
+16:41:12Z run end (after the last tightloop-v4c build); the hold is root's to remove
